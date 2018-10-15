@@ -12,5 +12,9 @@
   </head>
   <body>
   $END$
+
+  <p>
+    <a href="${pageContext.request.contextPath}/category/showFormForAdd">Add category</a>
+  </p>
   </body>
 </html>

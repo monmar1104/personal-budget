@@ -18,7 +18,8 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public void saveCategory(ExpenditureCategory category) {
-
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(category);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
         Session session = sessionFactory.getCurrentSession();
 
-        Query<ExpenditureCategory> expenditureCategoryQuery = session.createQuery("from Category order by catName", ExpenditureCategory.class);
+        Query<ExpenditureCategory> expenditureCategoryQuery = session.createQuery("from ExpenditureCategory order by categoryName", ExpenditureCategory.class);
 
         return expenditureCategoryQuery.getResultList();
     }
