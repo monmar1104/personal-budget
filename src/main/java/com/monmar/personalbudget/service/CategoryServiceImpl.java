@@ -1,8 +1,7 @@
 package com.monmar.personalbudget.service;
 
 import com.monmar.personalbudget.dao.CategoryDao;
-import com.monmar.personalbudget.entity.Budget;
-import com.monmar.personalbudget.entity.ExpenditureCategory;
+import com.monmar.personalbudget.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,32 +12,32 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    CategoryDao categoryDao;
+    private CategoryDao categoryDao;
 
     @Override
     @Transactional
-    public void saveCategory(ExpenditureCategory category) {
+    public void saveCategory(Category category) {
 
         categoryDao.saveCategory(category);
     }
 
     @Override
     @Transactional
-    public void removeCategory(ExpenditureCategory category) {
+    public void removeCategory(Category category) {
 
     }
 
     @Override
     @Transactional
-    public ExpenditureCategory findCategoryByName(String catName) {
+    public Category findCategoryByName(String catName) {
         return null;
     }
 
     @Override
     @Transactional
-    public List<ExpenditureCategory> getCategoryList() {
+    public List<Category> getCategoryList() {
 
-        List<ExpenditureCategory> categoryList = categoryDao.getCategoryList();
+        List<Category> categoryList = categoryDao.getCategoryList();
 
         return categoryList;
     }

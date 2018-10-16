@@ -1,6 +1,6 @@
 package com.monmar.personalbudget.controller;
 
-import com.monmar.personalbudget.entity.ExpenditureCategory;
+import com.monmar.personalbudget.entity.Category;
 import com.monmar.personalbudget.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,7 @@ public class CategoryController {
     @GetMapping("/list")
     public String showCategories(Model model){
 
-        List<ExpenditureCategory> categoryList = categoryService.getCategoryList();
+        List<Category> categoryList = categoryService.getCategoryList();
 
         model.addAttribute("categoryList", categoryList);
 
@@ -31,7 +31,7 @@ public class CategoryController {
 
 
     @PostMapping("/addCategory")
-    public String addCategory(@ModelAttribute("category") ExpenditureCategory category){
+    public String addCategory(@ModelAttribute("category") Category category){
 
         categoryService.saveCategory(category);
 
@@ -40,7 +40,7 @@ public class CategoryController {
 
     @GetMapping("/showFormForAdd")
     public String showFormFormAdd(Model model){
-        ExpenditureCategory category = new ExpenditureCategory();
+        Category category = new Category();
         model.addAttribute("category", category);
 
         return "category-form";

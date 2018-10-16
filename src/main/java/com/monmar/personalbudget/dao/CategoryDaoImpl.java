@@ -1,6 +1,6 @@
 package com.monmar.personalbudget.dao;
 
-import com.monmar.personalbudget.entity.ExpenditureCategory;
+import com.monmar.personalbudget.entity.Category;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -13,31 +13,31 @@ import java.util.List;
 public class CategoryDaoImpl implements CategoryDao {
 
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
 
     @Override
-    public void saveCategory(ExpenditureCategory category) {
+    public void saveCategory(Category category) {
         Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(category);
     }
 
     @Override
-    public void removeCategory(ExpenditureCategory category) {
+    public void removeCategory(Category category) {
 
     }
 
     @Override
-    public ExpenditureCategory findCategoryByName(String catName) {
+    public Category findCategoryByName(String catName) {
         return null;
     }
 
     @Override
-    public List<ExpenditureCategory> getCategoryList() {
+    public List<Category> getCategoryList() {
 
         Session session = sessionFactory.getCurrentSession();
 
-        Query<ExpenditureCategory> expenditureCategoryQuery = session.createQuery("from ExpenditureCategory order by categoryName", ExpenditureCategory.class);
+        Query<Category> expenditureCategoryQuery = session.createQuery("from Category order by categoryName", Category.class);
 
         return expenditureCategoryQuery.getResultList();
     }

@@ -16,5 +16,8 @@
   <p>
     <a href="${pageContext.request.contextPath}/category/showFormForAdd">Add category</a>
   </p>
+  <p>
+    <a href="${pageContext.request.contextPath}/budget/saveBudgetItem">Save budget item</a>
+  </p>
   </body>
 </html>

@@ -1,12 +1,12 @@
 package com.monmar.personalbudget.dao;
 
-import com.monmar.personalbudget.entity.ExpenditureCategory;
+import com.monmar.personalbudget.entity.Category;
 
 import java.util.List;
 
 public interface CategoryDao {
-    void saveCategory(ExpenditureCategory category);
-    void removeCategory(ExpenditureCategory category);
-    ExpenditureCategory findCategoryByName(String catName);
-    List<ExpenditureCategory> getCategoryList();
+    void saveCategory(Category category);
+    void removeCategory(Category category);
+    Category findCategoryByName(String catName);
+    List<Category> getCategoryList();
 }

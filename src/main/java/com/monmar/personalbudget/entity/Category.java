@@ -3,6 +3,7 @@ package com.monmar.personalbudget.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "category")
-public class ExpenditureCategory {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +22,12 @@ public class ExpenditureCategory {
 
     @Column(name = "cat_name")
     private String categoryName;
+
+
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "category",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    private List<BudgetDetail> budgetList;
 
 
 

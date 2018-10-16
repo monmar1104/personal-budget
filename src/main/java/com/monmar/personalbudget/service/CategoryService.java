@@ -1,14 +1,13 @@
 package com.monmar.personalbudget.service;
 
-import com.monmar.personalbudget.entity.ExpenditureCategory;
+import com.monmar.personalbudget.entity.Category;
 
 import java.util.List;
-import java.util.Locale;
 
 public interface CategoryService {
 
-    void saveCategory(ExpenditureCategory category);
-    void removeCategory(ExpenditureCategory category);
-    ExpenditureCategory findCategoryByName(String catName);
-    List<ExpenditureCategory> getCategoryList();
+    void saveCategory(Category category);
+    void removeCategory(Category category);
+    Category findCategoryByName(String catName);
+    List<Category> getCategoryList();
 }

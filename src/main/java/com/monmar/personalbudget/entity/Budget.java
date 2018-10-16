@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -24,7 +25,12 @@ public class Budget {
     @Column(name = "budget_name")
     private String budgetName;
 
-    @Column(name = "budget_date")
+    @Column(name = "creation_date")
     private LocalDate creationDate;
 
+
+    @OneToMany(fetch = FetchType.LAZY,
+                mappedBy = "budget",
+                cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    private List<BudgetDetail> categoryList;
 }
