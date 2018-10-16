@@ -1,6 +1,7 @@
 package com.monmar.personalbudget.service;
 
 import com.monmar.personalbudget.dao.CategoryDao;
+import com.monmar.personalbudget.entity.Budget;
 import com.monmar.personalbudget.entity.ExpenditureCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -3,6 +3,8 @@ package com.monmar.personalbudget.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -11,19 +13,18 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "category")
-public class ExpenditureCategory {
+@Table(name = "budget")
+public class Budget {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cat_id")
+    @Column(name = "budget_id")
     private int id;
 
-    @Column(name = "cat_name")
-    private String categoryName;
+    @Column(name = "budget_name")
+    private String budgetName;
 
-
-
-
+    @Column(name = "budget_date")
+    private LocalDate creationDate;
 
 }
