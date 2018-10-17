@@ -18,10 +18,14 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cat_id")
-    private int id;
+    private int categoryId;
 
     @Column(name = "cat_name")
     private String categoryName;
+
+    @Enumerated
+    @Column(name = "cat_operation_type")
+    private OperationType categoryOperationType;
 
 
     @OneToMany(fetch = FetchType.LAZY,

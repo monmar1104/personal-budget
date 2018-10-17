@@ -16,12 +16,23 @@
 <div id="container">
     <h3>Save Category</h3>
     <form:form action="addCategory" modelAttribute="category" method="POST">
-        <form:hidden path="id"/>
+        <form:hidden path="categoryId"/>
         <table>
             <tbody>
             <tr>
                 <td><label>Category name</label></td>
                 <td><form:input path="categoryName"/></td>
+            </tr>
+            <tr>
+                <td><label>Operation type</label></td>
+                <td>
+                    <form:select path="categoryOperationType">
+                        <form:option value="0" label="Chose operation type"/>
+                        <form:options />
+                        <%--<form:options itemValue="operationMultiplier" />--%>
+                    </form:select>
+
+                </td>
             </tr>
             <tr>
                 <td><label></label></td>

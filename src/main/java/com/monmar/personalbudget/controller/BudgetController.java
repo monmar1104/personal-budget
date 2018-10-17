@@ -24,11 +24,12 @@ public class BudgetController {
 
         Budget budget= new Budget();
         budget.setBudgetName("Maj2018");
-        budget.setCreationDate(LocalDate.now());
+        budget.setBudgetDate(LocalDate.now());
         Category category = new Category();
-        category.setCategoryName("Energia");
+        category.setCategoryName("Woda");
+        category.setCategoryOperationType(OperationType.EXPENDITURE);
 
-        budgetService.addBudgetItem(budget, category, BigDecimal.valueOf(255.25), OperationType.EXPENDITURE);
+        budgetService.addBudgetItem(budget, category, BigDecimal.valueOf(186.33));
 
 
         return "redirect:/budget/list";

@@ -23,10 +23,6 @@ public class BudgetDetail {
     @Column(name = "budget_det_amount")
     private BigDecimal budgetDetailAmount;
 
-    @Enumerated
-    @Column(name = "budget_det_operation_type")
-    private OperationType budgetDetailOperationType;
-
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "budget_det_budget_id")
     private Budget budget;

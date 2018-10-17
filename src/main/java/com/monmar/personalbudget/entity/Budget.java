@@ -20,13 +20,13 @@ public class Budget {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "budget_id")
-    private int id;
+    private int budgetId;
 
     @Column(name = "budget_name")
     private String budgetName;
 
     @Column(name = "creation_date")
-    private LocalDate creationDate;
+    private LocalDate budgetDate;
 
 
     @OneToMany(fetch = FetchType.LAZY,
