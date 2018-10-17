@@ -23,6 +23,9 @@ public class BudgetDetail {
     @Column(name = "budget_det_amount")
     private BigDecimal budgetDetailAmount;
 
+    @Column(name = "budget_det_description")
+    private String budgetDetailDescription;
+
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "budget_det_budget_id")
     private Budget budget;

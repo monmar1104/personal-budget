@@ -5,10 +5,12 @@ import com.monmar.personalbudget.entity.BudgetDetail;
 import com.monmar.personalbudget.entity.Category;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Repository
 public class BudgetDaoImpl implements BudgetDao {
@@ -30,5 +32,15 @@ public class BudgetDaoImpl implements BudgetDao {
         budgetDetail.setCategory(category);
         budgetDetail.setBudgetDetailAmount(amount);
         session.saveOrUpdate(budgetDetail);
+    }
+
+    @Override
+    public List<BudgetDetail> getBudgetDetailList() {
+
+        Session session = sessionFactory.getCurrentSession();
+
+        Query<BudgetDetail> query = session.createQuery("from BudgetDetail", BudgetDetail.class);
+
+        return query.getResultList();
     }
 }

@@ -31,7 +31,6 @@ public class FinancialTransaction {
     @Column(name = "fin_transaction_description")
     private String transactionDescription;
 
-
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "fin_transaction_cat_id")
     private Category category;
