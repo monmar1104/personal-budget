@@ -1,7 +1,6 @@
 package com.monmar.personalbudget.controller;
 
 import com.monmar.personalbudget.entity.Category;
-import com.monmar.personalbudget.entity.OperationType;
 import com.monmar.personalbudget.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,9 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/category")
@@ -53,6 +50,6 @@ public class CategoryController {
 //        model.addAttribute("operationTypes", multiplyerOperationType);
         model.addAttribute("category", category);
 
-        return "category-form";
+        return "add-category-form";
     }
 }

@@ -15,5 +15,8 @@
   <p>
     <a href="${pageContext.request.contextPath}/budget/list">Show Budget</a>
   </p>
+  <p>
+    <a href="${pageContext.request.contextPath}/transaction/list">Show Transactions</a>
+  </p>
   </body>
 </html>
