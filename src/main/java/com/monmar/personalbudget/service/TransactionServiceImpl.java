@@ -19,4 +19,11 @@ public class TransactionServiceImpl implements TransactionService {
     public List<FinancialTransaction> getTransactionList() {
         return transactionDao.getTransactionList();
     }
+
+    @Override
+    @Transactional
+    public void saveTransaction(FinancialTransaction financialTransaction) {
+        transactionDao.saveTransaction(financialTransaction);
+    }
+
 }

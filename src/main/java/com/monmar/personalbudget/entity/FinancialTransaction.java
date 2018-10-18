@@ -3,7 +3,6 @@ package com.monmar.personalbudget.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
@@ -26,7 +25,7 @@ public class FinancialTransaction {
     private LocalDate transactionDate;
 
     @Column(name = "fin_transaction_amount")
-    private BigDecimal transactionAmount;
+    private double transactionAmount;
 
     @Column(name = "fin_transaction_description")
     private String transactionDescription;

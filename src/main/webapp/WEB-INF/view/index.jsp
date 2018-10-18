@@ -1,22 +1,27 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
+<head>
     <title>$Title$</title>
-  </head>
-  <body>
-  $END$
+</head>
+<body>
+$END$
 
-  <p>
+<p>
     <a href="${pageContext.request.contextPath}/category/showFormForAdd">Add category</a>
-  </p>
-  <p>
+</p>
+<p>
     <a href="${pageContext.request.contextPath}/budget/saveBudgetItem">Save budget item</a>
-  </p>
-  <p>
+</p>
+<p>
     <a href="${pageContext.request.contextPath}/budget/list">Show Budget</a>
-  </p>
-  <p>
+</p>
+<p>
     <a href="${pageContext.request.contextPath}/transaction/list">Show Transactions</a>
-  </p>
-  </body>
+</p>
+
+<p>
+    <a href="${pageContext.request.contextPath}/transaction/saveExTrans">Save Transaction</a>
+</p>
+
+</body>
 </html>

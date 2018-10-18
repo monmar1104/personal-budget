@@ -128,4 +128,20 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return txManager;
     }
 
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean
+//    entityManagerFactoryBean(){
+//     return new LocalContainerEntityManagerFactoryBean();
+//    }
+//
+//    @Bean
+//    public PlatformTransactionManager transactionManager(){
+//        JpaTransactionManager transactionManager
+//                = new JpaTransactionManager();
+//        transactionManager.setEntityManagerFactory(
+//                entityManagerFactoryBean().getObject() );
+//        return transactionManager;
+//    }
+
+
 }
