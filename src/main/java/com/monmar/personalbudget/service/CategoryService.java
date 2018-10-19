@@ -10,4 +10,5 @@ public interface CategoryService {
     void removeCategory(Category category);
     Category findCategoryByName(String catName);
     List<Category> getCategoryList();
+    Category findCategoryById(int id);
 }

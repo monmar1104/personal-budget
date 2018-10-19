@@ -25,15 +25,15 @@
                         <tbody>
                         <tr>
                             <td><label>Transaction date</label></td>
-                            <td><form:input path="transactionDate"/></td>
+                            <td><form:input type="date" path="transactionDate"/></td>
                         </tr>
                         <tr>
                             <td><label>Category</label></td>
                             <td>
-                                <form:select path="category">
+                                <form:select name="category" path="category">
                                     <form:option value="0" label="Chose category"/>
                                     <c:forEach var="list" items="${categoryList}">
-                                        <option value="${list}">${list.categoryName}</option>
+                                        <option value="${list.categoryId}">${list.categoryName}</option>
                                     </c:forEach>
                                 </form:select>
 

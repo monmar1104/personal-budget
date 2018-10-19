@@ -42,4 +42,14 @@ public class CategoryDaoImpl implements CategoryDao {
 
         return expenditureCategoryQuery.getResultList();
     }
+
+    @Override
+    public Category findCategoryById(int id) {
+        Session session = sessionFactory.getCurrentSession();
+
+        Category category = session.get(Category.class, id);
+
+
+        return category;
+    }
 }

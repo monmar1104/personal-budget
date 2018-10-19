@@ -1,12 +1,17 @@
 package com.monmar.personalbudget.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.monmar.personalbudget.service.CategoryConverter;
+import com.monmar.personalbudget.service.CategoryService;
+import com.monmar.personalbudget.service.CategoryServiceImpl;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ConversionServiceFactoryBean;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -19,13 +24,15 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Logger;
 
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan(basePackages="com.monmar.personalbudget")
+@ComponentScan(basePackages = "com.monmar.personalbudget")
 @PropertySource("classpath:persistence-mysql.properties")
 public class AppConfig extends WebMvcConfigurerAdapter {
 
@@ -59,8 +66,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
         try {
             securityDataSource.setDriverClass("com.mysql.jdbc.Driver");
-        }
-        catch (PropertyVetoException exc) {
+        } catch (PropertyVetoException exc) {
             throw new RuntimeException(exc);
         }
 
@@ -107,7 +113,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory(){
+    public LocalSessionFactoryBean sessionFactory() {
 
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 
@@ -129,19 +135,27 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     }
 
 //    @Bean
-//    public LocalContainerEntityManagerFactoryBean
-//    entityManagerFactoryBean(){
-//     return new LocalContainerEntityManagerFactoryBean();
+//    public CategoryService categoryService() {
+//        return new CategoryServiceImpl();
 //    }
 //
 //    @Bean
-//    public PlatformTransactionManager transactionManager(){
-//        JpaTransactionManager transactionManager
-//                = new JpaTransactionManager();
-//        transactionManager.setEntityManagerFactory(
-//                entityManagerFactoryBean().getObject() );
-//        return transactionManager;
+//    public CategoryConverter categoryConverter() {
+//        return new CategoryConverter(categoryService());
 //    }
-
+//
+//
+//    @Bean(name = "categoryConverter")
+//    public ConversionServiceFactoryBean categoryConverter(CategoryConverter categoryConverter) {
+//        ConversionServiceFactoryBean conversionServiceFactoryBean = new ConversionServiceFactoryBean();
+//
+//        Set<Converter> converters = new HashSet<>();
+//
+//        converters.add(categoryConverter);
+//
+//        conversionServiceFactoryBean.setConverters(converters);
+//
+//        return conversionServiceFactoryBean;
+//    }
 
 }

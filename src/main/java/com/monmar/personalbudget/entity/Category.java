@@ -38,8 +38,4 @@ public class Category {
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     private List<FinancialTransaction> financialTransactionList;
 
-
-
-
-
 }

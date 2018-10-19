@@ -1,6 +1,7 @@
 package com.monmar.personalbudget.entity;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ public class FinancialTransaction {
     @Column(name = "fin_transaction_id")
     private int transactionId;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "fin_transaction_date")
     private LocalDate transactionDate;
 

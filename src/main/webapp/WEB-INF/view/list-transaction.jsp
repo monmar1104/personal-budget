@@ -27,9 +27,66 @@
 <div id="container">
     <div id="content">
 
-          <%--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveTransaction">Add transaction</button>--%>
-              <button type="button" onclick="window.location.href='showAddTransactionsForm'; return false;" class="btn btn-primary">Add transaction</button>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveTransaction">Add transaction</button>
+              <%--<button type="button" onclick="window.location.href='showAddTransactionForm'; return false;" class="btn btn-primary">Add transaction</button>--%>
 
+              <!-- Modal -->
+              <div class="modal fade" id="saveTransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Add transaction</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                              <form:form action="addTransaction" modelAttribute="transaction" method="POST">
+                                  <table>
+                                      <tbody>
+                                      <tr>
+                                          <td><label>Transaction date</label></td>
+                                          <td><form:input type="date" path="transactionDate"/></td>
+                                      </tr>
+                                      <tr>
+                                          <td><label>Category</label></td>
+                                          <td>
+                                              <form:select name="category" path="category">
+                                                  <form:option value="0" label="Chose category"/>
+                                                  <c:forEach var="list" items="${categoryList}">
+                                                      <option value="${list.categoryId}">${list.categoryName}</option>
+                                                  </c:forEach>
+                                              </form:select>
+
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <div class="form-row">
+                                              <td><label>Amount</label></td>
+                                              <div class="input-group">
+                                                  <td><form:input type="number" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" path="transactionAmount"/></td>
+                                              </div>
+                                          </div>
+                                      </tr>
+                                      <tr>
+                                          <td><label>Description</label></td>
+                                          <td><form:input type="textarea" path="transactionDescription"/></td>
+                                      </tr>
+
+                                      </tbody>
+                                  </table>
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                      <button type="submit" class="btn btn-primary">Save changes</button>
+                                  </div>
+
+                              </form:form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+             <%--end modal --%>
 
         <p/>
         <p/>

@@ -42,4 +42,10 @@ public class CategoryServiceImpl implements CategoryService {
 
         return categoryList;
     }
+
+    @Override
+    @Transactional
+    public Category findCategoryById(int id) {
+        return categoryDao.findCategoryById(id);
+    }
 }
