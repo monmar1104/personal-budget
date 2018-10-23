@@ -23,8 +23,13 @@
             integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
             crossorigin="anonymous"></script>
 
+    <script data-require="jquery@2.0.3" data-semver="2.0.3" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
+
 </head>
 <body>
+
+<%@include file="navbar.jsp"%>
 
 <div id="wrapper">
     <div id="header">
@@ -104,14 +109,17 @@
         </div>
 
 
-        <table>
+        <table class="grid">
+            <thead>
             <tr>
-                <th>Date</th>
-                <th>Category Name</th>
-                <th>Amount</th>
-                <th>Description</th>
-                <th>Action</th>
+                <td index=0>Date<div class="filter"></div></td>
+                <td index=1>Category Name<div class="filter"></div></td>
+                <td index=2>Amount<div class="filter"></div></td>
+                <td index=3>Description<div class="filter"></div></td>
+                <td>Action</td>
             </tr>
+            </thead>
+            <tbody>
             <c:forEach var="transactionItem" items="${transactionList}">
                 <c:url var="updateLink" value="#">
                     <c:param name="budgetDetailId" value="${transactionItem.transactionId}"></c:param>
@@ -132,7 +140,7 @@
                 </tr>
 
             </c:forEach>
-
+            </tbody>
         </table>
 
     </div>
