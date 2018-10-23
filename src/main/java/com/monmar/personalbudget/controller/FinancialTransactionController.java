@@ -1,5 +1,6 @@
 package com.monmar.personalbudget.controller;
 
+import com.monmar.personalbudget.entity.BudgetDetail;
 import com.monmar.personalbudget.entity.Category;
 import com.monmar.personalbudget.entity.FinancialTransaction;
 import com.monmar.personalbudget.service.CategoryService;
@@ -75,20 +76,39 @@ public class FinancialTransactionController {
         return "add-transaction";
     }
 
-    @GetMapping("/saveExTrans")
-    public String saveExmpleTranaction(){
-        FinancialTransaction financialTransaction = new FinancialTransaction();
-        Category category = categoryService.findCategoryById(14);
-        financialTransaction.setTransactionDate(LocalDate.now());
-        financialTransaction.setTransactionAmount(255.2);
-        financialTransaction.setTransactionDescription("sdfsdfsdggds");
-        financialTransaction.setCategory(category);
 
-        transactionService.saveTransaction(financialTransaction);
+    @GetMapping("/showTransactionFormUpdate")
+    public String showTransactionFormForUpdate(@RequestParam("budgetDetailId") int id, Model model) {
 
+        FinancialTransaction transaction = transactionService.getTransactionById(id);
+
+        model.addAttribute("transaction",transaction);
+
+        return "";
+    }
+
+    @GetMapping("/delete")
+    public String deleteCustomer(@RequestParam("budgetDetailId") int id, Model model) {
+
+        transactionService.deleteTransactionById(id);
 
         return "redirect:/transaction/list";
     }
+
+    @PostMapping("/search")
+    public String searchTransactionByName(@RequestParam("transactionName") String name, Model model) {
+        List<FinancialTransaction> transactionList  = transactionService.searchTransactionByName(name);
+
+        model.addAttribute("transactionList", transactionList);
+        model.addAttribute("transaction", new FinancialTransaction());
+
+        List<Category> categoryList = categoryService.getCategoryList();
+        model.addAttribute("categoryList", categoryList);
+
+        return "list-transaction";
+    }
+
+
 
     @GetMapping("/showAddTransactionsForm")
     public String showAddTransactionsForm(Model model) {
@@ -104,15 +124,5 @@ public class FinancialTransactionController {
         return "add-transaction-form";
     }
 
-    //TODO ONLY FOR TEST
-    @PostMapping("/addTransactions")
-    public String addTransactions(@ModelAttribute("transactions") FinancialTransaction financialTransaction){
-
-        financialTransaction.setCategory(categoryService.findCategoryById(14));
-        financialTransaction.setTransactionDate(LocalDate.now());
-        transactionService.saveTransaction(financialTransaction);
-
-        return "redirect:/transaction/list";
-    }
 
 }

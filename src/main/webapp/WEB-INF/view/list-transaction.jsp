@@ -102,7 +102,7 @@
         <p/>
         <div>
             <form:form action="search" method="POST">
-                Search category: <input type="text" name="categoryName"/>
+                Search transaction: <input type="text" name="transactionName"/>
 
                 <input type="submit" value="Search" class="add-button"/>
             </form:form>

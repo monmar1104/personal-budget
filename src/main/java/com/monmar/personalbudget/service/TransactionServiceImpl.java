@@ -26,4 +26,22 @@ public class TransactionServiceImpl implements TransactionService {
         transactionDao.saveTransaction(financialTransaction);
     }
 
+    @Override
+    @Transactional
+    public List<FinancialTransaction> searchTransactionByName(String name) {
+        return transactionDao.searchTransactionByName(name);
+    }
+
+    @Override
+    public FinancialTransaction getTransactionById(int id) {
+        return transactionDao.getTransactionById(id);
+    }
+
+    @Override
+    public void deleteTransactionById(int id) {
+
+        transactionDao.deleteTransactionById(id);
+
+    }
+
 }
