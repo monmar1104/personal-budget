@@ -57,11 +57,15 @@ public class TransactionDaoImpl implements TransactionDao {
 
     @Override
     public FinancialTransaction getTransactionById(int id) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(FinancialTransaction.class, id);
     }
 
     @Override
     public void deleteTransactionById(int id) {
+        Session session = sessionFactory.getCurrentSession();
+
+        session.delete(getTransactionById(id));
 
     }
 }

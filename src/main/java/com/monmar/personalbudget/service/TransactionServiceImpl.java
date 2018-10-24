@@ -33,11 +33,13 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public FinancialTransaction getTransactionById(int id) {
         return transactionDao.getTransactionById(id);
     }
 
     @Override
+    @Transactional
     public void deleteTransactionById(int id) {
 
         transactionDao.deleteTransactionById(id);

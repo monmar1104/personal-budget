@@ -121,10 +121,10 @@
             </thead>
             <tbody>
             <c:forEach var="transactionItem" items="${transactionList}">
-                <c:url var="updateLink" value="#">
+                <c:url var="updateLink" value="/transaction/showTransactionFormUpdate">
                     <c:param name="budgetDetailId" value="${transactionItem.transactionId}"></c:param>
                 </c:url>
-                <c:url var="deleteLink" value="#">
+                <c:url var="deleteLink" value="/transaction/delete">
                     <c:param name="budgetDetailId" value="${transactionItem.transactionId}"></c:param>
                 </c:url>
 

@@ -1,4 +1,5 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
@@ -14,38 +15,39 @@
 
 <div id="container">
     <h3>Save Category</h3>
-    <form action="addTransactions" modelAttribute="transactions" method="POST">
-
+    <form:form action="addTransaction" modelAttribute="transaction" method="POST">
+        <form:hidden path="transactionId"/>
         <table>
             <tbody>
             <tr>
                 <td><label>Date</label></td>
-                <td><input path="transactionDate"/></td>
+                <td><form:input path="transactionDate" class="form-control"/></td>
             </tr>
             <tr>
                 <td><label>Amount</label></td>
-                <td><input path="transactionAmount"/></td>
+                <td><form:input path="transactionAmount" class="form-control"/></td>
             </tr>
 
             <tr>
                 <td><label>Description</label></td>
-                <td><input path="transactionDescription"/></td>
-            </tr>
-            <tr>
-                <td><label>Category</label></td>
-                <td><input path="${transactions.category.categoryId}"/></td>
+                <td><form:input path="transactionDescription" class="form-control"/></td>
             </tr>
             <%--<tr>--%>
-                <%--<td><label>Operation type</label></td>--%>
-                <%--<td>--%>
-                    <%--<form:select path="category">--%>
-                        <%--<form:option value="0" label="Chose operation type"/>--%>
-                        <%--<form:options />--%>
-                        <%--&lt;%&ndash;<form:options itemValue="operationMultiplier" />&ndash;%&gt;--%>
-                    <%--</form:select>--%>
-
-                <%--</td>--%>
+                <%--<td><label>Category</label></td>--%>
+                <%--<td><form:input path="category.categoryName"/></td>--%>
             <%--</tr>--%>
+            <tr>
+                <td><label>Category</label></td>
+                <td>
+                    <form:select name="category" path="category" class="form-control">
+                        <option value="${transaction.category.categoryId}">${transaction.category.categoryName}</option>
+                        <c:forEach var="list" items="${categoryList}">
+                            <option value="${list.categoryId}">${list.categoryName}</option>
+                        </c:forEach>
+                    </form:select>
+                        <%--${list.categoryName}--%>
+                </td>
+            </tr>
             <tr>
                 <td><label></label></td>
                 <td><input type="submit" value="Save" class="save"/></td>
@@ -55,7 +57,7 @@
         </table>
 
 
-    </form>
+    </form:form>
 
     <%--<div style="clear; both;"></div>--%>
 

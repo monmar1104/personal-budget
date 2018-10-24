@@ -44,19 +44,10 @@ public class FinancialTransactionController {
 
     @PostMapping("/addTransaction")
     public String addTransaction(@ModelAttribute("transaction") @Valid FinancialTransaction financialTransaction, BindingResult result, Model model) {
-        FinancialTransaction newfintrans = new FinancialTransaction();
 
-        newfintrans.setTransactionDate(financialTransaction.getTransactionDate());
         String rejectedValue = result.getFieldErrors().get(0).getRejectedValue().toString();
-        newfintrans.setCategory(categoryService.findCategoryById(Integer.valueOf(rejectedValue)));
-        newfintrans.setTransactionDescription(financialTransaction.getTransactionDescription());
-        newfintrans.setTransactionAmount(financialTransaction.getTransactionAmount());
-
-        if(result.hasErrors()){
-            result.toString();
-        }
-
-        transactionService.saveTransaction(newfintrans);
+        financialTransaction.setCategory(categoryService.findCategoryById(Integer.valueOf(rejectedValue)));
+        transactionService.saveTransaction(financialTransaction);
 
         return "redirect:/transaction/list";
     }
@@ -83,8 +74,10 @@ public class FinancialTransactionController {
         FinancialTransaction transaction = transactionService.getTransactionById(id);
 
         model.addAttribute("transaction",transaction);
+        List<Category> categoryList = categoryService.getCategoryList();
+        model.addAttribute("categoryList", categoryList);
 
-        return "";
+        return "add-transaction-form";
     }
 
     @GetMapping("/delete")
