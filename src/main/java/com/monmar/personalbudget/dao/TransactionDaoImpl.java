@@ -59,7 +59,7 @@ public class TransactionDaoImpl implements TransactionDao {
         Session session = sessionFactory.getCurrentSession();
         Query query = null;
 
-        if(dateFrom != null && dateTo != null) {
+        if(dateFrom != "" && dateTo != "") {
 
             LocalDate localDateFrom = LocalDate.of(Integer.parseInt(dateFrom.split("-")[0]), Integer.parseInt(dateFrom.split("-")[1]), Integer.parseInt(dateFrom.split("-")[2]));
             LocalDate localDateTo = LocalDate.of(Integer.parseInt(dateTo.split("-")[0]), Integer.parseInt(dateTo.split("-")[1]), Integer.parseInt(dateTo.split("-")[2]));
