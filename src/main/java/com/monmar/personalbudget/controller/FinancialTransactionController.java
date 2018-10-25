@@ -101,6 +101,22 @@ public class FinancialTransactionController {
         return "list-transaction";
     }
 
+    @PostMapping("/filterByDate")
+    public String searchTransactionByName(@RequestParam("transactionDateFrom") String dateFrom,
+                                          @RequestParam("transactionDateTo") String dateTo, Model model) {
+        List<FinancialTransaction> transactionList  = transactionService.searchTransactionByDate(dateFrom, dateTo);
+
+        model.addAttribute("transactionList", transactionList);
+        model.addAttribute("transaction", new FinancialTransaction());
+
+        List<Category> categoryList = categoryService.getCategoryList();
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("dateFrom", dateFrom);
+        model.addAttribute("dateTo", dateTo);
+
+        return "list-transaction";
+    }
+
 
 
     @GetMapping("/showAddTransactionsForm")

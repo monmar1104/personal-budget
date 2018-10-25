@@ -1,6 +1,7 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="from" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 
@@ -98,11 +99,28 @@
 
     <p/>
     <p/>
-    <div>
+
+    <div class="container form-group">
         <form:form action="search" method="POST">
             Search transaction: <input type="text" name="transactionName"/>
-
             <input type="submit" value="Search" class="add-button"/>
+        </form:form>
+    </div>
+
+    <div class="container from-group">
+        <form:form action="filterByDate" method="POST">
+            <div class="input-group">
+                Filter by date:
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">From</span>
+                </div>
+                <input type="date" name="transactionDateFrom" value="${dateFrom}" placeholder="Date from" aria-label="DateFrom" aria-describedby="basic-addon1">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon2">To</span>
+                </div>
+                <input type="date" name="transactionDateTo" value="${dateTo}" placeholder="Date to" aria-label="DateTo" aria-describedby="basic-addon2">
+                <input type="submit" value="Filter">
+            </div>
         </form:form>
     </div>
 

@@ -14,4 +14,6 @@ public interface TransactionDao {
     FinancialTransaction getTransactionById(int id);
 
     void deleteTransactionById(int id);
+
+    List<FinancialTransaction> searchTransactionByDate(String dateFrom, String dateTo);
 }

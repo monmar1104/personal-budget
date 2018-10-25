@@ -46,4 +46,10 @@ public class TransactionServiceImpl implements TransactionService {
 
     }
 
+    @Override
+    @Transactional
+    public List<FinancialTransaction> searchTransactionByDate(String dateFrom, String dateTo) {
+        return transactionDao.searchTransactionByDate(dateFrom, dateTo);
+    }
+
 }
