@@ -45,7 +45,6 @@
                             <option value="${list.categoryId}">${list.categoryName}</option>
                         </c:forEach>
                     </form:select>
-                        <%--${list.categoryName}--%>
                 </td>
             </tr>
             <tr>
@@ -62,7 +61,7 @@
     <%--<div style="clear; both;"></div>--%>
 
     <p>
-        <a href="${pageContext.request.contextPath}/category/list">Back to list</a>
+        <a href="${pageContext.request.contextPath}/transaction/list">Back to list</a>
     </p>
 
 </div>

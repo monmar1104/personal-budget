@@ -2,7 +2,7 @@
 
 $(document).ready(function(){
     
-    $(".grid thead td").click(function(){
+    $(".table thead th").click(function(){
       showFilterOption(this);
     });
     

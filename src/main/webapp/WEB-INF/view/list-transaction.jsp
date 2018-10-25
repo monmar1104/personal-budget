@@ -29,94 +29,102 @@
 </head>
 <body>
 
-<%@include file="navbar.jsp"%>
 
-<div id="wrapper">
-    <div id="header">
-        <h2>TRANSACTION LIST</h2>
+<div class="container">
+
+    <%@include file="navbar.jsp" %>
+
+    <div class="row justify-content-md-center">
+        <h2>Transaction <span class="badge badge-secondary">List</span></h2>
     </div>
-</div>
 
-<div id="container">
-    <div id="content">
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveTransaction" accesskey="7">Add
-            transaction
-        </button>
-        <%--<button type="button" onclick="window.location.href='showAddTransactionForm'; return false;" class="btn btn-primary">Add transaction</button>--%>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveTransaction" accesskey="7">
+        Add transaction
+    </button>
 
-        <!-- Modal -->
-        <div class="modal fade" id="saveTransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add transaction</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+    <!-- Modal -->
+    <div class="modal fade" id="saveTransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add transaction</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form:form action="addTransaction" modelAttribute="transaction" method="POST">
+
+                    <div class="form-group">
+                        <label>Transaction date</label>
+                        <form:input type="date" path="transactionDate" class="form-control"/>
                     </div>
-                    <div class="modal-body">
-                        <form:form action="addTransaction" modelAttribute="transaction" method="POST">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <form:select name="category" path="category" class="form-control">
+                            <form:option value="0" label="Chose category"/>
+                            <c:forEach var="list" items="${categoryList}">
+                                <option value="${list.categoryId}">${list.categoryName}</option>
+                            </c:forEach>
+                        </form:select>
+                    </div>
 
-                                <div class="form-group">
-                                    <label>Transaction date</label>
-                                    <form:input type="date" path="transactionDate" class="form-control"/>
-                                </div>
-                                <div class="form-group">
-                                    <label>Category</label>
-                                    <form:select name="category" path="category" class="form-control">
-                                        <form:option value="0" label="Chose category"/>
-                                        <c:forEach var="list" items="${categoryList}">
-                                            <option value="${list.categoryId}">${list.categoryName}</option>
-                                        </c:forEach>
-                                    </form:select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Amount</label>
-                                    <div class="input-group">
-                                        <form:input type="number" min="0" step="0.01" data-number-to-fixed="2"
-                                                    data-number-stepfactor="100" class="form-control currency"
-                                                    path="transactionAmount" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Description</label>
-                                    <form:input type="textarea" path="transactionDescription" class="form-control"/>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </div>
-                        </form:form>
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <div class="input-group">
+                            <form:input type="number" min="0" step="0.01" data-number-to-fixed="2"
+                                        data-number-stepfactor="100" class="form-control currency"
+                                        path="transactionAmount"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <form:input type="textarea" path="transactionDescription" class="form-control"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
+                </form:form>
             </div>
         </div>
-
-        <%--end modal --%>
-
-        <p/>
-        <p/>
-        <div>
-            <form:form action="search" method="POST">
-                Search transaction: <input type="text" name="transactionName"/>
-
-                <input type="submit" value="Search" class="add-button"/>
-            </form:form>
-        </div>
+    </div>
 
 
-        <table class="grid">
-            <thead>
+    <%--end modal --%>
+
+    <p/>
+    <p/>
+    <div>
+        <form:form action="search" method="POST">
+            Search transaction: <input type="text" name="transactionName"/>
+
+            <input type="submit" value="Search" class="add-button"/>
+        </form:form>
+    </div>
+
+    <p/>
+    <p/>
+    <div class="table-responsive">
+        <table id="table" class="table table-hover">
+            <thead class="thead-dark">
             <tr>
-                <td index=0>Date<div class="filter"></div></td>
-                <td index=1>Category Name<div class="filter"></div></td>
-                <td index=2>Amount<div class="filter"></div></td>
-                <td index=3>Description<div class="filter"></div></td>
-                <td>Action</td>
+                <th scope="col" index=0>Date
+                    <div class="filter"></div>
+                </th>
+                <th scope="col" index=1>Category Name
+                    <div class="filter"></div>
+                </th>
+                <th scope="col" index=2>Amount
+                    <div class="filter"></div>
+                </th>
+                <th scope="col" index=3>Description
+                    <div class="filter"></div>
+                </th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -140,14 +148,33 @@
                 </tr>
 
             </c:forEach>
+            <tr class="table-info">
+                <td>Sum</td>
+                <td></td>
+                <td id="sum">0</td>
+                <td></td>
+                <td></td>
+            </tr>
             </tbody>
         </table>
-
     </div>
 
+
+    <script type="text/javascript">
+        var table = document.getElementById("table"), sumVal = 0;
+
+        for (var i = 1; i < table.rows.length; i++) {
+
+            if (isNaN(parseFloat(table.rows[i].cells[2].innerHTML))) {
+                alert(table.rows[i].cells[2].innerHTML + "is not a number")
+            }
+            sumVal = sumVal + parseFloat(table.rows[i].cells[2].innerHTML);
+        }
+        console.log(sumVal);
+        document.getElementById("sum").innerHTML = sumVal.toFixed(2);
+    </script>
+
 </div>
-
-
 </body>
 
 </html>
