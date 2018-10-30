@@ -69,7 +69,7 @@ public class FinancialTransactionController {
 
 
     @GetMapping("/showTransactionFormUpdate")
-    public String showTransactionFormForUpdate(@RequestParam("budgetDetailId") int id, Model model) {
+    public String showTransactionFormForUpdate(@RequestParam("transactionId") int id, Model model) {
 
         FinancialTransaction transaction = transactionService.getTransactionById(id);
 
@@ -81,7 +81,7 @@ public class FinancialTransactionController {
     }
 
     @GetMapping("/delete")
-    public String deleteCustomer(@RequestParam("budgetDetailId") int id, Model model) {
+    public String deleteCustomer(@RequestParam("transactionId") int id, Model model) {
 
         transactionService.deleteTransactionById(id);
 
@@ -97,6 +97,7 @@ public class FinancialTransactionController {
 
         List<Category> categoryList = categoryService.getCategoryList();
         model.addAttribute("categoryList", categoryList);
+        model.addAttribute("categoryName", name);
 
         return "list-transaction";
     }

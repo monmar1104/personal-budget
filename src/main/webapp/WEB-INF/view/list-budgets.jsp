@@ -8,7 +8,7 @@
 
 <html>
 <head>
-    <title>List Budget Item</title>
+    <title>List Budget Items</title>
 
     <link type="text/css"
           rel="stylesheet"
@@ -37,28 +37,24 @@
     <%@include file="navbar.jsp" %>
 
     <div class="row justify-content-md-center">
-        <h2>Transaction <span class="badge badge-secondary">List</span></h2>
+        <h2>Budget <span class="badge badge-secondary">Items</span></h2>
     </div>
 
 
     <!-- Modal -->
-    <div class="modal fade" id="saveTransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="saveBudgetItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add transaction</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add budget item</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form:form action="addTransaction" modelAttribute="transaction" method="POST">
+                    <form:form action="addBudgetItem" modelAttribute="budgetDetail" method="POST">
 
-                    <div class="form-group">
-                        <label>Transaction date</label>
-                        <form:input type="date" path="transactionDate" class="form-control"/>
-                    </div>
                     <div class="form-group">
                         <label>Category</label>
                         <form:select name="category" path="category" class="form-control">
@@ -74,12 +70,12 @@
                         <div class="input-group">
                             <form:input type="number" min="0" step="0.01" data-number-to-fixed="2"
                                         data-number-stepfactor="100" class="form-control currency"
-                                        path="transactionAmount"/>
+                                        path="budgetDetailAmount"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <form:input type="textarea" path="transactionDescription" class="form-control"/>
+                        <form:input type="textarea" path="budgetDetailDescription" class="form-control"/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -100,34 +96,15 @@
         <div class="col-10">
             <div class="container form-group">
                 <form:form action="search" method="POST">
-                    Search transaction: <input type="text" name="transactionName"/>
+                    Search category: <input type="text" name="categoryName"/>
                     <input type="submit" value="Search" class="add-button"/>
-                </form:form>
-            </div>
-
-            <div class="container from-group">
-                <form:form action="filterByDate" method="POST">
-                    <div class="input-group">
-                        Filter by date:
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1">From</span>
-                        </div>
-                        <input type="date" name="transactionDateFrom" value="${dateFrom}" placeholder="Date from"
-                               aria-label="DateFrom" aria-describedby="basic-addon1">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon2">To</span>
-                        </div>
-                        <input type="date" name="transactionDateTo" value="${dateTo}" placeholder="Date to"
-                               aria-label="DateTo" aria-describedby="basic-addon2">
-                        <input type="submit" value="Filter">
-                    </div>
                 </form:form>
             </div>
         </div>
         <div class="col-2 align-bottom">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveTransaction"
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveBudgetItem"
                     accesskey="7">
-                Add transaction
+                Add budget item
             </button>
         </div>
     </div>
@@ -139,35 +116,40 @@
         <table id="table" class="table table-hover">
             <thead class="thead-dark">
             <tr>
-                <th scope="col" index=0>Date
+                <th scope="col" index=0>Category Name
                     <div class="filter"></div>
                 </th>
-                <th scope="col" index=1>Category Name
+                <th scope="col" index=1>Amount
                     <div class="filter"></div>
                 </th>
-                <th scope="col" index=2>Amount
+                <th scope="col" index=2>Spent Amount
                     <div class="filter"></div>
                 </th>
-                <th scope="col" index=3>Description
+                <th scope="col" index=3>% of Usage
+                    <div class="filter"></div>
+                </th>
+                <th scope="col" index=4>Description
                     <div class="filter"></div>
                 </th>
                 <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="transactionItem" items="${transactionList}">
-                <c:url var="updateLink" value="/transaction/showTransactionFormUpdate">
-                    <c:param name="budgetDetailId" value="${transactionItem.transactionId}"></c:param>
+            <c:forEach var="budgetItem" items="${budgetDetailList}">
+                <c:url var="updateLink" value="/budget/showAddBudgetItemFormUpdate">
+                    <c:param name="budgetDetailId" value="${budgetItem.budgetDetailId}"></c:param>
                 </c:url>
-                <c:url var="deleteLink" value="/transaction/delete">
-                    <c:param name="budgetDetailId" value="${transactionItem.transactionId}"></c:param>
+                <c:url var="deleteLink" value="/budget/delete">
+                    <c:param name="budgetDetailId" value="${budgetItem.budgetDetailId}"></c:param>
                 </c:url>
 
                 <tr>
-                    <td>${transactionItem.transactionDate} </td>
-                    <td>${transactionItem.category.categoryName} </td>
-                    <td>${transactionItem.transactionAmount} </td>
-                    <td>${transactionItem.transactionDescription} </td>
+
+                    <td>${budgetItem.category.categoryName} </td>
+                    <td>${budgetItem.budgetDetailAmount} </td>
+                    <td>${sumCategoryMap.get(budgetItem.category.categoryId)} </td>
+                    <td>${(sumCategoryMap.get(budgetItem.category.categoryId) / budgetItem.budgetDetailAmount) * 100} %</td>
+                    <td>${budgetItem.budgetDetailDescription} </td>
                     <td><a href="${updateLink}">Update</a> |
                         <a href="${deleteLink}"
                            onclick="if(!(confirm('Are you sure you want to delete this item?'))) return false">Delete</a>
@@ -177,8 +159,9 @@
             </c:forEach>
             <tr class="table-info">
                 <td>Sum</td>
-                <td></td>
                 <td id="sum">0</td>
+                <td id="sum1">0</td>
+                <td></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -186,21 +169,27 @@
         </table>
     </div>
 
-
     <script type="text/javascript">
-        var table = document.getElementById("table"), sumVal = 0;
+        var table = document.getElementById("table"), plan = 0;
+        var table1 = document.getElementById("table"), expend = 0;
 
         for (var i = 1; i < table.rows.length; i++) {
 
-            if (isNaN(parseFloat(table.rows[i].cells[2].innerHTML))) {
-                alert(table.rows[i].cells[2].innerHTML + "is not a number")
+            if (isNaN(parseFloat(table.rows[i].cells[1].innerHTML))) {
+                alert(table.rows[i].cells[1].innerHTML + "is not a number")
             }
-            sumVal = sumVal + parseFloat(table.rows[i].cells[2].innerHTML);
-        }
-        console.log(sumVal);
-        document.getElementById("sum").innerHTML = sumVal.toFixed(2);
-    </script>
+            plan = plan + parseFloat(table.rows[i].cells[1].innerHTML);
 
+            if (isNaN(parseFloat(table1.rows[i].cells[2].innerHTML))) {
+                alert(table1.rows[i].cells[2].innerHTML + "is not a number")
+            }
+            expend = expend + parseFloat(table1.rows[i].cells[2].innerHTML);
+        }
+        console.log(plan);
+        console.log(expend);
+        document.getElementById("sum").innerHTML = plan.toFixed(2);
+        document.getElementById("sum1").innerHTML = expend.toFixed(2);
+    </script>
 </div>
 </body>
 

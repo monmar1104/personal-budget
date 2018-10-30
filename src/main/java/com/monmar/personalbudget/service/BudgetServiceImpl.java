@@ -1,16 +1,13 @@
 package com.monmar.personalbudget.service;
 
 import com.monmar.personalbudget.dao.BudgetDao;
-import com.monmar.personalbudget.entity.Budget;
 import com.monmar.personalbudget.entity.BudgetDetail;
-import com.monmar.personalbudget.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BudgetServiceImpl implements BudgetService {
@@ -20,13 +17,43 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     @Transactional
-    public void addBudgetItem(Budget budget, Category category, BigDecimal amount) {
-        budgetDao.addBudgetItem(budget, category, amount);
+    public void addBudgetItem(BudgetDetail budgetDetail) {
+        budgetDao.addBudgetItem(budgetDetail);
     }
 
     @Override
     @Transactional
     public List<BudgetDetail> getBudgetDetailList() {
         return budgetDao.getBudgetDetailList();
+    }
+
+    @Override
+    @Transactional
+    public List<BudgetDetail> getBudgetDetailListByName(String name) {
+        return budgetDao.getBudgetDetailListByName(name);
+    }
+
+    @Override
+    @Transactional
+    public List<BudgetDetail> searchBudgetItemByCatName(String name) {
+        return budgetDao.searchBudgetItemByCatName(name);
+    }
+
+    @Override
+    @Transactional
+    public BudgetDetail getBudgetDetailById(int id) {
+        return budgetDao.getBudgetDetailById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteTransactionById(int id) {
+        budgetDao.deleteTransactionById(id);
+    }
+
+    @Override
+    @Transactional
+    public Map<Integer, Double> getSumOfTransactionByCategoryMap(int budgetId) {
+        return budgetDao.getSumOfTransactionByCategoryMap(budgetId);
     }
 }

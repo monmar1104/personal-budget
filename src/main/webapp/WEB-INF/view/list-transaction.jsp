@@ -7,7 +7,7 @@
 
 <html>
 <head>
-    <title>List Budget Item</title>
+    <title>List Transaction Items</title>
 
     <link type="text/css"
           rel="stylesheet"
@@ -99,7 +99,7 @@
         <div class="col-10">
             <div class="container form-group">
                 <form:form action="search" method="POST">
-                    Search transaction: <input type="text" name="transactionName"/>
+                    Search transaction: <input type="text" value="${categoryName}" name="transactionName"/>
                     <input type="submit" value="Search" class="add-button"/>
                 </form:form>
             </div>
@@ -156,10 +156,10 @@
             <tbody>
             <c:forEach var="transactionItem" items="${transactionList}">
                 <c:url var="updateLink" value="/transaction/showTransactionFormUpdate">
-                    <c:param name="budgetDetailId" value="${transactionItem.transactionId}"></c:param>
+                    <c:param name="transactionId" value="${transactionItem.transactionId}"></c:param>
                 </c:url>
                 <c:url var="deleteLink" value="/transaction/delete">
-                    <c:param name="budgetDetailId" value="${transactionItem.transactionId}"></c:param>
+                    <c:param name="transactionId" value="${transactionItem.transactionId}"></c:param>
                 </c:url>
 
                 <tr>

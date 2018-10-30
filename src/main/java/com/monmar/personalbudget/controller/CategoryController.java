@@ -27,7 +27,6 @@ public class CategoryController {
         List<Category> categoryList = categoryService.getCategoryList();
 
         model.addAttribute("categoryList", categoryList);
-
         return "list-category";
     }
 

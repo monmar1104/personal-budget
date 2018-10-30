@@ -25,9 +25,14 @@ public class Budget {
     @Column(name = "budget_name")
     private String budgetName;
 
-    @Column(name = "creation_date")
-    private LocalDate budgetDate;
+    @Column(name = "budget_date_from")
+    private LocalDate budgetDateFrom;
 
+    @Column(name = "budget_date_to")
+    private LocalDate budgetDateTo;
+
+    @Column(name = "budget_creation_date")
+    private LocalDate budgetCreationDate;
 
     @OneToMany(fetch = FetchType.LAZY,
                 mappedBy = "budget",

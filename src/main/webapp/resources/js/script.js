@@ -92,3 +92,10 @@ function showFilterOption(tdObject){
   
   return filterGrid;
 }
+function getUsage(plan, expend)  {
+    // var plan = document.getElementById("plan"), plan = 0;
+    // var expend = document.getElementById("expend"), expend = 0;
+    var usage = (expend / plan) * 100;
+    document.getElementById("usage").innerHTML = usage;
+    return usage;
+}
