@@ -28,10 +28,14 @@ public class BudgetController {
     @Autowired
     CategoryService categoryService;
 
+
     @GetMapping("/list")
     public String listBudgetItems(Model model){
-        List<BudgetDetail> budgetDetailList = budgetService.getBudgetDetailList();
+        Budget lastBudget = budgetService.getLastBudget();
 
+        int budgetId = lastBudget.getBudgetId();
+
+        List<BudgetDetail> budgetDetailList = budgetService.getBudgetDetailListByBudgetId(budgetId);
         model.addAttribute("budgetDetailList", budgetDetailList);
 
         BudgetDetail budgetDetail = new BudgetDetail();
@@ -40,11 +44,27 @@ public class BudgetController {
         List<Category> categoryList = categoryService.getCategoryList();
         model.addAttribute("categoryList", categoryList);
 
-        int budgetId = 10;
-
         Map<Integer, Double> getSumOfTransactionByCategoryMap = budgetService.getSumOfTransactionByCategoryMap(budgetId);
         model.addAttribute("sumCategoryMap", getSumOfTransactionByCategoryMap);
 
+
+        return "list-budgets";
+    }
+
+    @PostMapping("/listBudgetItemsById")
+    public String listBudgetItemsById(@RequestParam("budgetId") int budgetId,  Model model){
+
+        List<BudgetDetail> budgetDetailList = budgetService.getBudgetDetailListByBudgetId(budgetId);
+        model.addAttribute("budgetDetailList", budgetDetailList);
+
+        BudgetDetail budgetDetail = new BudgetDetail();
+        model.addAttribute("budgetDetail", budgetDetail);
+
+        List<Category> categoryList = categoryService.getCategoryList();
+        model.addAttribute("categoryList", categoryList);
+
+        Map<Integer, Double> getSumOfTransactionByCategoryMap = budgetService.getSumOfTransactionByCategoryMap(budgetId);
+        model.addAttribute("sumCategoryMap", getSumOfTransactionByCategoryMap);
 
         return "list-budgets";
     }
@@ -115,6 +135,15 @@ public class BudgetController {
 
         return "redirect:/budget/list";
     }
+
+    /*
+    TODO add modal for budget choosing
+    TODO set precision form budget numbers
+    TODO add budget adding form
+    TODO add update budget item form
+    TODO change first image
+    TODO
+    * */
 
 
 }

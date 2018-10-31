@@ -1,6 +1,7 @@
 package com.monmar.personalbudget.service;
 
 import com.monmar.personalbudget.dao.BudgetDao;
+import com.monmar.personalbudget.entity.Budget;
 import com.monmar.personalbudget.entity.BudgetDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,5 +56,24 @@ public class BudgetServiceImpl implements BudgetService {
     @Transactional
     public Map<Integer, Double> getSumOfTransactionByCategoryMap(int budgetId) {
         return budgetDao.getSumOfTransactionByCategoryMap(budgetId);
+    }
+
+    @Override
+    @Transactional
+    public List<Budget> getBudgetList() {
+        return budgetDao.getBudgetList();
+    }
+
+    @Override
+    @Transactional
+    public Budget getLastBudget(){
+        return budgetDao.getLastBudget();
+    }
+
+    @Override
+    @Transactional
+
+    public List<BudgetDetail> getBudgetDetailListByBudgetId(int budgetId) {
+        return budgetDao.getBudgetDetailListByBudgetId(budgetId);
     }
 }

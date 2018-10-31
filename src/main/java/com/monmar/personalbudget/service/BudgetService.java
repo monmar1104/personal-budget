@@ -1,5 +1,6 @@
 package com.monmar.personalbudget.service;
 
+import com.monmar.personalbudget.entity.Budget;
 import com.monmar.personalbudget.entity.BudgetDetail;
 
 import java.util.List;
@@ -20,4 +21,10 @@ public interface BudgetService {
     void deleteTransactionById(int id);
 
     Map<Integer, Double> getSumOfTransactionByCategoryMap(int budgetId);
+
+    List<Budget> getBudgetList();
+
+    Budget getLastBudget();
+
+    List<BudgetDetail> getBudgetDetailListByBudgetId(int budgetId);
 }

@@ -9,7 +9,7 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/transaction/list">Transactions <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="${pageContext.request.contextPath}/budget/list">Budgets</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/budget/list">Budgets<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Pricing</a>
@@ -27,3 +27,4 @@
         </ul>
     </div>
 </nav>
+<%--<%@include file="show-budget-select-form.jsp" %>--%>

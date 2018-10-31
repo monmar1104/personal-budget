@@ -38,6 +38,16 @@ public class BudgetDaoImpl implements BudgetDao {
     }
 
     @Override
+    public List<BudgetDetail> getBudgetDetailListByBudgetId(int budgetId) {
+
+        Session session = sessionFactory.getCurrentSession();
+
+        Query<BudgetDetail> query = session.createQuery("from BudgetDetail bd where bd.budget.budgetId=:id ", BudgetDetail.class).setParameter("id", budgetId);
+
+        return query.getResultList();
+    }
+
+    @Override
     public List<BudgetDetail> getBudgetDetailListByName(String name) {
         Session session = sessionFactory.getCurrentSession();
         int id = getBudgetIdByname(name);
@@ -48,8 +58,8 @@ public class BudgetDaoImpl implements BudgetDao {
 
     private int getBudgetIdByname(String name) {
         Session session = sessionFactory.getCurrentSession();
-
-        return session.createQuery("select b.budgetId from BudgetDetail b where b.budgetName=:budgetName", BudgetDetail.class).setParameter("budgetName", name).getFirstResult();
+        Budget budget = session.createQuery("from Budget b where b.budgetName=:budgetName", Budget.class).setParameter("budgetName", name).getSingleResult();
+        return budget.getBudgetId();
     }
 
     private Budget getBudgetById(int id){
@@ -113,5 +123,20 @@ public class BudgetDaoImpl implements BudgetDao {
 
         }
         return sumOfCategoryMap;
+    }
+
+    @Override
+    public List<Budget> getBudgetList() {
+        Session session = sessionFactory.getCurrentSession();
+        List<Budget> budgetList = session.createQuery("from Budget").getResultList();
+
+        return budgetList;
+    }
+
+    @Override
+    public Budget getLastBudget() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Budget> budgetQuery = session.createQuery("from Budget b where b.budgetCreationDate = (select max(budget.budgetCreationDate) as maxDate from Budget budget)", Budget.class);
+        return budgetQuery.getSingleResult();
     }
 }

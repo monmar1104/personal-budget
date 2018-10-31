@@ -2,7 +2,7 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="from" uri="http://www.springframework.org/tags/form" %>
+
 
 <!DOCTYPE html>
 
@@ -31,7 +31,6 @@
 </head>
 <body>
 
-
 <div class="container">
 
     <%@include file="navbar.jsp" %>
@@ -58,7 +57,7 @@
                     <div class="form-group">
                         <label>Category</label>
                         <form:select name="category" path="category" class="form-control">
-                            <form:option value="0" label="Chose category"/>
+                            <form:option value="0" label="Select category"/>
                             <c:forEach var="list" items="${categoryList}">
                                 <option value="${list.categoryId}">${list.categoryName}</option>
                             </c:forEach>
@@ -142,7 +141,6 @@
                 <c:url var="deleteLink" value="/budget/delete">
                     <c:param name="budgetDetailId" value="${budgetItem.budgetDetailId}"></c:param>
                 </c:url>
-
                 <tr>
 
                     <td>${budgetItem.category.categoryName} </td>
