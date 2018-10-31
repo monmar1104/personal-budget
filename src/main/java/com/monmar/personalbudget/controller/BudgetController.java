@@ -47,6 +47,9 @@ public class BudgetController {
         Map<Integer, Double> getSumOfTransactionByCategoryMap = budgetService.getSumOfTransactionByCategoryMap(budgetId);
         model.addAttribute("sumCategoryMap", getSumOfTransactionByCategoryMap);
 
+        List<Budget> budgetList = budgetService.getBudgetList();
+        model.addAttribute("budgetList", budgetList);
+
 
         return "list-budgets";
     }
@@ -65,6 +68,9 @@ public class BudgetController {
 
         Map<Integer, Double> getSumOfTransactionByCategoryMap = budgetService.getSumOfTransactionByCategoryMap(budgetId);
         model.addAttribute("sumCategoryMap", getSumOfTransactionByCategoryMap);
+
+        List<Budget> budgetList = budgetService.getBudgetList();
+        model.addAttribute("budgetList", budgetList);
 
         return "list-budgets";
     }
