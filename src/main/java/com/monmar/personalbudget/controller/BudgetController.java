@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -28,40 +29,39 @@ public class BudgetController {
     @Autowired
     CategoryService categoryService;
 
-
     @GetMapping("/list")
-    public String listBudgetItems(Model model){
+    public String listBudgetItems(RedirectAttributes model, Model model1){
         Budget lastBudget = budgetService.getLastBudget();
+        model.addFlashAttribute("currentBudget", lastBudget.getBudgetName());
 
         int budgetId = lastBudget.getBudgetId();
 
-        List<BudgetDetail> budgetDetailList = budgetService.getBudgetDetailListByBudgetId(budgetId);
-        model.addAttribute("budgetDetailList", budgetDetailList);
-
-        BudgetDetail budgetDetail = new BudgetDetail();
-        model.addAttribute("budgetDetail", budgetDetail);
-
         List<Category> categoryList = categoryService.getCategoryList();
-        model.addAttribute("categoryList", categoryList);
+        model1.addAttribute("categoryList", categoryList);
+
+        List<BudgetDetail> budgetDetailList = budgetService.getBudgetDetailListByBudgetId(budgetId);
+        model1.addAttribute("budgetDetailList", budgetDetailList);
 
         Map<Integer, Double> getSumOfTransactionByCategoryMap = budgetService.getSumOfTransactionByCategoryMap(budgetId);
-        model.addAttribute("sumCategoryMap", getSumOfTransactionByCategoryMap);
+        model1.addAttribute("sumCategoryMap", getSumOfTransactionByCategoryMap);
 
         List<Budget> budgetList = budgetService.getBudgetList();
-        model.addAttribute("budgetList", budgetList);
+        model1.addAttribute("budgetList", budgetList);
+
+        BudgetDetail budgetDetail = new BudgetDetail();
+        model1.addAttribute("budgetDetail", budgetDetail);
 
 
         return "list-budgets";
     }
 
     @PostMapping("/listBudgetItemsById")
-    public String listBudgetItemsById(@RequestParam("budgetId") int budgetId,  Model model){
+    public String listBudgetItemsById(@RequestParam("budgetId") int budgetId,  RedirectAttributes model){
+        Budget currentBudget = budgetService.getBudgetById(budgetId);
+        model.addFlashAttribute("currentBudget", budgetId);
 
         List<BudgetDetail> budgetDetailList = budgetService.getBudgetDetailListByBudgetId(budgetId);
         model.addAttribute("budgetDetailList", budgetDetailList);
-
-        BudgetDetail budgetDetail = new BudgetDetail();
-        model.addAttribute("budgetDetail", budgetDetail);
 
         List<Category> categoryList = categoryService.getCategoryList();
         model.addAttribute("categoryList", categoryList);
@@ -71,6 +71,9 @@ public class BudgetController {
 
         List<Budget> budgetList = budgetService.getBudgetList();
         model.addAttribute("budgetList", budgetList);
+
+        BudgetDetail budgetDetail = new BudgetDetail();
+        model.addAttribute("budgetDetail", budgetDetail);
 
         return "list-budgets";
     }
@@ -100,10 +103,12 @@ public class BudgetController {
 
 
     @PostMapping("/addBudgetItem")
-    public String addBudgetItem(@ModelAttribute("budgetDetail") @Valid BudgetDetail budgetDetail, BindingResult result, Model model) {
+    public String addBudgetItem(@RequestParam("category") String categoryId, @ModelAttribute("budgetDetail") @Valid BudgetDetail budgetDetail, BindingResult result, Model model) {
 
-        String rejectedValue = result.getFieldErrors().get(0).getRejectedValue().toString();
-        budgetDetail.setCategory(categoryService.findCategoryById(Integer.valueOf(rejectedValue)));
+//        String rejectedValue = result.getFieldErrors().get(0).getRejectedValue().toString();
+        budgetDetail.setCategory(categoryService.findCategoryById(Integer.valueOf(categoryId)));
+        Budget budget = (Budget) model.asMap().get("currentBudget");
+        budgetDetail.setBudget(budget);
         budgetService.addBudgetItem(budgetDetail);
 
         return "redirect:/budget/list";

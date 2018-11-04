@@ -1,5 +1,6 @@
 package com.monmar.personalbudget.controller;
 
+import com.monmar.personalbudget.entity.Budget;
 import com.monmar.personalbudget.entity.BudgetDetail;
 import com.monmar.personalbudget.entity.Category;
 import com.monmar.personalbudget.entity.FinancialTransaction;
@@ -43,7 +44,7 @@ public class FinancialTransactionController {
     }
 
     @PostMapping("/addTransaction")
-    public String addTransaction(@ModelAttribute("transaction") @Valid FinancialTransaction financialTransaction, BindingResult result, Model model) {
+    public String addTransaction(@Valid @ModelAttribute("transaction") FinancialTransaction financialTransaction, BindingResult result, Model model) {
 
         String rejectedValue = result.getFieldErrors().get(0).getRejectedValue().toString();
         financialTransaction.setCategory(categoryService.findCategoryById(Integer.valueOf(rejectedValue)));

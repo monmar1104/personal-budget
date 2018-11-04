@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class BudgetServiceImpl implements BudgetService {
 
     @Autowired
@@ -75,5 +76,11 @@ public class BudgetServiceImpl implements BudgetService {
 
     public List<BudgetDetail> getBudgetDetailListByBudgetId(int budgetId) {
         return budgetDao.getBudgetDetailListByBudgetId(budgetId);
+    }
+
+    @Override
+    @Transactional
+    public Budget getBudgetById(int budgetId) {
+        return budgetDao.getBudgetById(budgetId);
     }
 }

@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -40,7 +41,11 @@ public class CategoryDaoImpl implements CategoryDao {
 
         Query<Category> expenditureCategoryQuery = session.createQuery("from Category order by categoryName", Category.class);
 
-        return expenditureCategoryQuery.getResultList();
+        List<Category> categoryList =  expenditureCategoryQuery.getResultList();
+        categoryList.size();
+        categoryList.get(0).getBudgetList().get(0).getBudget().getCategoryList().size();
+
+        return categoryList;
     }
 
     @Override
