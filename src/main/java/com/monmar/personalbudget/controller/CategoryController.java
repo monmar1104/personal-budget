@@ -23,6 +23,8 @@ public class CategoryController {
 
     @GetMapping("/list")
     public String showCategories(Model model){
+    	
+    	model.addAttribute("category", new Category());
 
         List<Category> categoryList = categoryService.getCategoryList();
 

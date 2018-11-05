@@ -3,6 +3,8 @@ package com.monmar.personalbudget.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import java.util.List;
 
 @AllArgsConstructor
@@ -20,10 +22,12 @@ public class Category {
     private int categoryId;
 
     @Column(name = "cat_name")
+    @NotNull
     private String categoryName;
 
     @Enumerated
     @Column(name = "cat_operation_type")
+    @NotNull
     private OperationType categoryOperationType;
 
 

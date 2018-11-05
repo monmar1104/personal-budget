@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Save Customer</title>
+    <title>Save Category</title>
 
     <link type="text/css"
           rel="stylesheet"
@@ -42,7 +42,7 @@
                 <td><label>Operation type</label></td>
                 <td>
                     <form:select path="categoryOperationType">
-                        <form:option value="0" label="Chose operation type"/>
+                        <form:option value="0" label="Select operation type"/>
                         <form:options />
                         <%--<form:options itemValue="operationMultiplier" />--%>
                     </form:select>

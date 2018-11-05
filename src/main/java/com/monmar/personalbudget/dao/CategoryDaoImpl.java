@@ -42,7 +42,8 @@ public class CategoryDaoImpl implements CategoryDao {
 
         List<Category> categoryList =  expenditureCategoryQuery.getResultList();
         categoryList.size();
-        categoryList.get(0).getBudgetList().get(0).getBudget().getCategoryList().size();
+//        int size = categoryList.get(0).getBudgetList().get(0).getBudget().getCategoryList().size();
+        categoryList.get(0).getBudgetList().size();
 
         return categoryList;
     }

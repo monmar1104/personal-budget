@@ -151,8 +151,17 @@
 						<tr>
 
 							<td>${budgetItem.category.categoryName}</td>
-							<td>${budgetItem.budgetDetailAmount}</td>
-							<td>${sumCategoryMap.get(budgetItem.category.categoryId)}</td>
+
+							<td>${budgetItem.budgetDetailAmount}</td> <
+							<c:choose>
+								<c:when
+									test="${sumCategoryMap.get(budgetItem.category.categoryId)!=null}">
+									<td>${sumCategoryMap.get(budgetItem.category.categoryId)}</td>
+								</c:when>
+								<c:otherwise>
+									<td>0</td>
+								</c:otherwise>
+							</c:choose>
 							<td>${(sumCategoryMap.get(budgetItem.category.categoryId) / budgetItem.budgetDetailAmount) * 100}
 								%</td>
 							<td>${budgetItem.budgetDetailDescription}</td>
