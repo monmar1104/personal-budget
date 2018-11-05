@@ -45,12 +45,6 @@ public class CategoryController {
     public String showFormFormAdd(Model model){
         Category category = new Category();
 
-//        List<Integer> multiplyerOperationType = Arrays.asList(OperationType.values())
-//                                .stream()
-//                                .map(s -> s.getOperationMultiplier())
-//                                .collect(Collectors.toList());
-//
-//        model.addAttribute("operationTypes", multiplyerOperationType);
         model.addAttribute("category", category);
 
         return "add-category-form";

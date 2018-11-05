@@ -1,5 +1,6 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 
@@ -84,7 +85,7 @@
 					<div class="form-group">
 
 						<select name="budgetId">
-							<option value="0">Select budget</option>
+							<option value="${currentBudget.budgetId}">${currentBudget.budgetName}</option>
 							<c:forEach items="${budgetList}" var="budget">
 								<option value="${budget.budgetId}">${budget.budgetName}</option>
 							</c:forEach>
@@ -152,18 +153,18 @@
 
 							<td>${budgetItem.category.categoryName}</td>
 
-							<td>${budgetItem.budgetDetailAmount}</td> <
+							<td><fmt:formatNumber type = "currency" minFractionDigits = "2" maxFractionDigits = "2" value = "${budgetItem.budgetDetailAmount}" /></td>
 							<c:choose>
 								<c:when
 									test="${sumCategoryMap.get(budgetItem.category.categoryId)!=null}">
-									<td>${sumCategoryMap.get(budgetItem.category.categoryId)}</td>
+									<td><fmt:formatNumber type = "currency" minFractionDigits = "2" maxFractionDigits = "2" value = "${sumCategoryMap.get(budgetItem.category.categoryId)}"/></td>
 								</c:when>
 								<c:otherwise>
-									<td>0</td>
+									<td><fmt:formatNumber type = "currency" minFractionDigits = "2" maxFractionDigits = "2" value = "0"/></td>
 								</c:otherwise>
 							</c:choose>
-							<td>${(sumCategoryMap.get(budgetItem.category.categoryId) / budgetItem.budgetDetailAmount) * 100}
-								%</td>
+							
+							<td> <fmt:formatNumber type = "percent" minFractionDigits = "1" maxFractionDigits = "1" value = "${sumCategoryMap.get(budgetItem.category.categoryId) / budgetItem.budgetDetailAmount}"/></td>
 							<td>${budgetItem.budgetDetailDescription}</td>
 							<td><a href="${updateLink}">Update</a> | <a
 								href="${deleteLink}"

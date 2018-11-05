@@ -41,7 +41,7 @@
 
 		<div class="row justify-content-md-center">
 			<h2>
-				Transaction <span class="badge badge-secondary">List</span>
+				Category <span class="badge badge-secondary">List</span>
 			</h2>
 		</div>
 
@@ -66,7 +66,7 @@
 							<div class="form-group">
 								<label>Category name</label>
 								<form:input type="text" path="categoryName"
-									class="form-control" />
+									class="form-control" autofocus="autofocus" />
 							</div>
 							<div class="form-group">
 								<label>Transaction type</label>

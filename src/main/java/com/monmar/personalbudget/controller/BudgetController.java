@@ -150,9 +150,9 @@ public class BudgetController {
     }
 
     /*
-    TODO add modal for budget choosing
+    TODO sort budget list desc
     TODO set precision form budget numbers
-    TODO add budget adding form
+    TODO add delete budget item
     TODO add update budget item form
     TODO change first image
     TODO
