@@ -21,6 +21,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/budget")
+@SessionAttributes("currentBudget")
 public class BudgetController {
 
     @Autowired
@@ -32,7 +33,7 @@ public class BudgetController {
     @GetMapping("/list")
     public String listBudgetItems(RedirectAttributes model, Model model1){
         Budget lastBudget = budgetService.getLastBudget();
-        model.addFlashAttribute("currentBudget", lastBudget.getBudgetName());
+        model1.addAttribute("currentBudget", lastBudget);
 
         int budgetId = lastBudget.getBudgetId();
 
@@ -56,9 +57,9 @@ public class BudgetController {
     }
 
     @PostMapping("/listBudgetItemsById")
-    public String listBudgetItemsById(@RequestParam("budgetId") int budgetId,  RedirectAttributes model){
-        Budget currentBudget = budgetService.getBudgetById(budgetId);
-        model.addFlashAttribute("currentBudget", budgetId);
+    public String listBudgetItemsById(@RequestParam("budgetId") int budgetId,  RedirectAttributes ra, Model model){
+    	Budget currentBudget = budgetService.getBudgetById(budgetId);
+        ra.addFlashAttribute("currentBudget", budgetId);
 
         List<BudgetDetail> budgetDetailList = budgetService.getBudgetDetailListByBudgetId(budgetId);
         model.addAttribute("budgetDetailList", budgetDetailList);
@@ -107,8 +108,9 @@ public class BudgetController {
 
 //        String rejectedValue = result.getFieldErrors().get(0).getRejectedValue().toString();
         budgetDetail.setCategory(categoryService.findCategoryById(Integer.valueOf(categoryId)));
-        Budget budget = (Budget) model.asMap().get("currentBudget");
-        budgetDetail.setBudget(budget);
+        Budget currentBudget = (Budget) model.asMap().get("currentBudget");
+      
+        budgetDetail.setBudget(currentBudget);
         budgetService.addBudgetItem(budgetDetail);
 
         return "redirect:/budget/list";
