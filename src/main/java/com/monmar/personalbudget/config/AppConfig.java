@@ -128,29 +128,4 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
         return txManager;
     }
-
-//    @Bean
-//    public CategoryService categoryService() {
-//        return new CategoryServiceImpl();
-//    }
-//
-//    @Bean
-//    public CategoryConverter categoryConverter() {
-//        return new CategoryConverter(categoryService());
-//    }
-//
-//
-//    @Bean(name = "categoryConverter")
-//    public ConversionServiceFactoryBean categoryConverter(CategoryConverter categoryConverter) {
-//        ConversionServiceFactoryBean conversionServiceFactoryBean = new ConversionServiceFactoryBean();
-//
-//        Set<Converter> converters = new HashSet<>();
-//
-//        converters.add(categoryConverter);
-//
-//        conversionServiceFactoryBean.setConverters(converters);
-//
-//        return conversionServiceFactoryBean;
-//    }
-
 }

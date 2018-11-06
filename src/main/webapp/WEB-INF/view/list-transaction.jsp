@@ -1,7 +1,7 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="from" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 
@@ -165,7 +165,7 @@
                 <tr>
                     <td>${transactionItem.transactionDate} </td>
                     <td>${transactionItem.category.categoryName} </td>
-                    <td>${transactionItem.transactionAmount} </td>
+                    <td><fmt:formatNumber type = "currency" minFractionDigits = "2" maxFractionDigits = "2" value = "${transactionItem.transactionAmount}"/> </td>
                     <td>${transactionItem.transactionDescription} </td>
                     <td><a href="${updateLink}">Update</a> |
                         <a href="${deleteLink}"

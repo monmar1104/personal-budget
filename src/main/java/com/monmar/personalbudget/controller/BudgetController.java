@@ -151,12 +151,14 @@ public class BudgetController {
 
     /*
     TODO sort budget list desc
-    TODO set precision form budget numbers
+    TODO difference between amount - transaction and budget 
     TODO add delete budget item
     TODO add update budget item form
     TODO change first image
-    TODO
-    * */
+    TODO add security
+    TODO add aop login module
+    TODO validation
+    */
 
 
 }
