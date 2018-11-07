@@ -209,17 +209,14 @@
 
 
 		<script type="text/javascript">
-			var table = document.getElementById("table"), sumVal = 0;
+			var table = document.getElementById("table"), sumVal = 0.00, cellVal = 0.00;
 
 			for (var i = 1; i < table.rows.length; i++) {
-
-				if (isNaN(parseFloat(table.rows[i].cells[2].innerHTML))) {
-					alert(table.rows[i].cells[2].innerHTML + "is not a number")
-				}
-				sumVal = sumVal + parseFloat(table.rows[i].cells[2].innerHTML);
+				cellVal = table.rows[i].cells[2].innerHTML;
+				sumVal = sumVal + parseFloat(cellVal.replace(',', '.'));
 			}
 			console.log(sumVal);
-			document.getElementById("sum").innerHTML = sumVal.toFixed(2);
+			document.getElementById("sum").innerHTML = sumVal.toFixed(2).replace('.', ',');
 		</script>
 
 	</div>

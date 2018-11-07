@@ -164,7 +164,10 @@
 								</c:otherwise>
 							</c:choose>
 							
-							<td> <fmt:formatNumber type = "percent" minFractionDigits = "1" maxFractionDigits = "1" value = "${sumCategoryMap.get(budgetItem.category.categoryId) / budgetItem.budgetDetailAmount}"/></td>
+							<td> <fmt:formatNumber type = "percent" 
+													minFractionDigits = "1" 
+													maxFractionDigits = "1" 
+													value = "${sumCategoryMap.get(budgetItem.category.categoryId) / budgetItem.budgetDetailAmount}"/></td>
 							<td>${budgetItem.budgetDetailDescription}</td>
 							<td><a href="${updateLink}">Update</a> | <a
 								href="${deleteLink}"
@@ -186,25 +189,17 @@
 		</div>
 
 		<script type="text/javascript">
-			var table = document.getElementById("table"), plan = 0;
-			var table1 = document.getElementById("table"), expend = 0;
+			var table = document.getElementById("table"), plan = 0.00;
+			var table1 = document.getElementById("table"), expend = 0.00;
 
 			for (var i = 1; i < table.rows.length; i++) {
-
-				/* if (isNaN(parseFloat(table.rows[i].cells[1].innerHTML))) {
-					alert(table.rows[i].cells[1].innerHTML + "is not a number")
-				} */
-				plan = plan + parseFloat(table.rows[i].cells[1].innerHTML);
-
-				/* if (isNaN(parseFloat(table1.rows[i].cells[2].innerHTML))) {
-					alert(table1.rows[i].cells[2].innerHTML + "is not a number")
-				} */
-				expend = expend + parseFloat(table1.rows[i].cells[2].innerHTML);
+				plan = plan + parseFloat(table.rows[i].cells[1].innerHTML.replace(',', '.'));
+				expend = expend + parseFloat(table1.rows[i].cells[2].innerHTML.replace(',', '.'));
 			}
 			console.log(plan);
 			console.log(expend);
-			document.getElementById("sum").innerHTML = plan.toFixed(2);
-			document.getElementById("sum1").innerHTML = expend.toFixed(2);
+			document.getElementById("sum").innerHTML = plan.toFixed(2).replace('.', ',');
+			document.getElementById("sum1").innerHTML = expend.toFixed(2).replace('.', ',');
 		</script>
 	</div>
 </body>
