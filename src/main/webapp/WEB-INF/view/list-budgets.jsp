@@ -1,12 +1,18 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 
 <!DOCTYPE html>
 
 <html>
+
+<head>
+<title>List Budget Items</title>
+<%@include file="head.jsp"%>
+
+</head>
 <body>
 
 	<div class="container">
@@ -153,21 +159,24 @@
 
 							<td>${budgetItem.category.categoryName}</td>
 
-							<td><fmt:formatNumber type = "currency" minFractionDigits = "2" maxFractionDigits = "2" value = "${budgetItem.budgetDetailAmount}" /></td>
+							<td><fmt:formatNumber type="currency" minFractionDigits="2"
+									maxFractionDigits="2" value="${budgetItem.budgetDetailAmount}" /></td>
 							<c:choose>
 								<c:when
 									test="${sumCategoryMap.get(budgetItem.category.categoryId)!=null}">
-									<td><fmt:formatNumber type = "currency" minFractionDigits = "2" maxFractionDigits = "2" value = "${sumCategoryMap.get(budgetItem.category.categoryId)}"/></td>
+									<td><fmt:formatNumber type="currency"
+											minFractionDigits="2" maxFractionDigits="2"
+											value="${sumCategoryMap.get(budgetItem.category.categoryId)}" /></td>
 								</c:when>
 								<c:otherwise>
-									<td><fmt:formatNumber type = "currency" minFractionDigits = "2" maxFractionDigits = "2" value = "0"/></td>
+									<td><fmt:formatNumber type="currency"
+											minFractionDigits="2" maxFractionDigits="2" value="0" /></td>
 								</c:otherwise>
 							</c:choose>
-							
-							<td> <fmt:formatNumber type = "percent" 
-													minFractionDigits = "1" 
-													maxFractionDigits = "1" 
-													value = "${sumCategoryMap.get(budgetItem.category.categoryId) / budgetItem.budgetDetailAmount}"/></td>
+
+							<td><fmt:formatNumber type="percent" minFractionDigits="1"
+									maxFractionDigits="1"
+									value="${sumCategoryMap.get(budgetItem.category.categoryId) / budgetItem.budgetDetailAmount}" /></td>
 							<td>${budgetItem.budgetDetailDescription}</td>
 							<td><a href="${updateLink}">Update</a> | <a
 								href="${deleteLink}"
@@ -193,41 +202,22 @@
 			var table1 = document.getElementById("table"), expend = 0.00;
 
 			for (var i = 1; i < table.rows.length; i++) {
-				plan = plan + parseFloat(table.rows[i].cells[1].innerHTML.replace(',', '.'));
-				expend = expend + parseFloat(table1.rows[i].cells[2].innerHTML.replace(',', '.'));
+				plan = plan
+						+ parseFloat(table.rows[i].cells[1].innerHTML.replace(
+								',', '.'));
+				expend = expend
+						+ parseFloat(table1.rows[i].cells[2].innerHTML.replace(
+								',', '.'));
 			}
 			console.log(plan);
 			console.log(expend);
-			document.getElementById("sum").innerHTML = plan.toFixed(2).replace('.', ',');
-			document.getElementById("sum1").innerHTML = expend.toFixed(2).replace('.', ',');
+			document.getElementById("sum").innerHTML = plan.toFixed(2).replace(
+					'.', ',');
+			document.getElementById("sum1").innerHTML = expend.toFixed(2)
+					.replace('.', ',');
 		</script>
 	</div>
 </body>
-<head>
-<title>List Budget Items</title>
 
-<link type="text/css" rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/style.css" />
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
-	integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
-	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
-	integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-	crossorigin="anonymous"></script>
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
-	integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
-	crossorigin="anonymous"></script>
-
-<script data-require="jquery@2.0.3" data-semver="2.0.3"
-	src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
-
-</head>
 
 </html>
