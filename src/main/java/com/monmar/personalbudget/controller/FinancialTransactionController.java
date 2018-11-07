@@ -44,10 +44,13 @@ public class FinancialTransactionController {
     }
 
     @PostMapping("/addTransaction")
-    public String addTransaction(@Valid @ModelAttribute("transaction") FinancialTransaction financialTransaction, BindingResult result, Model model) {
+    public String addTransaction(@RequestParam("category") String categoryId, 
+					    		@Valid @ModelAttribute("transaction") FinancialTransaction financialTransaction, 
+					    		BindingResult result, 
+					    		Model model) {
 
-        String rejectedValue = result.getFieldErrors().get(0).getRejectedValue().toString();
-        financialTransaction.setCategory(categoryService.findCategoryById(Integer.valueOf(rejectedValue)));
+//        String rejectedValue = result.getFieldErrors().get(0).getRejectedValue().toString();
+        financialTransaction.setCategory(categoryService.findCategoryById(Integer.valueOf(categoryId)));
         transactionService.saveTransaction(financialTransaction);
 
         return "redirect:/transaction/list";

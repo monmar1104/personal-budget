@@ -106,7 +106,6 @@ public class BudgetController {
     @PostMapping("/addBudgetItem")
     public String addBudgetItem(@RequestParam("category") String categoryId, @ModelAttribute("budgetDetail") @Valid BudgetDetail budgetDetail, BindingResult result, Model model) {
 
-//        String rejectedValue = result.getFieldErrors().get(0).getRejectedValue().toString();
         budgetDetail.setCategory(categoryService.findCategoryById(Integer.valueOf(categoryId)));
         Budget currentBudget = (Budget) model.asMap().get("currentBudget");
       
@@ -115,6 +114,7 @@ public class BudgetController {
 
         return "redirect:/budget/list";
     }
+    
     @PostMapping("/search")
     public String searchItemByCatName(@RequestParam("categoryName") String name, Model model) {
         List<BudgetDetail> budgetDetailList  = budgetService.searchBudgetItemByCatName(name);
@@ -138,7 +138,7 @@ public class BudgetController {
         List<Category> categoryList = categoryService.getCategoryList();
         model.addAttribute("categoryList", categoryList);
 
-        return "add-budget-detail-form";
+        return "add-budget-item";
     }
 
     @GetMapping("/delete")

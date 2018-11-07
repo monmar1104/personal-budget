@@ -32,10 +32,6 @@
                 <td><label>Description</label></td>
                 <td><form:input path="transactionDescription" class="form-control"/></td>
             </tr>
-            <%--<tr>--%>
-                <%--<td><label>Category</label></td>--%>
-                <%--<td><form:input path="category.categoryName"/></td>--%>
-            <%--</tr>--%>
             <tr>
                 <td><label>Category</label></td>
                 <td>
