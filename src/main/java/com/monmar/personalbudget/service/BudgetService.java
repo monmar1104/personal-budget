@@ -22,9 +22,9 @@ public interface BudgetService {
 
     Map<Integer, Double> getSumOfTransactionByCategoryMap(int budgetId);
 
-    List<Budget> getBudgetList();
+    List<Budget> getBudgetList(int userId);
 
-    Budget getLastBudget();
+    Budget getLastBudget(int userId);
 
     List<BudgetDetail> getBudgetDetailListByBudgetId(int budgetId);
 

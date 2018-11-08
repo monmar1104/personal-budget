@@ -1,5 +1,7 @@
 package com.monmar.personalbudget.controller;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -9,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class LoginController {
@@ -34,5 +37,12 @@ public class LoginController {
         }  
          return "/login-page";  
      }  
+	
+	@GetMapping("/username")
+    @ResponseBody
+    public String currentUserName(Principal principal) {
+        return principal.getName();
+    }
+	
 
 }

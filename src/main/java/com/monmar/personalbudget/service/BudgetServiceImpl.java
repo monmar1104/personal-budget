@@ -62,14 +62,14 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     @Transactional
-    public List<Budget> getBudgetList() {
-        return budgetDao.getBudgetList();
+    public List<Budget> getBudgetList(int userId) {
+        return budgetDao.getBudgetList(userId);
     }
 
     @Override
     @Transactional
-    public Budget getLastBudget(){
-        return budgetDao.getLastBudget();
+    public Budget getLastBudget(int userId){
+        return budgetDao.getLastBudget(userId);
     }
 
     @Override

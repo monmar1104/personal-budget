@@ -37,4 +37,8 @@ public class Budget {
                 mappedBy = "budget",
                 cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     private List<BudgetDetail> categoryList;
+    
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "budget_user_id")
+    private User budgetUser;
 }

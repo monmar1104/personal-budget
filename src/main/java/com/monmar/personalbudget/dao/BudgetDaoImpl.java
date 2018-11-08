@@ -127,17 +127,17 @@ public class BudgetDaoImpl implements BudgetDao {
     }
 
     @Override
-    public List<Budget> getBudgetList() {
+    public List<Budget> getBudgetList(int userId) {
         Session session = sessionFactory.getCurrentSession();
-        List<Budget> budgetList = session.createQuery("from Budget").getResultList();
+        List<Budget> budgetList = session.createQuery("from Budget where budgetUser.id=:userId").setParameter("userId", userId).getResultList();
 
         return budgetList;
     }
 
     @Override
-    public Budget getLastBudget() {
+    public Budget getLastBudget(int userId) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Budget> budgetQuery = session.createQuery("from Budget b where b.budgetCreationDate = (select max(budget.budgetCreationDate) as maxDate from Budget budget)", Budget.class);
+        Query<Budget> budgetQuery = session.createQuery("from Budget b where budgetUser.id=:userId and b.budgetCreationDate = (select max(budget.budgetCreationDate) as maxDate from Budget budget)", Budget.class).setParameter("userId", userId);
         Budget budget = budgetQuery.getSingleResult();
         budget.getCategoryList().size();
         return budget;

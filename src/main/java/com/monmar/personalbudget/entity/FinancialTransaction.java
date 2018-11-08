@@ -34,5 +34,9 @@ public class FinancialTransaction {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "fin_transaction_cat_id")
     private Category category;
+    
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "fin_transaction_user_id")
+    private User transactionUser;
 
 }
