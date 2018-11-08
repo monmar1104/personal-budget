@@ -35,11 +35,10 @@
 		</ul>
 	</div>
 	<c:if test="${sessionScope.user!=null}">
-	<a href="<c:url value='/logout' />" class="btn btn-info btn-sm">
+	<a href="<c:url value='/logout'> <c:param name="logout" value="logout"></c:param></c:url>" class="btn btn-info btn-sm">
           <span class="glyphicon glyphicon-log-out"></span> Log out: ${sessionScope.user.userName}
         </a>
 		<%-- <a href="<c:url value='/logout' />"> Logout:
 			${sessionScope.user.userName}</a> --%>
 	</c:if>
 </nav>
-<%--<%@include file="show-budget-select-form.jsp" %>--%>

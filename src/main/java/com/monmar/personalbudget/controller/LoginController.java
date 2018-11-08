@@ -2,6 +2,7 @@ package com.monmar.personalbudget.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,7 +32,7 @@ public class LoginController {
         if (auth != null){      
            new SecurityContextLogoutHandler().logout(request, response, auth);  
         }  
-         return "redirect:/";  
+         return "/login-page";  
      }  
 
 }

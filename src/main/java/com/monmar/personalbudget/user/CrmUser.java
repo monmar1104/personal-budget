@@ -20,29 +20,28 @@ import lombok.Setter;
 @Setter
 public class CrmUser {
 
-	@NotNull(message = "is required")
-	@Size(min = 1, message = "is required")
+	@NotNull(message = "User name is required")
+	@Size(min = 1, message = "User name is too short")
 	private String userName;
 
-	@NotNull(message = "is required")
-	@Size(min = 1, message = "is required")
+	@NotNull(message = "Password is required")
+	@Size(min = 1, message = "Password is too short")
 	private String password;
 	
-	@NotNull(message = "is required")
-	@Size(min = 1, message = "is required")
+	@NotNull(message = "Passwords is required")
+	@Size(min = 1, message = "Password is too short")
 	private String matchingPassword;
 
-	@NotNull(message = "is required")
-	@Size(min = 1, message = "is required")
+	@NotNull(message = "First name is requried")
+	@Size(min = 1, message = "First name is too short")
 	private String firstName;
 
-	@NotNull(message = "is required")
-	@Size(min = 1, message = "is required")
+	@NotNull(message = "Last name is required")
+	@Size(min = 1, message = "Last name is too short")
 	private String lastName;
 
 	@ValidEmail
-	@NotNull(message = "is required")
-	@Size(min = 1, message = "is required")
+	@NotNull(message = "Email is required")
 	private String email;
 
 }

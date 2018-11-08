@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.monmar.personalbudget.service.UserService;
 
@@ -45,10 +46,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll()
 			.and()
 			.logout()
-			.logoutUrl("/logout")
-			.logoutSuccessUrl("/")
-			.invalidateHttpSession(true)
-			.deleteCookies("JSESSIONID")
+				.logoutRequestMatcher(new AntPathRequestMatcher("/login?idletimeout=true"))
+				.logoutUrl("/logout")
+				.logoutSuccessUrl("/")
+				.invalidateHttpSession(true)
+				.deleteCookies("JSESSIONID")
 			.and()
 			.exceptionHandling().accessDeniedPage("/showAccessDenied");
 		

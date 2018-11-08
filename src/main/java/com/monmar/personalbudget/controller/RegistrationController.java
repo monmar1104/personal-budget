@@ -55,6 +55,7 @@ public class RegistrationController {
 		logger.info("Processing registration form for: " + userName);
 		
 		 if (bindingResult.hasErrors()){
+				model.addAttribute("registrationError", "Error");
 			 return "registration-form";
 	        }
 
@@ -70,7 +71,8 @@ public class RegistrationController {
         userService.save(crmUser);
         
         logger.info("Successfully created user: " + userName);
+        model.addAttribute("registrationSuccess", "User registered successfully!");
         
-        return "registration-confirmation";		
+        return "login-page";		
 	}
 }
