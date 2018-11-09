@@ -46,11 +46,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll()
 			.and()
 			.logout()
-				.logoutRequestMatcher(new AntPathRequestMatcher("/login?idletimeout=true"))
-				.logoutUrl("/logout")
+//				.logoutRequestMatcher(new AntPathRequestMatcher("/login?idletimeout=true"))
+//				.logoutUrl("/logoutApp")
 				.logoutSuccessUrl("/")
-				.invalidateHttpSession(true)
-				.deleteCookies("JSESSIONID")
+//				.invalidateHttpSession(true)
+//				.deleteCookies("JSESSIONID")
+				.permitAll()
 			.and()
 			.exceptionHandling().accessDeniedPage("/showAccessDenied");
 		

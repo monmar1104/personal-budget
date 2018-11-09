@@ -17,8 +17,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public List<FinancialTransaction> getTransactionList() {
-        return transactionDao.getTransactionList();
+    public List<FinancialTransaction> getTransactionListByUserId(int userId) {
+        return transactionDao.getTransactionList(userId);
     }
 
     @Override
@@ -29,8 +29,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public List<FinancialTransaction> searchTransactionByName(String name) {
-        return transactionDao.searchTransactionByName(name);
+    public List<FinancialTransaction> searchTransactionByNameByUserId(String name, int userId) {
+        return transactionDao.searchTransactionByNameByUserId(name, userId);
     }
 
     @Override
@@ -49,8 +49,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public List<FinancialTransaction> searchTransactionByDate(String dateFrom, String dateTo) {
-        return transactionDao.searchTransactionByDate(dateFrom, dateTo);
+    public List<FinancialTransaction> searchTransactionByDateByUserId(String dateFrom, String dateTo, int userId) {
+        return transactionDao.searchTransactionByDateByUserId(dateFrom, dateTo, userId);
     }
 
 }

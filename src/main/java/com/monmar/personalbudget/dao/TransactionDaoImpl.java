@@ -6,7 +6,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,13 +17,13 @@ public class TransactionDaoImpl implements TransactionDao {
     SessionFactory sessionFactory;
 
     @Override
-    public List<FinancialTransaction> getTransactionList() {
+    public List<FinancialTransaction> getTransactionList(int userId) {
 
         Session session = sessionFactory.getCurrentSession();
 
-        Query query = session.createQuery("from FinancialTransaction", FinancialTransaction.class);
+        Query<FinancialTransaction> query = session.createQuery("from FinancialTransaction f where f.transactionUser.id=:userId", FinancialTransaction.class);
 
-        return query.getResultList();
+        return query.setParameter("userId", userId).getResultList();
     }
 
     @Override
@@ -35,15 +34,16 @@ public class TransactionDaoImpl implements TransactionDao {
     }
 
     @Override
-    public List<FinancialTransaction> searchTransactionByName(String name) {
+    public List<FinancialTransaction> searchTransactionByNameByUserId(String name, int userId) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = null;
-          String hql = "from FinancialTransaction f where f.category.categoryName like :name";
+        Query<FinancialTransaction> query = null;
+          String hql = "from FinancialTransaction f where f.category.categoryName like :name and f.transactionUser.id=:userId";
 
         if (name != null && name.trim().length() > 0) {
             query = session.createQuery(hql,
                     FinancialTransaction.class);
             query.setParameter("name", "%" + name.toLowerCase() + "%");
+            query.setParameter("userId", userId);
 
         } else {
             query = session.createQuery("from FinancialTransaction", FinancialTransaction.class);
@@ -55,18 +55,18 @@ public class TransactionDaoImpl implements TransactionDao {
     }
 
     @Override
-    public List<FinancialTransaction> searchTransactionByDate(String dateFrom, String dateTo) {
+    public List<FinancialTransaction> searchTransactionByDateByUserId(String dateFrom, String dateTo, int userId) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = null;
+        Query<FinancialTransaction> query = null;
 
         if(dateFrom != "" && dateTo != "") {
 
             LocalDate localDateFrom = LocalDate.of(Integer.parseInt(dateFrom.split("-")[0]), Integer.parseInt(dateFrom.split("-")[1]), Integer.parseInt(dateFrom.split("-")[2]));
             LocalDate localDateTo = LocalDate.of(Integer.parseInt(dateTo.split("-")[0]), Integer.parseInt(dateTo.split("-")[1]), Integer.parseInt(dateTo.split("-")[2]));
 
-            String hql = "from FinancialTransaction f where f.transactionDate between :dateFrom and :dateTo ";
+            String hql = "from FinancialTransaction f where f.transactionDate between :dateFrom and :dateTo and f.transactionUser.id=:userId";
             query = session.createQuery(hql, FinancialTransaction.class);
-            query.setParameter("dateFrom", localDateFrom).setParameter("dateTo", localDateTo);
+            query.setParameter("dateFrom", localDateFrom).setParameter("dateTo", localDateTo).setParameter("userId", userId);
         }
         else {
             query = session.createQuery("from FinancialTransaction", FinancialTransaction.class);

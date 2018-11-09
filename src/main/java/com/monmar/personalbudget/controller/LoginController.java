@@ -4,7 +4,6 @@ import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,11 +30,12 @@ public class LoginController {
 	
 	@GetMapping(value="/logout")  
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {  
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();  
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null){      
-           new SecurityContextLogoutHandler().logout(request, response, auth);  
+           new SecurityContextLogoutHandler().logout(request, response, auth);
         }  
-         return "/login-page";  
+//         return "redirect:/showMyLoginPage";
+        return "login-page";
      }  
 	
 	@GetMapping("/username")

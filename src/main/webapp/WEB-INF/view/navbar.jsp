@@ -35,10 +35,14 @@
 		</ul>
 	</div>
 	<c:if test="${sessionScope.user!=null}">
-	<a href="<c:url value='/logout'> <c:param name="logout" value="logout"></c:param></c:url>" class="btn btn-info btn-sm">
+	<form action="/logout" method="post">
+		<input class="btn btn-info btn-sm" type="submit" value="Log out: ${sessionScope.user.userName}"/>
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	</form>
+	
+	
+	<%-- <a href="<c:url value='/logout'> <c:param name="logout" value="logout"></c:param></c:url>" class="btn btn-info btn-sm">
           <span class="glyphicon glyphicon-log-out"></span> Log out: ${sessionScope.user.userName}
-        </a>
-		<%-- <a href="<c:url value='/logout' />"> Logout:
-			${sessionScope.user.userName}</a> --%>
+        </a> --%>
 	</c:if>
 </nav>

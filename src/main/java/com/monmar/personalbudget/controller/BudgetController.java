@@ -46,8 +46,6 @@ public class BudgetController {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		
-		System.out.println(user.getEmail());
-
 		Budget lastBudget = budgetService.getLastBudget(user.getId());
 		model1.addAttribute("currentBudget", lastBudget);
 
@@ -109,19 +107,21 @@ public class BudgetController {
 		return "list-budgets";
 	}
 
-	@GetMapping("/showAddBudgetItemForm")
-	public String showAddTransactionForm(Model model) {
+//	@GetMapping("/showAddBudgetItemForm")
+//	public String showAddTransactionForm(Model model) {
+//
+//		BudgetDetail budgetDetail = new BudgetDetail();
+//
+//		model.addAttribute("budgetDetail", budgetDetail);
+//		List<Category> categoryList = categoryService.getCategoryList();
+//
+//		model.addAttribute("categoryList", categoryList);
+//
+//		return "add-transaction";
+//	}
 
-		BudgetDetail budgetDetail = new BudgetDetail();
 
-		model.addAttribute("budgetDetail", budgetDetail);
-		List<Category> categoryList = categoryService.getCategoryList();
-
-		model.addAttribute("categoryList", categoryList);
-
-		return "add-transaction";
-	}
-
+	
 	@PostMapping("/addBudgetItem")
 	public String addBudgetItem(@RequestParam("category") String categoryId,
 			@ModelAttribute("budgetDetail") @Valid BudgetDetail budgetDetail, BindingResult result, Model model) {
@@ -135,6 +135,8 @@ public class BudgetController {
 		return "redirect:/budget/list";
 	}
 
+//TODO list by budget
+	
 	@PostMapping("/search")
 	public String searchItemByCatName(@RequestParam("categoryName") String name, Model model) {
 		List<BudgetDetail> budgetDetailList = budgetService.searchBudgetItemByCatName(name);
@@ -170,10 +172,17 @@ public class BudgetController {
 	}
 
 	/*
-	 * TODO sort budget list desc TODO percent calculating - budget list TODO
-	 * redirect to list after login??? TODO change forms: addTransaction,
-	 * addBudgetItem TODO change first image TODO bind data with user TODO add aop
-	 * login module TODO validation TODO check csrf token
+	 * TODO adding new budget based on existing
+	 * TODO budget list - error handling in case of lack of data
+	 * TODO sort budget list desc 
+	 * TODO percent calculating - budget list 
+	 * TODO redirect to list after login??? 
+	 * TODO change forms: addTransaction,addBudgetItem 
+	 * TODO change first image 
+	 * TODO bind data with user 
+	 * TODO add aop login module 
+	 * TODO validation 
+	 * TODO check csrf token
 	 */
 
 }

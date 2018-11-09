@@ -1,22 +1,24 @@
 package com.monmar.personalbudget.dao;
 
-import com.monmar.personalbudget.entity.Budget;
-import com.monmar.personalbudget.entity.BudgetDetail;
-import com.monmar.personalbudget.entity.FinancialTransaction;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.monmar.personalbudget.entity.Budget;
+import com.monmar.personalbudget.entity.BudgetDetail;
 
 @Repository
 public class BudgetDaoImpl implements BudgetDao {
+	
+	Logger logger = Logger.getLogger(BudgetDaoImpl.class.getName());
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -41,11 +43,17 @@ public class BudgetDaoImpl implements BudgetDao {
     @Override
     public List<BudgetDetail> getBudgetDetailListByBudgetId(int budgetId) {
 
+    	logger.info("===============>>>>>>Enter to method getBudgetDetailListByBudgetId(int budgetId) with id: "+budgetId);
+    	
         Session session = sessionFactory.getCurrentSession();
 
         Query<BudgetDetail> query = session.createQuery("from BudgetDetail bd where bd.budget.budgetId=:id ", BudgetDetail.class).setParameter("id", budgetId);
+        
+        List<BudgetDetail> budgetDetails = query.getResultList(); 
+        
+        logger.info("================>>>>>End of method getBudgetDetailListByBudgetId(int budgetId) - size of list: "+budgetDetails.size());
 
-        return query.getResultList();
+        return budgetDetails;
     }
 
     @Override

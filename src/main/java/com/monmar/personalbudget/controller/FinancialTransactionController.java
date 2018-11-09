@@ -1,9 +1,8 @@
 package com.monmar.personalbudget.controller;
 
-import com.monmar.personalbudget.entity.Budget;
-import com.monmar.personalbudget.entity.BudgetDetail;
 import com.monmar.personalbudget.entity.Category;
 import com.monmar.personalbudget.entity.FinancialTransaction;
+import com.monmar.personalbudget.entity.User;
 import com.monmar.personalbudget.service.CategoryService;
 import com.monmar.personalbudget.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import java.util.List;
@@ -24,52 +27,57 @@ public class FinancialTransactionController {
 
     @Autowired
     private CategoryService categoryService;
-
+    
+    @Autowired
+	HttpServletRequest request; 
+	
+	@Autowired
+	HttpServletResponse response;
 
     @GetMapping("/list")
     public String showTransactionList(Model model) {
+    	
+    	HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
 
-        List<FinancialTransaction> financialTransactionList = transactionService.getTransactionList();
+        List<FinancialTransaction> financialTransactionList = transactionService.getTransactionListByUserId(user.getId());
         model.addAttribute("transactionList", financialTransactionList);
 
         FinancialTransaction financialTransaction = new FinancialTransaction();
-//
         model.addAttribute("transaction", financialTransaction);
-//        List<String> categoryList = categoryService.getCategoryList().stream().map(s -> s.getCategoryName()).collect(Collectors.toList());
         List<Category> categoryList = categoryService.getCategoryList();
         model.addAttribute("categoryList", categoryList);
 
 
         return "list-transaction";
     }
-
+  //TODO add User to transaction
+    
     @PostMapping("/addTransaction")
     public String addTransaction(@RequestParam("category") String categoryId, 
 					    		@Valid @ModelAttribute("transaction") FinancialTransaction financialTransaction, 
 					    		BindingResult result, 
 					    		Model model) {
-
-//        String rejectedValue = result.getFieldErrors().get(0).getRejectedValue().toString();
         financialTransaction.setCategory(categoryService.findCategoryById(Integer.valueOf(categoryId)));
         transactionService.saveTransaction(financialTransaction);
 
         return "redirect:/transaction/list";
     }
 
-
-    @GetMapping("/showAddTransactionForm")
-    public String showAddTransactionForm(Model model) {
-
-        FinancialTransaction financialTransaction = new FinancialTransaction();
-
-        model.addAttribute("transaction", financialTransaction);
-        List<Category> categoryList = categoryService.getCategoryList();
-
-        model.addAttribute("categoryList", categoryList);
-
-
-        return "add-transaction";
-    }
+//
+//    @GetMapping("/showAddTransactionForm")
+//    public String showAddTransactionForm(Model model) {
+//
+//        FinancialTransaction financialTransaction = new FinancialTransaction();
+//
+//        model.addAttribute("transaction", financialTransaction);
+//        List<Category> categoryList = categoryService.getCategoryList();
+//
+//        model.addAttribute("categoryList", categoryList);
+//
+//
+//        return "add-transaction";
+//    }
 
 
     @GetMapping("/showTransactionFormUpdate")
@@ -92,9 +100,14 @@ public class FinancialTransactionController {
         return "redirect:/transaction/list";
     }
 
+    //TODO search by user
+    
     @PostMapping("/search")
     public String searchTransactionByName(@RequestParam("transactionName") String name, Model model) {
-        List<FinancialTransaction> transactionList  = transactionService.searchTransactionByName(name);
+    	
+    	HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+        List<FinancialTransaction> transactionList  = transactionService.searchTransactionByNameByUserId(name, user.getId());
 
         model.addAttribute("transactionList", transactionList);
         model.addAttribute("transaction", new FinancialTransaction());
@@ -106,10 +119,15 @@ public class FinancialTransactionController {
         return "list-transaction";
     }
 
+    //TODO filter by user
+    
     @PostMapping("/filterByDate")
     public String searchTransactionByName(@RequestParam("transactionDateFrom") String dateFrom,
                                           @RequestParam("transactionDateTo") String dateTo, Model model) {
-        List<FinancialTransaction> transactionList  = transactionService.searchTransactionByDate(dateFrom, dateTo);
+    	
+    	HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+        List<FinancialTransaction> transactionList  = transactionService.searchTransactionByDateByUserId(dateFrom, dateTo, user.getId());
 
         model.addAttribute("transactionList", transactionList);
         model.addAttribute("transaction", new FinancialTransaction());
@@ -124,19 +142,19 @@ public class FinancialTransactionController {
 
 
 
-    @GetMapping("/showAddTransactionsForm")
-    public String showAddTransactionsForm(Model model) {
-
-        FinancialTransaction financialTransaction = new FinancialTransaction();
-
-        model.addAttribute("transactions", financialTransaction);
-        List<Category> categoryList = categoryService.getCategoryList();
-
-        model.addAttribute("categoryList", categoryList);
-
-
-        return "add-transaction-form";
-    }
+//    @GetMapping("/showAddTransactionsForm")
+//    public String showAddTransactionsForm(Model model) {
+//
+//        FinancialTransaction financialTransaction = new FinancialTransaction();
+//
+//        model.addAttribute("transactions", financialTransaction);
+//        List<Category> categoryList = categoryService.getCategoryList();
+//
+//        model.addAttribute("categoryList", categoryList);
+//
+//
+//        return "add-transaction-form";
+//    }
 
 
 }

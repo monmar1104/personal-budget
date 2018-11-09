@@ -74,7 +74,6 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     @Transactional
-
     public List<BudgetDetail> getBudgetDetailListByBudgetId(int budgetId) {
         return budgetDao.getBudgetDetailListByBudgetId(budgetId);
     }
