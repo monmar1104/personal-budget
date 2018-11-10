@@ -1,6 +1,7 @@
 package com.monmar.personalbudget.dao;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,12 +54,15 @@ public class BudgetDaoImpl implements BudgetDao {
 				.createQuery("from BudgetDetail bd where bd.budget.budgetId=:id order by bd.category.categoryName", BudgetDetail.class)
 				.setParameter("id", budgetId);
 
-		if (query.getResultList().size() > 0) {
+		if (query.uniqueResult() != null) {
 			budgetDetails = query.getResultList();
+			logger.info("================>>>>>End of method getBudgetDetailListByBudgetId(int budgetId) - size of list: "
+					+ budgetDetails.size());
 		}
-
-		logger.info("================>>>>>End of method getBudgetDetailListByBudgetId(int budgetId) - size of list: "
-				+ budgetDetails.size());
+		else {
+			budgetDetails = new ArrayList<>();
+			logger.info("================>>>>>End of method getBudgetDetailListByBudgetId(int budgetId) - no Data ");
+		}
 
 		return budgetDetails;
 	}
@@ -121,6 +125,11 @@ public class BudgetDaoImpl implements BudgetDao {
 
 	@Override
 	public Map<Integer, Double> getSumOfTransactionByCategoryMap(int budgetId) {
+		
+		if(budgetId == 0) {
+			return new HashMap<Integer, Double>(){{put(0,0.0);}};
+		}
+		
 		Session session = sessionFactory.getCurrentSession();
 
 		String hql = "select t.category.categoryId, sum(t.transactionAmount) " + "from FinancialTransaction t "
@@ -158,13 +167,15 @@ public class BudgetDaoImpl implements BudgetDao {
 		Query<Budget> budgetQuery = session.createQuery(
 				"from Budget b where budgetUser.id=:userId and b.budgetCreationDate = (select max(budget.budgetCreationDate) as maxDate from Budget budget)",
 				Budget.class).setParameter("userId", userId);
-		try {
+		
+		if (budgetQuery.uniqueResult() != null) {
 			budget = budgetQuery.getSingleResult();
-		} catch (Exception e) {
-			logger.info("==========>>>>>> getLastBudget() Exception");
+			budget.getCategoryList().size();
+		} else {
+			budget = new Budget();
+			logger.info("==========>>>>>> getLastBudget() No data");
 		}
 		
-		budget.getCategoryList().size();
 		return budget;
 	}
 }
