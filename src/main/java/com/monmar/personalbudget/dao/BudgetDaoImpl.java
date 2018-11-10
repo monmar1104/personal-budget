@@ -54,7 +54,7 @@ public class BudgetDaoImpl implements BudgetDao {
 				.createQuery("from BudgetDetail bd where bd.budget.budgetId=:id order by bd.category.categoryName", BudgetDetail.class)
 				.setParameter("id", budgetId);
 
-		if (query.uniqueResult() != null) {
+		if (budgetId > 0) {
 			budgetDetails = query.getResultList();
 			logger.info("================>>>>>End of method getBudgetDetailListByBudgetId(int budgetId) - size of list: "
 					+ budgetDetails.size());
