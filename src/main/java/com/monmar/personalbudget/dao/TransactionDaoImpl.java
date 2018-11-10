@@ -21,7 +21,7 @@ public class TransactionDaoImpl implements TransactionDao {
 
         Session session = sessionFactory.getCurrentSession();
 
-        Query<FinancialTransaction> query = session.createQuery("from FinancialTransaction f where f.transactionUser.id=:userId", FinancialTransaction.class);
+        Query<FinancialTransaction> query = session.createQuery("from FinancialTransaction f where f.transactionUser.id=:userId order by f.transactionDate desc", FinancialTransaction.class);
 
         return query.setParameter("userId", userId).getResultList();
     }
@@ -37,7 +37,7 @@ public class TransactionDaoImpl implements TransactionDao {
     public List<FinancialTransaction> searchTransactionByNameByUserId(String name, int userId) {
         Session session = sessionFactory.getCurrentSession();
         Query<FinancialTransaction> query = null;
-          String hql = "from FinancialTransaction f where f.category.categoryName like :name and f.transactionUser.id=:userId";
+          String hql = "from FinancialTransaction f where f.category.categoryName like :name and f.transactionUser.id=:userId order by f.transactionDate desc";
 
         if (name != null && name.trim().length() > 0) {
             query = session.createQuery(hql,
@@ -64,16 +64,16 @@ public class TransactionDaoImpl implements TransactionDao {
             LocalDate localDateFrom = LocalDate.of(Integer.parseInt(dateFrom.split("-")[0]), Integer.parseInt(dateFrom.split("-")[1]), Integer.parseInt(dateFrom.split("-")[2]));
             LocalDate localDateTo = LocalDate.of(Integer.parseInt(dateTo.split("-")[0]), Integer.parseInt(dateTo.split("-")[1]), Integer.parseInt(dateTo.split("-")[2]));
 
-            String hql = "from FinancialTransaction f where f.transactionDate between :dateFrom and :dateTo and f.transactionUser.id=:userId";
+            String hql = "from FinancialTransaction f where f.transactionDate between :dateFrom and :dateTo and f.transactionUser.id=:userId order by f.transactionDate desc";
             query = session.createQuery(hql, FinancialTransaction.class);
             query.setParameter("dateFrom", localDateFrom).setParameter("dateTo", localDateTo).setParameter("userId", userId);
         }
         else {
-            query = session.createQuery("from FinancialTransaction", FinancialTransaction.class);
+            query = session.createQuery("from FinancialTransaction where f.transactionUser.id=:userId order by f.transactionDate desc", FinancialTransaction.class);
         }
 
 
-        List<FinancialTransaction> financialTransactionList = query.getResultList();
+        List<FinancialTransaction> financialTransactionList = query .setParameter("userId", userId).getResultList();
 
         return financialTransactionList;
     }

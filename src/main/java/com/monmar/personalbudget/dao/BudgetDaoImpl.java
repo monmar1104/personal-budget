@@ -35,7 +35,7 @@ public class BudgetDaoImpl implements BudgetDao {
 
 		Session session = sessionFactory.getCurrentSession();
 
-		Query<BudgetDetail> query = session.createQuery("from BudgetDetail", BudgetDetail.class);
+		Query<BudgetDetail> query = session.createQuery("from BudgetDetail bd order by bd.category.categoryName", BudgetDetail.class);
 
 		return query.getResultList();
 	}
@@ -50,7 +50,7 @@ public class BudgetDaoImpl implements BudgetDao {
 		Session session = sessionFactory.getCurrentSession();
 
 		Query<BudgetDetail> query = session
-				.createQuery("from BudgetDetail bd where bd.budget.budgetId=:id ", BudgetDetail.class)
+				.createQuery("from BudgetDetail bd where bd.budget.budgetId=:id order by bd.category.categoryName", BudgetDetail.class)
 				.setParameter("id", budgetId);
 
 		if (query.getResultList().size() > 0) {
@@ -68,7 +68,7 @@ public class BudgetDaoImpl implements BudgetDao {
 		Session session = sessionFactory.getCurrentSession();
 		int id = getBudgetIdByname(name);
 		Query<BudgetDetail> query = session
-				.createQuery("from BudgetDetail where budget.budgetId=:budgetId", BudgetDetail.class)
+				.createQuery("from BudgetDetail bd where bd.budget.budgetId=:budgetId order by bd.category.categoryName", BudgetDetail.class)
 				.setParameter("budgetId", id);
 
 		return query.getResultList();
@@ -90,7 +90,7 @@ public class BudgetDaoImpl implements BudgetDao {
 	public List<BudgetDetail> searchBudgetItemByCatName(String name) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = null;
-		String hql = "from BudgetDetail b where b.category.categoryName like :name";
+		String hql = "from BudgetDetail bd where bd.category.categoryName like :name order by bd.category.categoryName";
 
 		if (name != null && name.trim().length() > 0) {
 			query = session.createQuery(hql, BudgetDetail.class);
