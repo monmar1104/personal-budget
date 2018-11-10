@@ -58,7 +58,11 @@ public class FinancialTransactionController {
 					    		@Valid @ModelAttribute("transaction") FinancialTransaction financialTransaction, 
 					    		BindingResult result, 
 					    		Model model) {
+    	HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		
         financialTransaction.setCategory(categoryService.findCategoryById(Integer.valueOf(categoryId)));
+        financialTransaction.setTransactionUser(user);
         transactionService.saveTransaction(financialTransaction);
 
         return "redirect:/transaction/list";

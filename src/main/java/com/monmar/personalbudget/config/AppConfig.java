@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
@@ -130,4 +131,21 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
         return txManager;
     }
+    
+    @Bean
+    public SimpleMappingExceptionResolver simpleMappingExceptionResolver(){
+
+        SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
+
+//        resolver.addStatusCode("error-page", 404);
+
+        Properties mapping = new Properties();
+        mapping.put("com.monmar.exchangeratenbpapi.exception.ExchangeRateNotFoundException" , "error-404-code");
+        mapping.put("com.monmar.exchangeratenbpapi.exception.ExchangeRateBadRequestException" , "error-400-code");
+        resolver.setExceptionMappings(mapping);
+
+        return resolver;
+    }
+
+    
 }

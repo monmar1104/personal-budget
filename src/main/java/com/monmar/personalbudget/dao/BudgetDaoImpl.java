@@ -17,137 +17,154 @@ import com.monmar.personalbudget.entity.BudgetDetail;
 
 @Repository
 public class BudgetDaoImpl implements BudgetDao {
-	
+
 	Logger logger = Logger.getLogger(BudgetDaoImpl.class.getName());
 
-    @Autowired
-    private SessionFactory sessionFactory;
+	@Autowired
+	private SessionFactory sessionFactory;
 
-    @Override
-    public void addBudgetItem(BudgetDetail budgetDetail) {
+	@Override
+	public void addBudgetItem(BudgetDetail budgetDetail) {
 
-        Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(budgetDetail);
-    }
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(budgetDetail);
+	}
 
-    @Override
-    public List<BudgetDetail> getBudgetDetailList() {
+	@Override
+	public List<BudgetDetail> getBudgetDetailList() {
 
-        Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 
-        Query<BudgetDetail> query = session.createQuery("from BudgetDetail", BudgetDetail.class);
+		Query<BudgetDetail> query = session.createQuery("from BudgetDetail", BudgetDetail.class);
 
-        return query.getResultList();
-    }
+		return query.getResultList();
+	}
 
-    @Override
-    public List<BudgetDetail> getBudgetDetailListByBudgetId(int budgetId) {
+	@Override
+	public List<BudgetDetail> getBudgetDetailListByBudgetId(int budgetId) {
 
-    	logger.info("===============>>>>>>Enter to method getBudgetDetailListByBudgetId(int budgetId) with id: "+budgetId);
-    	
-        Session session = sessionFactory.getCurrentSession();
+		logger.info("===============>>>>>>Enter to method getBudgetDetailListByBudgetId(int budgetId) with id: "
+				+ budgetId);
+		List<BudgetDetail> budgetDetails = null;
 
-        Query<BudgetDetail> query = session.createQuery("from BudgetDetail bd where bd.budget.budgetId=:id ", BudgetDetail.class).setParameter("id", budgetId);
-        
-        List<BudgetDetail> budgetDetails = query.getResultList(); 
-        
-        logger.info("================>>>>>End of method getBudgetDetailListByBudgetId(int budgetId) - size of list: "+budgetDetails.size());
+		Session session = sessionFactory.getCurrentSession();
 
-        return budgetDetails;
-    }
+		Query<BudgetDetail> query = session
+				.createQuery("from BudgetDetail bd where bd.budget.budgetId=:id ", BudgetDetail.class)
+				.setParameter("id", budgetId);
 
-    @Override
-    public List<BudgetDetail> getBudgetDetailListByName(String name) {
-        Session session = sessionFactory.getCurrentSession();
-        int id = getBudgetIdByname(name);
-        Query<BudgetDetail> query = session.createQuery("from BudgetDetail where budget.budgetId=:budgetId", BudgetDetail.class).setParameter("budgetId", id);
+		if (query.getResultList().size() > 0) {
+			budgetDetails = query.getResultList();
+		}
 
-        return query.getResultList();
-    }
+		logger.info("================>>>>>End of method getBudgetDetailListByBudgetId(int budgetId) - size of list: "
+				+ budgetDetails.size());
 
-    private int getBudgetIdByname(String name) {
-        Session session = sessionFactory.getCurrentSession();
-        Budget budget = session.createQuery("from Budget b where b.budgetName=:budgetName", Budget.class).setParameter("budgetName", name).getSingleResult();
-        return budget.getBudgetId();
-    }
+		return budgetDetails;
+	}
 
-    public Budget getBudgetById(int id){
-        Session session = sessionFactory.getCurrentSession();
-        return session.get(Budget.class, id);
-    }
+	@Override
+	public List<BudgetDetail> getBudgetDetailListByName(String name) {
+		Session session = sessionFactory.getCurrentSession();
+		int id = getBudgetIdByname(name);
+		Query<BudgetDetail> query = session
+				.createQuery("from BudgetDetail where budget.budgetId=:budgetId", BudgetDetail.class)
+				.setParameter("budgetId", id);
 
-    @Override
-    public List<BudgetDetail> searchBudgetItemByCatName(String name) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = null;
-        String hql = "from BudgetDetail b where b.category.categoryName like :name";
+		return query.getResultList();
+	}
 
-        if (name != null && name.trim().length() > 0) {
-            query = session.createQuery(hql,
-                    BudgetDetail.class);
-            query.setParameter("name", "%" + name.toLowerCase() + "%");
+	private int getBudgetIdByname(String name) {
+		Session session = sessionFactory.getCurrentSession();
+		Budget budget = session.createQuery("from Budget b where b.budgetName=:budgetName", Budget.class)
+				.setParameter("budgetName", name).getSingleResult();
+		return budget.getBudgetId();
+	}
 
-        } else {
-            query = session.createQuery("from BudgetDetail", BudgetDetail.class);
-        }
+	public Budget getBudgetById(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		return session.get(Budget.class, id);
+	}
 
-        List<BudgetDetail> budgetDetailList = query.getResultList();
+	@Override
+	public List<BudgetDetail> searchBudgetItemByCatName(String name) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = null;
+		String hql = "from BudgetDetail b where b.category.categoryName like :name";
 
-        return budgetDetailList;
-    }
+		if (name != null && name.trim().length() > 0) {
+			query = session.createQuery(hql, BudgetDetail.class);
+			query.setParameter("name", "%" + name.toLowerCase() + "%");
 
-    @Override
-    public BudgetDetail getBudgetDetailById(int id) {
-        Session session = sessionFactory.getCurrentSession();
+		} else {
+			query = session.createQuery("from BudgetDetail", BudgetDetail.class);
+		}
 
-        return session.get(BudgetDetail.class, id);
-    }
+		List<BudgetDetail> budgetDetailList = query.getResultList();
 
-    @Override
-    public void deleteTransactionById(int id) {
-        Session session = sessionFactory.getCurrentSession();
+		return budgetDetailList;
+	}
 
-        session.delete(getBudgetDetailById(id));
-    }
+	@Override
+	public BudgetDetail getBudgetDetailById(int id) {
+		Session session = sessionFactory.getCurrentSession();
 
-    @Override
-    public Map<Integer, Double> getSumOfTransactionByCategoryMap(int budgetId) {
-        Session session = sessionFactory.getCurrentSession();
+		return session.get(BudgetDetail.class, id);
+	}
 
-        String hql = "select t.category.categoryId, sum(t.transactionAmount) " +
-                "from FinancialTransaction t " +
-                "where t.transactionDate between :dateFrom and :dateTo " +
-                "group by t.category.categoryId";
+	@Override
+	public void deleteTransactionById(int id) {
+		Session session = sessionFactory.getCurrentSession();
 
-        Budget budget = getBudgetById(budgetId);
+		session.delete(getBudgetDetailById(id));
+	}
 
-        LocalDate dateFrom = budget.getBudgetDateFrom();
-        LocalDate dateTo = budget.getBudgetDateTo();
+	@Override
+	public Map<Integer, Double> getSumOfTransactionByCategoryMap(int budgetId) {
+		Session session = sessionFactory.getCurrentSession();
 
-         List<Object[]> objectList= session.createQuery(hql).setParameter("dateFrom", dateFrom).setParameter("dateTo", dateTo).list();
+		String hql = "select t.category.categoryId, sum(t.transactionAmount) " + "from FinancialTransaction t "
+				+ "where t.transactionDate between :dateFrom and :dateTo " + "group by t.category.categoryId";
 
-        Map<Integer, Double> sumOfCategoryMap = new HashMap<>();
-        for (Object[] i : objectList) {
-            sumOfCategoryMap.put((Integer) i[0], (Double) i[1]);
+		Budget budget = getBudgetById(budgetId);
 
-        }
-        return sumOfCategoryMap;
-    }
+		LocalDate dateFrom = budget.getBudgetDateFrom();
+		LocalDate dateTo = budget.getBudgetDateTo();
 
-    @Override
-    public List<Budget> getBudgetList(int userId) {
-        Session session = sessionFactory.getCurrentSession();
-        List<Budget> budgetList = session.createQuery("from Budget where budgetUser.id=:userId").setParameter("userId", userId).getResultList();
+		List<Object[]> objectList = session.createQuery(hql).setParameter("dateFrom", dateFrom)
+				.setParameter("dateTo", dateTo).list();
 
-        return budgetList;
-    }
+		Map<Integer, Double> sumOfCategoryMap = new HashMap<>();
+		for (Object[] i : objectList) {
+			sumOfCategoryMap.put((Integer) i[0], (Double) i[1]);
 
-    @Override
-    public Budget getLastBudget(int userId) {
-        Session session = sessionFactory.getCurrentSession();
-        Query<Budget> budgetQuery = session.createQuery("from Budget b where budgetUser.id=:userId and b.budgetCreationDate = (select max(budget.budgetCreationDate) as maxDate from Budget budget)", Budget.class).setParameter("userId", userId);
-        Budget budget = budgetQuery.getSingleResult();
-        budget.getCategoryList().size();
-        return budget;
-    }
+		}
+		return sumOfCategoryMap;
+	}
+
+	@Override
+	public List<Budget> getBudgetList(int userId) {
+		Session session = sessionFactory.getCurrentSession();
+		List<Budget> budgetList = session.createQuery("from Budget where budgetUser.id=:userId")
+				.setParameter("userId", userId).getResultList();
+
+		return budgetList;
+	}
+
+	@Override
+	public Budget getLastBudget(int userId) {
+		Session session = sessionFactory.getCurrentSession();
+		Budget budget = null;
+		Query<Budget> budgetQuery = session.createQuery(
+				"from Budget b where budgetUser.id=:userId and b.budgetCreationDate = (select max(budget.budgetCreationDate) as maxDate from Budget budget)",
+				Budget.class).setParameter("userId", userId);
+		try {
+			budget = budgetQuery.getSingleResult();
+		} catch (Exception e) {
+			logger.info("==========>>>>>> getLastBudget() Exception");
+		}
+		
+		budget.getCategoryList().size();
+		return budget;
+	}
 }
