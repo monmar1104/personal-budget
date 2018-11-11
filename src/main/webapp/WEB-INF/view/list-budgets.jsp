@@ -185,7 +185,7 @@
 						</tr>
 
 					</c:forEach>
-					<tr class="table-info">
+					<tr class="table-sum">
 						<td>Sum</td>
 						<td id="sum">0</td>
 						<td id="sum1">0</td>

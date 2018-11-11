@@ -76,7 +76,7 @@ public class BudgetController {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		
-		Budget currentBudget = budgetService.getBudgetById(budgetId);
+//		Budget currentBudget = budgetService.getBudgetById(budgetId);
 		ra.addFlashAttribute("currentBudget", budgetId);
 
 		List<BudgetDetail> budgetDetailList = budgetService.getBudgetDetailListByBudgetId(budgetId);
@@ -106,21 +106,6 @@ public class BudgetController {
 
 		return "list-budgets";
 	}
-
-//	@GetMapping("/showAddBudgetItemForm")
-//	public String showAddTransactionForm(Model model) {
-//
-//		BudgetDetail budgetDetail = new BudgetDetail();
-//
-//		model.addAttribute("budgetDetail", budgetDetail);
-//		List<Category> categoryList = categoryService.getCategoryList();
-//
-//		model.addAttribute("categoryList", categoryList);
-//
-//		return "add-transaction";
-//	}
-
-
 	
 	@PostMapping("/addBudgetItem")
 	public String addBudgetItem(@RequestParam("category") String categoryId,
@@ -138,8 +123,8 @@ public class BudgetController {
 //TODO list by budget
 	
 	@PostMapping("/search")
-	public String searchItemByCatName(@RequestParam("categoryName") String name, Model model) {
-		List<BudgetDetail> budgetDetailList = budgetService.searchBudgetItemByCatName(name);
+	public String searchItemByCatName(@RequestParam("currentBudget") int budgetId, @RequestParam("categoryName") String name,RedirectAttributes ra, Model model) {
+		List<BudgetDetail> budgetDetailList = budgetService.searchBudgetItemByCatName(name, budgetId);
 
 		model.addAttribute("budgetDetailList", budgetDetailList);
 		model.addAttribute("budgetDetail", new BudgetDetail());
@@ -147,6 +132,8 @@ public class BudgetController {
 		List<Category> categoryList = categoryService.getCategoryList();
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("categoryName", name);
+		
+		ra.addFlashAttribute("currentBudget", budgetId);
 
 		return "list-budgets";
 	}
@@ -173,7 +160,7 @@ public class BudgetController {
 
 	/*
 	 * TODO adding new budget based on existing
-	 * TODO budget list - error handling in case of lack of data
+	 * TODO 
 	 * TODO 
 	 * TODO percent calculating - budget list 
 	 * TODO redirect to list after login??? 

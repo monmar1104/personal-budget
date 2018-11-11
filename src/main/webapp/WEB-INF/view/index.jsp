@@ -3,6 +3,9 @@
 <head>
     <title>Personal Budget</title>
     <%@include file="head.jsp" %>
+    <link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/css/login-page-style.css">
+</head>
 </head>
 <body>
 

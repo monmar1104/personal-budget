@@ -91,14 +91,15 @@ public class BudgetDaoImpl implements BudgetDao {
 	}
 
 	@Override
-	public List<BudgetDetail> searchBudgetItemByCatName(String name) {
+	public List<BudgetDetail> searchBudgetItemByCatName(String name, int budgetId) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = null;
-		String hql = "from BudgetDetail bd where bd.category.categoryName like :name order by bd.category.categoryName";
+		String hql = "from BudgetDetail bd where bd.category.categoryName like :name and bd.budget.budgetId=:budgetId order by bd.category.categoryName";
 
 		if (name != null && name.trim().length() > 0) {
 			query = session.createQuery(hql, BudgetDetail.class);
 			query.setParameter("name", "%" + name.toLowerCase() + "%");
+			query.setParameter("budgetId", budgetId);
 
 		} else {
 			query = session.createQuery("from BudgetDetail", BudgetDetail.class);

@@ -54,5 +54,22 @@ public class LogginAspect {
 			}
 		}
 	}
+	
+	
+	@Before("execution(* com.monmar.personalbudget.controller.BudgetController.searchItemByCatName(..))")
+	public void afterSerarchBudget(JoinPoint joinPoint) {
+		String method = joinPoint.getSignature().toLongString();
+		
+		Object[] args = joinPoint.getArgs();
+		
+		for(Object arg : args) {
+			String name = arg.toString();
+			System.out.println(name);
+		}
+		
+		logger.info("\n=======>>> Executing @After method: "+method);
+		
+		
+	}
 
 }

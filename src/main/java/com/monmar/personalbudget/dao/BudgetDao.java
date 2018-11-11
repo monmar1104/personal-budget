@@ -14,7 +14,7 @@ public interface BudgetDao {
 
     List<BudgetDetail> getBudgetDetailListByName(String name);
 
-    List<BudgetDetail> searchBudgetItemByCatName(String name);
+    List<BudgetDetail> searchBudgetItemByCatName(String name, int budgetId);
 
     BudgetDetail getBudgetDetailById(int id);
 

@@ -17,9 +17,10 @@
 	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
 	crossorigin="anonymous">
 
-<!--Custom styles-->
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/login-page-style.css">
+	<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/css/style.css">
 </head>
 <body>
 	<div class="container">

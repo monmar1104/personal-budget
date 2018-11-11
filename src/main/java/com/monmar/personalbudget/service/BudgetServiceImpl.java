@@ -38,8 +38,8 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     @Transactional
-    public List<BudgetDetail> searchBudgetItemByCatName(String name) {
-        return budgetDao.searchBudgetItemByCatName(name);
+    public List<BudgetDetail> searchBudgetItemByCatName(String name, int budgetId) {
+        return budgetDao.searchBudgetItemByCatName(name, budgetId);
     }
 
     @Override

@@ -175,7 +175,7 @@
 						</tr>
 
 					</c:forEach>
-					<tr class="table-info">
+					<tr class="table-sum">
 						<td>Sum</td>
 						<td></td>
 						<td id="sum">0</td>
