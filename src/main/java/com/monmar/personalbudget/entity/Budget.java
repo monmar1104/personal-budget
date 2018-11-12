@@ -23,6 +23,9 @@ public class Budget {
 
     @Column(name = "budget_name")
     private String budgetName;
+    
+    @Column(name = "budget_description")
+    private String budgetDescription;
 
     @Column(name = "budget_date_from")
     private LocalDate budgetDateFrom;

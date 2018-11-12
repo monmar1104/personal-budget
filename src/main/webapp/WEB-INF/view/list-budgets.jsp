@@ -101,9 +101,8 @@
 				</form:form>
 			</div>
 			<div>
-				<form:form action="/showAddBudgetForm">
-					<button class=" col btn btn-primary" type="button"
-						data-target="/addNewBudget">Add Budget</button>
+				<form:form action="showAddBudgetForm" method="get">
+					<button class=" col btn btn-primary" type="submit">Add Budget</button>
 				</form:form>
 			</div>
 		</div>

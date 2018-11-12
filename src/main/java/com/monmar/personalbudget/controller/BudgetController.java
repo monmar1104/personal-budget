@@ -164,8 +164,21 @@ public class BudgetController {
 		User user = (User) session.getAttribute("user");
 		model.addAttribute("user", user);
 		
+		List<Budget> budgetList = budgetService.getBudgetList(user.getId());
+		model.addAttribute("budgetList", budgetList);
+		
+		model.addAttribute("newBudget", new Budget());
+		
+		
+		
 		return "add-budget-form";
 	} 
+	
+	@PostMapping("/addNewBudget")
+	public String addNewBudget(@ModelAttribute("newBudget") Budget newBudget) {
+		
+		return "redirect:/budget/list";
+	}
 	
 
 	/*
