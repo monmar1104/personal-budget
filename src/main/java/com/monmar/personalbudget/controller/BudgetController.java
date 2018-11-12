@@ -157,6 +157,16 @@ public class BudgetController {
 
 		return "redirect:/budget/list";
 	}
+	
+	@GetMapping("/showAddBudgetForm")
+	public String showAddBudgetForm(Model model) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		model.addAttribute("user", user);
+		
+		return "add-budget-form";
+	} 
+	
 
 	/*
 	 * TODO adding new budget based on existing

@@ -11,6 +11,10 @@ height: 100%;
     color: white;
 }
 
+.modal-content {
+	background-color: rgba(0,0,0,0.9) !important;
+}
+
 .links{
 color: white;
 }

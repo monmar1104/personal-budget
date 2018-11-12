@@ -81,12 +81,12 @@
 		</div>
 
 
-		<%--end modal --%>
+		<%--end of modal --%>
 
 		<p />
 		<p />
-		<div class="container row justify-content-center">
-			<div class="col-5 border-radius">
+		<div class="row justify-content-center">
+			<div class="col">
 				<form:form action="listBudgetItemsById" method="post">
 					<div class="form-group">
 
@@ -100,8 +100,14 @@
 					</div>
 				</form:form>
 			</div>
+			<div>
+				<form:form action="/showAddBudgetForm">
+					<button class=" col btn btn-primary" type="button"
+						data-target="/addNewBudget">Add Budget</button>
+				</form:form>
+			</div>
 		</div>
-		<div class="container justify-content-center border-radius row">
+		<div class="justify-content-center row">
 			<div class="col-6">
 				<div class="container form-group">
 					<form:form action="search" method="POST">
