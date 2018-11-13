@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -82,5 +84,20 @@ public class BudgetServiceImpl implements BudgetService {
     @Transactional
     public Budget getBudgetById(int budgetId) {
         return budgetDao.getBudgetById(budgetId);
+    }
+    
+    @Override
+    @Transactional
+    public void addBudget(Budget budget, int budgetId) {
+    	budget.setBudgetCreationDate(LocalDate.now());
+    	budgetDao.addBudget(budget);
+    	
+    	if(budgetId > 0) {
+    		for(BudgetDetail bd:getBudgetDetailListByBudgetId(budgetId)) {
+    			
+    			addBudgetItem(new BudgetDetail(0, bd.getBudgetDetailAmount(),bd.getBudgetDetailDescription(),budget,bd.getCategory()));
+    		}
+    	}
+    	
     }
 }

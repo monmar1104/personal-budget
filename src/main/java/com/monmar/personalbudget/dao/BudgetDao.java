@@ -29,4 +29,6 @@ public interface BudgetDao {
     List<BudgetDetail> getBudgetDetailListByBudgetId(int budgetId);
 
     Budget getBudgetById(int budgetId);
+    
+    void addBudget(Budget budget);
 }

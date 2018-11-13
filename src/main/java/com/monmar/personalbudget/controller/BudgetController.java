@@ -166,8 +166,8 @@ public class BudgetController {
 		
 		List<Budget> budgetList = budgetService.getBudgetList(user.getId());
 		model.addAttribute("budgetList", budgetList);
-		
-		model.addAttribute("newBudget", new Budget());
+		Budget newBudget = new Budget();
+		model.addAttribute("newBudget", newBudget);
 		
 		
 		
@@ -175,7 +175,19 @@ public class BudgetController {
 	} 
 	
 	@PostMapping("/addNewBudget")
-	public String addNewBudget(@ModelAttribute("newBudget") Budget newBudget) {
+	public String addNewBudget(@ModelAttribute(value="newBudget") Budget newBudget) {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		String budgetIdStr = request.getParameter("oldBudgetId");
+		
+		if(budgetIdStr==null) {
+			budgetIdStr = "0";
+		}
+		
+		newBudget.setBudgetUser(user);
+		
+		budgetService.addBudget(newBudget, Integer.parseInt(budgetIdStr));
 		
 		return "redirect:/budget/list";
 	}

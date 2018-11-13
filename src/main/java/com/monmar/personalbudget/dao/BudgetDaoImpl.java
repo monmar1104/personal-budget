@@ -169,14 +169,20 @@ public class BudgetDaoImpl implements BudgetDao {
 				"from Budget b where budgetUser.id=:userId and b.budgetCreationDate = (select max(budget.budgetCreationDate) as maxDate from Budget budget)",
 				Budget.class).setParameter("userId", userId);
 		
-		if (budgetQuery.uniqueResult() != null) {
-			budget = budgetQuery.getSingleResult();
-			budget.getCategoryList().size();
+		if (budgetQuery.list().size()>0) {
+			budget = budgetQuery.list().get(0);
+			budget.getBudgetDetailList().size();
 		} else {
 			budget = new Budget();
 			logger.info("==========>>>>>> getLastBudget() No data");
 		}
 		
 		return budget;
+	}
+	
+	@Override
+	public void addBudget(Budget budget) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(budget);
 	}
 }

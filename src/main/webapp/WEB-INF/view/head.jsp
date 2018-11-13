@@ -26,3 +26,9 @@
 <script data-require="jquery@2.0.3" data-semver="2.0.3"
 	src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/script.js"></script>
+
+<script>
+		function goBack() {
+    	window.history.back();
+		}
+</script>

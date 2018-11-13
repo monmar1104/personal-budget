@@ -81,6 +81,11 @@
 						</div>
 						<div class="form-group">
 							<input type="submit" class="btn float-right login_btn" />
+							<form>
+								<button
+									onclick="goBack()"
+									type="button" class="btn float-left back_btn">Back</button>
+							</form>
 						</div>
 					</div>
 				</form:form>

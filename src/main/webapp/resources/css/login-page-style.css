@@ -21,6 +21,10 @@ width: 400px;
 background-color: rgba(0,0,0,0.7) !important;
 }
 
+#add-budget-card.card {
+	height: 580px;	
+}
+
 #register-card.card {
 	height: 680px;	
 }
@@ -74,6 +78,12 @@ margin-right: 5px;
 .login_btn{
 color: black;
 background-color: #FFC312;
+width: 100px;
+}
+
+.back_btn{
+color: black;
+background-color: #0062cc;
 width: 100px;
 }
 
