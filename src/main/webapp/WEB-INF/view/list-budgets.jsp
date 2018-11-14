@@ -208,10 +208,10 @@
 
 			for (var i = 1; i < table.rows.length; i++) {
 				plan = plan
-						+ parseFloat(table.rows[i].cells[1].innerHTML.replace(
+						+ parseFloat(table.rows[i].cells[1].innerHTML.replace(/\s/g, '').replace(
 								',', '.'));
 				expend = expend
-						+ parseFloat(table1.rows[i].cells[2].innerHTML.replace(
+						+ parseFloat(table1.rows[i].cells[2].innerHTML.replace(/\s/g, '').replace(
 								',', '.'));
 			}
 			console.log(plan);
