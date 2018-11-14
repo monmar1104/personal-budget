@@ -1,6 +1,8 @@
 package com.monmar.personalbudget.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +22,8 @@ import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -54,38 +58,56 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
     }
 
+//    @Bean
+//    public DataSource dataSource() {
+//
+//        ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
+//
+//        try {
+//            securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
+//        } catch (PropertyVetoException exc) {
+//            throw new RuntimeException(exc);
+//        }
+//
+//        logger.info("jdbc.url=" + env.getProperty("jdbc.url"));
+//        logger.info("jdbc.user=" + env.getProperty("jdbc.user"));
+//
+//        securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
+//        securityDataSource.setUser(env.getProperty("jdbc.user"));
+//        securityDataSource.setPassword(env.getProperty("jdbc.password"));
+//
+//        securityDataSource.setInitialPoolSize(
+//                getIntProperty("connection.pool.initialPoolSize"));
+//
+//        securityDataSource.setMinPoolSize(
+//                getIntProperty("connection.pool.minPoolSize"));
+//
+//        securityDataSource.setMaxPoolSize(
+//                getIntProperty("connection.pool.maxPoolSize"));
+//
+//        securityDataSource.setMaxIdleTime(
+//                getIntProperty("connection.pool.maxIdleTime"));
+//
+//        return securityDataSource;
+//    }
+    
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource() throws URISyntaxException {
+        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
 
-        ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
 
-        try {
-            securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
-        } catch (PropertyVetoException exc) {
-            throw new RuntimeException(exc);
-        }
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setUrl(dbUrl);
+        basicDataSource.setUsername(username);
+        basicDataSource.setPassword(password);
 
-        logger.info("jdbc.url=" + env.getProperty("jdbc.url"));
-        logger.info("jdbc.user=" + env.getProperty("jdbc.user"));
-
-        securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
-        securityDataSource.setUser(env.getProperty("jdbc.user"));
-        securityDataSource.setPassword(env.getProperty("jdbc.password"));
-
-        securityDataSource.setInitialPoolSize(
-                getIntProperty("connection.pool.initialPoolSize"));
-
-        securityDataSource.setMinPoolSize(
-                getIntProperty("connection.pool.minPoolSize"));
-
-        securityDataSource.setMaxPoolSize(
-                getIntProperty("connection.pool.maxPoolSize"));
-
-        securityDataSource.setMaxIdleTime(
-                getIntProperty("connection.pool.maxIdleTime"));
-
-        return securityDataSource;
+        return basicDataSource;
     }
+    
+    
 
     private int getIntProperty(String propName) {
 
@@ -114,8 +136,12 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     public LocalSessionFactoryBean sessionFactory() {
 
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-
-        sessionFactory.setDataSource(dataSource());
+		try {
+			sessionFactory.setDataSource(dataSource());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
         sessionFactory.setHibernateProperties(getHibernateProperties());
 
@@ -146,6 +172,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
         return resolver;
     }
+    
+   
 
     
 }
