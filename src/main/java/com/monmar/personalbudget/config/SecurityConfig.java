@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
 
 	 @Autowired
-	    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+	 private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 	 
 	@Override
 	    protected void configure(AuthenticationManagerBuilder auth) throws Exception {

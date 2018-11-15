@@ -11,8 +11,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -57,6 +59,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 
     }
+    
+    //First
 
 //    @Bean
 //    public DataSource dataSource() {
@@ -94,7 +98,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public BasicDataSource dataSource() throws URISyntaxException {
         URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+//        URI dbUri = new URI(env.getProperty("jdbc.url"));
 
+        
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
@@ -120,7 +126,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 //
 //        return basicDataSource;
 //    }
-    
+//    
     
 
     private int getIntProperty(String propName) {
@@ -144,8 +150,18 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
         return props;
     }
+    //added
+    @Bean(name = "sessionFactory")
+    public SessionFactory getSessionFactory(DataSource dataSource) {
+        LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
+        sessionBuilder.scanPackages("hiberante.packagesToScan");
+//        sessionBuilder.setProperties(getHibernateProperties());
+        return sessionBuilder.buildSessionFactory();
+    }
+    
+        
 
-
+//First
 //    @Bean
 //    public LocalSessionFactoryBean sessionFactory() {
 //

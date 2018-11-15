@@ -18,8 +18,9 @@ import com.monmar.personalbudget.service.UserService;
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    @Autowired
+	@Autowired
     private UserService userService;
+    
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
