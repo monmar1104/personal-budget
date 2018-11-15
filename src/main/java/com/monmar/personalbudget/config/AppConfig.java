@@ -2,6 +2,7 @@ package com.monmar.personalbudget.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -57,54 +58,54 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
     }
 
-    @Bean
-    public DataSource dataSource() {
-
-        ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
-
-        try {
-            securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
-        } catch (PropertyVetoException exc) {
-            throw new RuntimeException(exc);
-        }
-
-        logger.info("jdbc.url=" + env.getProperty("jdbc.url"));
-        logger.info("jdbc.user=" + env.getProperty("jdbc.user"));
-
-        securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
-        securityDataSource.setUser(env.getProperty("jdbc.user"));
-        securityDataSource.setPassword(env.getProperty("jdbc.password"));
-
-        securityDataSource.setInitialPoolSize(
-                getIntProperty("connection.pool.initialPoolSize"));
-
-        securityDataSource.setMinPoolSize(
-                getIntProperty("connection.pool.minPoolSize"));
-
-        securityDataSource.setMaxPoolSize(
-                getIntProperty("connection.pool.maxPoolSize"));
-
-        securityDataSource.setMaxIdleTime(
-                getIntProperty("connection.pool.maxIdleTime"));
-
-        return securityDataSource;
-    }
-    
 //    @Bean
-//    public DataSource dataSource() throws URISyntaxException {
-//        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+//    public DataSource dataSource() {
 //
-//        String username = dbUri.getUserInfo().split(":")[0];
-//        String password = dbUri.getUserInfo().split(":")[1];
-//        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+//        ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
 //
-//        BasicDataSource basicDataSource = new BasicDataSource();
-//        basicDataSource.setUrl(dbUrl);
-//        basicDataSource.setUsername(username);
-//        basicDataSource.setPassword(password);
+//        try {
+//            securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
+//        } catch (PropertyVetoException exc) {
+//            throw new RuntimeException(exc);
+//        }
 //
-//        return basicDataSource;
+//        logger.info("jdbc.url=" + env.getProperty("jdbc.url"));
+//        logger.info("jdbc.user=" + env.getProperty("jdbc.user"));
+//
+//        securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
+//        securityDataSource.setUser(env.getProperty("jdbc.user"));
+//        securityDataSource.setPassword(env.getProperty("jdbc.password"));
+//
+//        securityDataSource.setInitialPoolSize(
+//                getIntProperty("connection.pool.initialPoolSize"));
+//
+//        securityDataSource.setMinPoolSize(
+//                getIntProperty("connection.pool.minPoolSize"));
+//
+//        securityDataSource.setMaxPoolSize(
+//                getIntProperty("connection.pool.maxPoolSize"));
+//
+//        securityDataSource.setMaxIdleTime(
+//                getIntProperty("connection.pool.maxIdleTime"));
+//
+//        return securityDataSource;
 //    }
+    
+    @Bean
+    public BasicDataSource dataSource() throws URISyntaxException {
+        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setUrl(dbUrl);
+        basicDataSource.setUsername(username);
+        basicDataSource.setPassword(password);
+
+        return basicDataSource;
+    }
 //    
 //    @Bean
 //    public BasicDataSource dataSource() throws URISyntaxException {
@@ -145,16 +146,16 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     }
 
 
-    @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
-        sessionFactory.setHibernateProperties(getHibernateProperties());
-
-        return sessionFactory;
-    }
+//    @Bean
+//    public LocalSessionFactoryBean sessionFactory() {
+//
+//        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+//		sessionFactory.setDataSource(dataSource());
+//        sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
+//        sessionFactory.setHibernateProperties(getHibernateProperties());
+//
+//        return sessionFactory;
+//    }
 
     @Bean
     @Autowired
