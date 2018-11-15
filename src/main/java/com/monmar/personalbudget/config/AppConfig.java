@@ -155,7 +155,12 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     public SessionFactory getSessionFactory(DataSource dataSource) {
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
         sessionBuilder.scanPackages("hiberante.packagesToScan");
-        sessionBuilder.setProperties(getHibernateProperties());
+        sessionBuilder.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+        sessionBuilder.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+        sessionBuilder.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+        sessionBuilder.setProperty("hibernate.connection.useUnicode", env.getProperty("hibernate.connection.useUnicode"));
+        sessionBuilder.setProperty("hibernate.connection.characterEncoding", env.getProperty("hibernate.connection.characterEncoding"));
+        
         return sessionBuilder.buildSessionFactory();
     }
     
