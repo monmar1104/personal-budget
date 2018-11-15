@@ -155,7 +155,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     public SessionFactory getSessionFactory(DataSource dataSource) {
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
         sessionBuilder.scanPackages("hiberante.packagesToScan");
-//        sessionBuilder.setProperties(getHibernateProperties());
+        sessionBuilder.setProperties(getHibernateProperties());
         return sessionBuilder.buildSessionFactory();
     }
     
