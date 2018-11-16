@@ -28,11 +28,7 @@
 			<div class="card">
 				<div class="card-header">
 					<h3>Sign In</h3>
-					<div class="d-flex justify-content-end social_icon">
-						<span><i class="fab fa-facebook-square"></i></span> <span><i
-							class="fab fa-google-plus-square"></i></span> <span><i
-							class="fab fa-twitter-square"></i></span>
-					</div>
+					
 				</div>
 				<div class="card-body">
 					<form
@@ -44,7 +40,7 @@
 								<div>
 									<c:if test="${param.error != null}">
 										<div class="alert alert-danger col-xs-offset-1 col-xs-10">
-											Invalid username and password.</div>
+											Invalid username or password.</div>
 									</c:if>
 									<c:if test="${registrationSuccess != null}">
 										<div class="alert alert-success col-xs-offset-1 col-xs-10">
@@ -87,9 +83,9 @@
 							href="${pageContext.request.contextPath}/register/showRegistrationForm">Sign
 							Up</a>
 					</div>
-					<div class="d-flex justify-content-center">
+					<!-- <div class="d-flex justify-content-center">
 						<a href="#">Forgot your password?</a>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
