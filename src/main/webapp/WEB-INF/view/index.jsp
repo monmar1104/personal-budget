@@ -1,7 +1,7 @@
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <html>
 <head>
-    <title>Personal Budget</title>
+    <title>WhereIsMyMoney</title>
     <%@include file="head.jsp" %>
     <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/login-page-style.css">

@@ -171,7 +171,7 @@ public class BudgetDaoImpl implements BudgetDao {
 		
 		if (budgetQuery.list().size()>0) {
 			budget = budgetQuery.list().get(0);
-			budget.getBudgetDetailList().size();
+//			budget.getBudgetDetailList().size();
 		} else {
 			budget = new Budget();
 			logger.info("==========>>>>>> getLastBudget() No data");

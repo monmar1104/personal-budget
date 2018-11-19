@@ -25,11 +25,15 @@ public class BudgetDetail {
     @Column(name = "budget_det_description")
     private String budgetDetailDescription;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(
+//    		fetch = FetchType.LAZY,
+    			cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "budget_det_budget_id")
     private Budget budget;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(
+//    		fetch = FetchType.LAZY,
+    			cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "budget_det_cat_id")
     private Category category;
 

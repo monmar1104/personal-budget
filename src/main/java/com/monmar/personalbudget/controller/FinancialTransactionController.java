@@ -51,7 +51,6 @@ public class FinancialTransactionController {
 
         return "list-transaction";
     }
-  //TODO add User to transaction
     
     @PostMapping("/addTransaction")
     public String addTransaction(@RequestParam("category") String categoryId, 
@@ -67,21 +66,6 @@ public class FinancialTransactionController {
 
         return "redirect:/transaction/list";
     }
-
-//
-//    @GetMapping("/showAddTransactionForm")
-//    public String showAddTransactionForm(Model model) {
-//
-//        FinancialTransaction financialTransaction = new FinancialTransaction();
-//
-//        model.addAttribute("transaction", financialTransaction);
-//        List<Category> categoryList = categoryService.getCategoryList();
-//
-//        model.addAttribute("categoryList", categoryList);
-//
-//
-//        return "add-transaction";
-//    }
 
 
     @GetMapping("/showTransactionFormUpdate")
@@ -103,8 +87,6 @@ public class FinancialTransactionController {
 
         return "redirect:/transaction/list";
     }
-
-    //TODO search by user
     
     @PostMapping("/search")
     public String searchTransactionByName(@RequestParam("transactionName") String name, Model model) {
@@ -122,8 +104,6 @@ public class FinancialTransactionController {
 
         return "list-transaction";
     }
-
-    //TODO filter by user
     
     @PostMapping("/filterByDate")
     public String searchTransactionByName(@RequestParam("transactionDateFrom") String dateFrom,
@@ -143,22 +123,4 @@ public class FinancialTransactionController {
 
         return "list-transaction";
     }
-
-
-
-//    @GetMapping("/showAddTransactionsForm")
-//    public String showAddTransactionsForm(Model model) {
-//
-//        FinancialTransaction financialTransaction = new FinancialTransaction();
-//
-//        model.addAttribute("transactions", financialTransaction);
-//        List<Category> categoryList = categoryService.getCategoryList();
-//
-//        model.addAttribute("categoryList", categoryList);
-//
-//
-//        return "add-transaction-form";
-//    }
-
-
 }

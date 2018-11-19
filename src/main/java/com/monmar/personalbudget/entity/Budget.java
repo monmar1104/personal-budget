@@ -42,12 +42,13 @@ public class Budget {
     @Column(name = "budget_creation_date")
     private LocalDate budgetCreationDate;
 
-    @OneToMany(fetch = FetchType.LAZY,
-                mappedBy = "budget",
-                cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-    private List<BudgetDetail> budgetDetailList;
-    
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+//    @OneToMany(fetch = FetchType.LAZY,
+//                mappedBy = "budget",
+//                cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+//    private List<BudgetDetail> budgetDetailList;
+//    
+    @ManyToOne(fetch = FetchType.LAZY ,
+    			cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "budget_user_id")
     private User budgetUser;
 }

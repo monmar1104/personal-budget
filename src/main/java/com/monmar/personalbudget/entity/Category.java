@@ -31,14 +31,14 @@ public class Category {
     private OperationType categoryOperationType;
 
 
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "category",
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-    private List<BudgetDetail> budgetList;
-
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "category",
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-    private List<FinancialTransaction> financialTransactionList;
+//    @OneToMany(fetch = FetchType.LAZY,
+//            mappedBy = "category",
+//            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+//    private List<BudgetDetail> budgetList;
+//
+//    @OneToMany(fetch = FetchType.LAZY,
+//            mappedBy = "category",
+//            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+//    private List<FinancialTransaction> financialTransactionList;
 
 }

@@ -6,6 +6,7 @@
 <html>
 <head>
 <title>Login Page</title>
+<%@include file="head.jsp"%>
 
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -19,7 +20,7 @@
 
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/login-page-style.css">
-	<link rel="stylesheet" type="text/css"
+<link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/style.css">
 </head>
 <body>
@@ -28,7 +29,7 @@
 			<div class="card">
 				<div class="card-header">
 					<h3>Sign In</h3>
-					
+
 				</div>
 				<div class="card-body">
 					<form
@@ -44,7 +45,7 @@
 									</c:if>
 									<c:if test="${registrationSuccess != null}">
 										<div class="alert alert-success col-xs-offset-1 col-xs-10">
-											${registrationSuccess} </div>
+											${registrationSuccess}</div>
 									</c:if>
 									<c:if test="${param.logout != null}">
 										<div class="alert alert-success col-xs-offset-1 col-xs-10">
@@ -71,6 +72,9 @@
 						<div class="form-group">
 							<input type="submit" value="Login"
 								class="btn float-right login_btn">
+
+							<button onclick="goBack()" type="button"
+								class="btn float-left back_btn">Back</button>
 						</div>
 
 						<input type="hidden" name="${_csrf.parameterName}"

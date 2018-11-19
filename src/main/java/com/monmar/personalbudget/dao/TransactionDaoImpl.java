@@ -19,7 +19,7 @@ public class TransactionDaoImpl implements TransactionDao {
     @Override
     public List<FinancialTransaction> getTransactionList(int userId) {
 
-        Session session = sessionFactory.getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();        
 
         Query<FinancialTransaction> query = session.createQuery("from FinancialTransaction f where f.transactionUser.id=:userId order by f.transactionDate desc", FinancialTransaction.class);
 
