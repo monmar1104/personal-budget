@@ -62,56 +62,56 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     
     //First
 
-    @Bean
-    public DataSource dataSource() {
-
-        ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
-
-        try {
-            securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
-        } catch (PropertyVetoException exc) {
-            throw new RuntimeException(exc);
-        }
-
-        logger.info("jdbc.url=" + env.getProperty("jdbc.url"));
-        logger.info("jdbc.user=" + env.getProperty("jdbc.user"));
-
-        securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
-        securityDataSource.setUser(env.getProperty("jdbc.user"));
-        securityDataSource.setPassword(env.getProperty("jdbc.password"));
-
-        securityDataSource.setInitialPoolSize(
-                getIntProperty("connection.pool.initialPoolSize"));
-
-        securityDataSource.setMinPoolSize(
-                getIntProperty("connection.pool.minPoolSize"));
-
-        securityDataSource.setMaxPoolSize(
-                getIntProperty("connection.pool.maxPoolSize"));
-
-        securityDataSource.setMaxIdleTime(
-                getIntProperty("connection.pool.maxIdleTime"));
-
-        return securityDataSource;
-    }
-    
 //    @Bean
-//    public BasicDataSource dataSource() throws URISyntaxException {
-//        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
-////        URI dbUri = new URI(env.getProperty("jdbc.url"));
+//    public DataSource dataSource() {
 //
-//        
-//        String username = dbUri.getUserInfo().split(":")[0];
-//        String password = dbUri.getUserInfo().split(":")[1];
-//        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+//        ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
 //
-//        BasicDataSource basicDataSource = new BasicDataSource();
-//        basicDataSource.setUrl(dbUrl);
-//        basicDataSource.setUsername(username);
-//        basicDataSource.setPassword(password);
+//        try {
+//            securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
+//        } catch (PropertyVetoException exc) {
+//            throw new RuntimeException(exc);
+//        }
 //
-//        return basicDataSource;
+//        logger.info("jdbc.url=" + env.getProperty("jdbc.url"));
+//        logger.info("jdbc.user=" + env.getProperty("jdbc.user"));
+//
+//        securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
+//        securityDataSource.setUser(env.getProperty("jdbc.user"));
+//        securityDataSource.setPassword(env.getProperty("jdbc.password"));
+//
+//        securityDataSource.setInitialPoolSize(
+//                getIntProperty("connection.pool.initialPoolSize"));
+//
+//        securityDataSource.setMinPoolSize(
+//                getIntProperty("connection.pool.minPoolSize"));
+//
+//        securityDataSource.setMaxPoolSize(
+//                getIntProperty("connection.pool.maxPoolSize"));
+//
+//        securityDataSource.setMaxIdleTime(
+//                getIntProperty("connection.pool.maxIdleTime"));
+//
+//        return securityDataSource;
 //    }
+//    
+    @Bean
+    public BasicDataSource dataSource() throws URISyntaxException {
+        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+//        URI dbUri = new URI(env.getProperty("jdbc.url"));
+
+        
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setUrl(dbUrl);
+        basicDataSource.setUsername(username);
+        basicDataSource.setPassword(password);
+
+        return basicDataSource;
+    }
 //    
 //    @Bean
 //    public BasicDataSource dataSource() throws URISyntaxException {
@@ -151,32 +151,32 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         return props;
     }
     //added
-//    @Bean(name = "sessionFactory")
-//    public SessionFactory getSessionFactory(DataSource dataSource) {
-//        LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-//        sessionBuilder.scanPackages("hiberante.packagesToScan");
-//        sessionBuilder.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
-//        sessionBuilder.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-//        sessionBuilder.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
-//        sessionBuilder.setProperty("hibernate.connection.useUnicode", env.getProperty("hibernate.connection.useUnicode"));
-//        sessionBuilder.setProperty("hibernate.connection.characterEncoding", env.getProperty("hibernate.connection.characterEncoding"));
-//        
-//        return sessionBuilder.buildSessionFactory();
-//    }
+    @Bean(name = "sessionFactory")
+    public SessionFactory getSessionFactory(DataSource dataSource) {
+        LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
+        sessionBuilder.scanPackages("hiberante.packagesToScan");
+        sessionBuilder.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+        sessionBuilder.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+        sessionBuilder.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+        sessionBuilder.setProperty("hibernate.connection.useUnicode", env.getProperty("hibernate.connection.useUnicode"));
+        sessionBuilder.setProperty("hibernate.connection.characterEncoding", env.getProperty("hibernate.connection.characterEncoding"));
+        
+        return sessionBuilder.buildSessionFactory();
+    }
     
         
 
 //First
-    @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
-        sessionFactory.setHibernateProperties(getHibernateProperties());
-
-        return sessionFactory;
-    }
+//    @Bean
+//    public LocalSessionFactoryBean sessionFactory() {
+//
+//        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+//		sessionFactory.setDataSource(dataSource());
+//        sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
+//        sessionFactory.setHibernateProperties(getHibernateProperties());
+//
+//        return sessionFactory;
+//    }
 
     @Bean
     @Autowired
