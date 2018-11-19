@@ -97,7 +97,11 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 //    
     @Bean
     public BasicDataSource dataSource() throws URISyntaxException {
-        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+//        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+        
+        URI dbUri = new URI(System.getenv("JDBC_DATABASE_URL"));
+        
+        
 //        URI dbUri = new URI(env.getProperty("jdbc.url"));
 
         
