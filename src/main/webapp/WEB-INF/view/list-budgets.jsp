@@ -164,18 +164,18 @@
 
 							<td>${budgetItem.category.categoryName}</td>
 
-							<td><fmt:formatNumber type="currency" currencySymbol="zł" minFractionDigits="2"
+							<td><fmt:formatNumber type="currency" currencyCode="PLN" currencySymbol="zł" minFractionDigits="2"
 									maxFractionDigits="2" groupingUsed = "false" value="${budgetItem.budgetDetailAmount}" /></td>
 							<c:choose>
 								<c:when
 									test="${sumCategoryMap.get(budgetItem.category.categoryId)!=null}">
-									<td><fmt:formatNumber type="currency" currencySymbol="zł"
+									<td><fmt:formatNumber type="currency" currencyCode="PLN" currencySymbol="zł"
 											groupingUsed = "false"
 											minFractionDigits="2" maxFractionDigits="2"
 											value="${sumCategoryMap.get(budgetItem.category.categoryId)}" /></td>
 								</c:when>
 								<c:otherwise>
-									<td><fmt:formatNumber type="currency" currencySymbol="zł"
+									<td><fmt:formatNumber type="currency" currencyCode="PLN" currencySymbol="zł"
 											minFractionDigits="2" maxFractionDigits="2" value="0" /></td>
 								</c:otherwise>
 							</c:choose>
