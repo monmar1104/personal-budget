@@ -7,7 +7,7 @@
 		aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
-	<div class="logo"><h3> <a href="${pageContext.request.contextPath}/">Where-Is-My-Money</a> </h3></div>
+	<div id="logo"><h3> <a href="${pageContext.request.contextPath}/">Where-Is-My-Money</a> </h3></div>
 	<div class="collapse navbar-collapse" id="navbarNavDropdown">
 		<ul class="navbar-nav">
 			<li class="nav-item active"><a class="nav-link"
@@ -37,10 +37,5 @@
 		<input class="btn btn-info btn-sm" type="submit" value="Log out: ${sessionScope.user.userName}"/>
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	</form>
-	
-	
-	<%-- <a href="<c:url value='/logout'> <c:param name="logout" value="logout"></c:param></c:url>" class="btn btn-info btn-sm">
-          <span class="glyphicon glyphicon-log-out"></span> Log out: ${sessionScope.user.userName}
-        </a> --%>
 	</c:if>
 </nav>

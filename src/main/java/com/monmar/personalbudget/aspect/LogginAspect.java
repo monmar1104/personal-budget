@@ -54,6 +54,27 @@ public class LogginAspect {
 			}
 		}
 	}
+	@After("com.monmar.personalbudget.aspect.AopExpressions.forDaoPackage()")
+	public void afterLogginAdvice(JoinPoint joinPoint) {
+		
+		logger.info("\n=========>>>> Executing @After advice on method");	
+		
+		MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+		
+		logger.info("Method: "+methodSignature);
+		
+		Object[] args = joinPoint.getArgs(); 	
+		
+		for(Object arg : args) {
+			if(arg instanceof User) {
+				User user = (User) arg;
+				
+				logger.info("User name: " + user.getUserName());
+				logger.info("Email: "+ user.getEmail());
+				
+			}
+		}
+	}
 	
 	
 	@Before("execution(* com.monmar.personalbudget.controller.BudgetController.searchItemByCatName(..))")

@@ -82,10 +82,9 @@
 					</form>
 				</div>
 				<div class="card-footer">
-					<div class="d-flex justify-content-center links">
-						Don't have an account?<a
-							href="${pageContext.request.contextPath}/register/showRegistrationForm">Sign
-							Up</a>
+					<div class="d-flex justify-content-center">
+						Don't have an account? 
+						<a class="link-std" href="${pageContext.request.contextPath}/register/showRegistrationForm"> Sign Up</a>
 					</div>
 					<!-- <div class="d-flex justify-content-center">
 						<a href="#">Forgot your password?</a>

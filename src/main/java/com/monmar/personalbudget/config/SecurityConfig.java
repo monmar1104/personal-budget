@@ -9,9 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.monmar.personalbudget.service.UserService;
 
@@ -24,6 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	 @Autowired
 	 private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+	 
 	 
 	@Override
 	    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -46,15 +45,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll()
 			.and()
 			.logout()
-//				.logoutRequestMatcher(new AntPathRequestMatcher("/login?idletimeout=true"))
-//				.logoutUrl("/logoutApp")
 				.logoutSuccessUrl("/")
 				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID")
 				.permitAll()
 			.and()
-			.exceptionHandling().accessDeniedPage("/showAccessDenied");
-		
+			.exceptionHandling().accessDeniedPage("/showAccessDenied");		
 	}
 	
 	
