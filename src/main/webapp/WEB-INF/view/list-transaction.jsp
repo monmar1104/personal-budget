@@ -164,12 +164,12 @@
 						<tr>
 							<td>${transactionItem.transactionDate}</td>
 							<td>${transactionItem.category.categoryName}</td>
-							<td><fmt:formatNumber type="currency" minFractionDigits="2"
+							<td><fmt:formatNumber type="currency" currencySymbol="zł" minFractionDigits="2"
 									maxFractionDigits="2"
 									value="${transactionItem.transactionAmount}" /></td>
 							<td>${transactionItem.transactionDescription}</td>
-							<td><a href="${updateLink}">Update</a> | <a
-								href="${deleteLink}"
+							<td><a class="updateLink" class="updateLink" href="${updateLink}">Update</a> | 
+							<a class="updateLink" class="updateLink" href="${deleteLink}"
 								onclick="if(!(confirm('Are you sure you want to delete this item?'))) return false">Delete</a>
 							</td>
 						</tr>

@@ -120,8 +120,8 @@
 						<tr>
 							<td>${category.categoryName}</td>
 							<td>${category.categoryOperationType}</td>
-							<td><a href="${updateLink}">Update</a> | <a
-								href="${deleteLink}"
+							<td><a class="updateLink" href="${updateLink}">Update</a> | 
+							<a class="updateLink" href="${deleteLink}"
 								onclick="if(!(confirm('Are you sure you want to delete this item?'))) return false">Delete</a>
 							</td>
 						</tr>

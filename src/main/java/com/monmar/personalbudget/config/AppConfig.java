@@ -56,38 +56,13 @@ public class AppConfig implements WebMvcConfigurer {
         return viewResolver;
     }
     
-////    start of new config
-//    
-//    @Bean
-//    public LocalSessionFactoryBean getSessionFactory() {
-//        LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-//        factoryBean.setConfigLocation(context.getResource("classpath:hibernate.cfg.xml"));
-//        factoryBean.setAnnotatedClasses(User.class, Role.class);
-//        return factoryBean;
-//    }
-//    
-//    
-//    @Bean
-//    public HibernateTransactionManager getTransactionManager() {
-//        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-//        transactionManager.setSessionFactory(getSessionFactory().getObject());
-//        return transactionManager;
-//    }
-//    
-////    end of new config
     
-    
-    
-    
-//First
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 
     }
-    
-    //First
 
 //    @Bean
 //    public DataSource dataSource() {
@@ -126,7 +101,7 @@ public class AppConfig implements WebMvcConfigurer {
     @Bean
     public BasicDataSource dataSource() throws URISyntaxException {
         URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
-       
+        
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
@@ -135,14 +110,13 @@ public class AppConfig implements WebMvcConfigurer {
         basicDataSource.setUrl(dbUrl);
         basicDataSource.setUsername(username);
         basicDataSource.setPassword(password);
+        basicDataSource.setInitialSize(getIntProperty("connection.pool.initialPoolSize"));
+        basicDataSource.setMaxIdle(getIntProperty("connection.pool.maxIdleTime"));
+        basicDataSource.setMaxActive(getIntProperty("connection.pool.maxPoolSize"));
 
         return basicDataSource;
     }
     
-
-    
-//    first
-
     private int getIntProperty(String propName) {
 
         String propVal = env.getProperty(propName);
@@ -161,26 +135,21 @@ public class AppConfig implements WebMvcConfigurer {
         props.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
         props.setProperty("hibernate.connection.useUnicode", env.getProperty("hibernate.connection.useUnicode"));
         props.setProperty("hibernate.connection.characterEncoding", env.getProperty("hibernate.connection.characterEncoding"));
-
-        return props;
+    return props;
     }
-//    //added
-//    @Bean(name = "sessionFactory")
-//    public SessionFactory getSessionFactory(DataSource dataSource) {
-//        LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-//        sessionBuilder.scanPackages("hiberante.packagesToScan");
-//        sessionBuilder.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
-//        sessionBuilder.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-//        sessionBuilder.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
-//        sessionBuilder.setProperty("hibernate.connection.useUnicode", env.getProperty("hibernate.connection.useUnicode"));
-//        sessionBuilder.setProperty("hibernate.connection.characterEncoding", env.getProperty("hibernate.connection.characterEncoding"));
-//        
-//        return sessionBuilder.buildSessionFactory();
-//    }
     
-        
+//    @Bean
+//    public LocalSessionFactoryBean sessionFactory() {
+//
+//        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+//		sessionFactory.setDataSource(dataSource());
+//        sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
+//        sessionFactory.setHibernateProperties(getHibernateProperties());
+//
+//        return sessionFactory;
+//    }
 
-//First
+    //Heroku
     @Bean
     @Autowired
     public LocalSessionFactoryBean sessionFactory(BasicDataSource dataSource) {
@@ -192,7 +161,7 @@ public class AppConfig implements WebMvcConfigurer {
 
         return sessionFactory;
     }
-//First
+
     @Bean
     @Autowired
     public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
