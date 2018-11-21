@@ -165,11 +165,12 @@
 							<td>${budgetItem.category.categoryName}</td>
 
 							<td><fmt:formatNumber type="currency" minFractionDigits="2"
-									maxFractionDigits="2" value="${budgetItem.budgetDetailAmount}" /></td>
+									maxFractionDigits="2" groupingUsed = "false" value="${budgetItem.budgetDetailAmount}" /></td>
 							<c:choose>
 								<c:when
 									test="${sumCategoryMap.get(budgetItem.category.categoryId)!=null}">
 									<td><fmt:formatNumber type="currency"
+											groupingUsed = "false"
 											minFractionDigits="2" maxFractionDigits="2"
 											value="${sumCategoryMap.get(budgetItem.category.categoryId)}" /></td>
 								</c:when>

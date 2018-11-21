@@ -5,21 +5,24 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
+
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import javax.sql.DataSource;
@@ -35,13 +38,13 @@ import java.util.logging.Logger;
 @EnableAspectJAutoProxy
 @ComponentScan(basePackages = "com.monmar.personalbudget")
 @PropertySource("classpath:persistence-mysql.properties")
-public class AppConfig extends WebMvcConfigurerAdapter {
+public class AppConfig implements WebMvcConfigurer {
 
     @Autowired
     private Environment env;
 
     private Logger logger = Logger.getLogger(getClass().getName());
-
+    
     @Bean
     public ViewResolver viewResolver() {
 
@@ -52,7 +55,31 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
         return viewResolver;
     }
-
+    
+////    start of new config
+//    
+//    @Bean
+//    public LocalSessionFactoryBean getSessionFactory() {
+//        LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
+//        factoryBean.setConfigLocation(context.getResource("classpath:hibernate.cfg.xml"));
+//        factoryBean.setAnnotatedClasses(User.class, Role.class);
+//        return factoryBean;
+//    }
+//    
+//    
+//    @Bean
+//    public HibernateTransactionManager getTransactionManager() {
+//        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+//        transactionManager.setSessionFactory(getSessionFactory().getObject());
+//        return transactionManager;
+//    }
+//    
+////    end of new config
+    
+    
+    
+    
+//First
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
@@ -94,17 +121,12 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 //
 //        return securityDataSource;
 //    }
-//    
+    
+//    Heroku
     @Bean
     public BasicDataSource dataSource() throws URISyntaxException {
-//        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
-        
-        URI dbUri = new URI(System.getenv("JDBC_DATABASE_URL"));
-        
-        
-//        URI dbUri = new URI(env.getProperty("jdbc.url"));
-
-        
+        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+       
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
         String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
@@ -116,22 +138,10 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
         return basicDataSource;
     }
-//    
-//    @Bean
-//    public BasicDataSource dataSource() throws URISyntaxException {
-//        String dbUrl = System.getenv("JDBC_DATABASE_URL");
-//        String username = System.getenv("JDBC_DATABASE_USERNAME");
-//        String password = System.getenv("JDBC_DATABASE_PASSWORD");
-//
-//        BasicDataSource basicDataSource = new BasicDataSource();
-//        basicDataSource.setUrl(dbUrl);
-//        basicDataSource.setUsername(username);
-//        basicDataSource.setPassword(password);
-//
-//        return basicDataSource;
-//    }
     
+
     
+//    first
 
     private int getIntProperty(String propName) {
 
@@ -154,34 +164,35 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
         return props;
     }
-    //added
-    @Bean(name = "sessionFactory")
-    public SessionFactory getSessionFactory(DataSource dataSource) {
-        LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-        sessionBuilder.scanPackages("hiberante.packagesToScan");
-        sessionBuilder.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
-        sessionBuilder.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-        sessionBuilder.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
-        sessionBuilder.setProperty("hibernate.connection.useUnicode", env.getProperty("hibernate.connection.useUnicode"));
-        sessionBuilder.setProperty("hibernate.connection.characterEncoding", env.getProperty("hibernate.connection.characterEncoding"));
-        
-        return sessionBuilder.buildSessionFactory();
-    }
+//    //added
+//    @Bean(name = "sessionFactory")
+//    public SessionFactory getSessionFactory(DataSource dataSource) {
+//        LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
+//        sessionBuilder.scanPackages("hiberante.packagesToScan");
+//        sessionBuilder.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+//        sessionBuilder.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+//        sessionBuilder.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+//        sessionBuilder.setProperty("hibernate.connection.useUnicode", env.getProperty("hibernate.connection.useUnicode"));
+//        sessionBuilder.setProperty("hibernate.connection.characterEncoding", env.getProperty("hibernate.connection.characterEncoding"));
+//        
+//        return sessionBuilder.buildSessionFactory();
+//    }
     
         
 
 //First
-//    @Bean
-//    public LocalSessionFactoryBean sessionFactory() {
-//
-//        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-//		sessionFactory.setDataSource(dataSource());
-//        sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
-//        sessionFactory.setHibernateProperties(getHibernateProperties());
-//
-//        return sessionFactory;
-//    }
+    @Bean
+    @Autowired
+    public LocalSessionFactoryBean sessionFactory(BasicDataSource dataSource) {
 
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+		sessionFactory.setDataSource(dataSource);
+        sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
+        sessionFactory.setHibernateProperties(getHibernateProperties());
+
+        return sessionFactory;
+    }
+//First
     @Bean
     @Autowired
     public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
@@ -196,8 +207,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     public SimpleMappingExceptionResolver simpleMappingExceptionResolver(){
 
         SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
-
-//        resolver.addStatusCode("error-page", 404);
 
         Properties mapping = new Properties();
         mapping.put("com.monmar.exchangeratenbpapi.exception.ExchangeRateNotFoundException" , "error-404-code");
