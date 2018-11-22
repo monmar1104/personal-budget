@@ -206,10 +206,16 @@ public class BudgetController {
 	}
 
 	/*
-	 * TODO adding new budget based on existing TODO TODO TODO percent calculating -
-	 * budget list TODO redirect to list after login??? TODO change forms:
-	 * addTransaction,addBudgetItem TODO change first image TODO add new budget TODO
-	 * add aop login module TODO validation TODO check csrf token
+	 * TODO add error handling 
+	 * TODO percent calculating - budget list 
+	 * TODO redirect to list after login??? 
+	 * TODO change forms: addTransaction,addBudgetItem 
+	 * TODO change first image 
+	 * TODO update page
+	 * TODO add delete and edit icons to list 
+	 * TODO  
+	 * TODO validation 
+	 * TODO check csrf token
 	 */
 
 }
