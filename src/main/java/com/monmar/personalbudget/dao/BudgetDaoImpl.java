@@ -134,15 +134,17 @@ public class BudgetDaoImpl implements BudgetDao {
 		Session session = sessionFactory.getCurrentSession();
 
 		String hql = "select t.category.categoryId, sum(t.transactionAmount) " + "from FinancialTransaction t "
-				+ "where t.transactionDate between :dateFrom and :dateTo " + "group by t.category.categoryId";
+				+ "where t.transactionDate between :dateFrom and :dateTo " + " and t.transactionUser.id=:userId " + "group by t.category.categoryId";
 
 		Budget budget = getBudgetById(budgetId);
+		
+		int userId = budget.getBudgetUser().getId();
 
 		LocalDate dateFrom = budget.getBudgetDateFrom();
 		LocalDate dateTo = budget.getBudgetDateTo();
 
 		List<Object[]> objectList = session.createQuery(hql).setParameter("dateFrom", dateFrom)
-				.setParameter("dateTo", dateTo).list();
+				.setParameter("dateTo", dateTo).setParameter("userId", userId).list();
 
 		Map<Integer, Double> sumOfCategoryMap = new HashMap<>();
 		for (Object[] i : objectList) {
@@ -166,7 +168,7 @@ public class BudgetDaoImpl implements BudgetDao {
 		Session session = sessionFactory.getCurrentSession();
 		Budget budget = null;
 		Query<Budget> budgetQuery = session.createQuery(
-				"from Budget b where budgetUser.id=:userId and b.budgetCreationDate = (select max(budget.budgetCreationDate) as maxDate from Budget budget)",
+				"from Budget b where budgetUser.id=:userId and b.budgetCreationDate = (select max(budget.budgetCreationDate) as maxDate from Budget budget where budgetUser.id=:userId)",
 				Budget.class).setParameter("userId", userId);
 		
 		if (budgetQuery.list().size()>0) {

@@ -80,12 +80,9 @@
 								class="form-control" />
 						</div>
 						<div class="form-group">
-							<input type="submit" class="btn float-right login_btn" />
-							<form>
-								<button
-									onclick="goBack()"
-									type="button" class="btn float-left back_btn">Back</button>
-							</form>
+							<input type="submit" class="btn float-right login_btn" value="Add" />
+							<button onclick="goBack()" type="button"
+								class="btn float-left back_btn">Back</button>
 						</div>
 					</div>
 				</form:form>
