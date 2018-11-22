@@ -27,7 +27,8 @@
 					action="${pageContext.request.contextPath}/register/processRegistrationForm"
 					modelAttribute="crmUser" class="form-horizontal">
 					<div class="card-header">
-						<h3>Sign up</h3>
+						<h2 id="logo">Where-Is-My-Money</h2>
+						<h2>Sign up</h2>
 						<c:if test="${registrationError != null}">
 							<div class="alert alert-danger col-xs-offset-1 col-xs-10">
 								${registrationError}
@@ -80,7 +81,8 @@
 								class="form-control" />
 						</div>
 						<div class="form-group">
-							<input type="submit" class="btn float-right login_btn" value="Add" />
+							<input type="submit" class="btn float-right login_btn"
+								value="Add" />
 							<button onclick="goBack()" type="button"
 								class="btn float-left back_btn">Back</button>
 						</div>

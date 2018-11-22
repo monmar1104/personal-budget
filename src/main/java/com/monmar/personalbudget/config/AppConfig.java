@@ -102,6 +102,9 @@ public class AppConfig implements WebMvcConfigurer {
 //		securityDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
 //
 //		securityDataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
+//		securityDataSource.setPreferredTestQuery(env.getProperty("validationQuery"));
+//		securityDataSource.setTestConnectionOnCheckout(true);
+////		securityDataSource.setIdleConnectionTestPeriod(70);
 //
 //		return securityDataSource;
 //	}
@@ -122,6 +125,8 @@ public class AppConfig implements WebMvcConfigurer {
         basicDataSource.setInitialSize(getIntProperty("connection.pool.initialPoolSize"));
         basicDataSource.setMaxIdle(getIntProperty("connection.pool.maxIdleTime"));
         basicDataSource.setMaxActive(getIntProperty("connection.pool.maxPoolSize"));
+        basicDataSource.setValidationQuery(env.getProperty("validationQuery"));
+        basicDataSource.setTestWhileIdle(true);
 
         return basicDataSource;
     }

@@ -28,7 +28,8 @@
 		<div class="d-flex justify-content-center h-100">
 			<div class="card">
 				<div class="card-header">
-					<h3>Sign In</h3>
+					<h2 id="logo">Where-Is-My-Money</h2>
+					<h2>Sign In</h2>
 
 				</div>
 				<div class="card-body">
@@ -83,8 +84,9 @@
 				</div>
 				<div class="card-footer">
 					<div class="d-flex justify-content-center">
-						Don't have an account? 
-						<a class="link-std" href="${pageContext.request.contextPath}/register/showRegistrationForm"> Sign Up</a>
+						Don't have an account? <a class="link-std"
+							href="${pageContext.request.contextPath}/register/showRegistrationForm">
+							Sign Up</a>
 					</div>
 					<!-- <div class="d-flex justify-content-center">
 						<a href="#">Forgot your password?</a>

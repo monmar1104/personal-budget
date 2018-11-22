@@ -15,18 +15,18 @@
     <%@include file="navbar.jsp" %>
     <div class="row mt-3 pl-2 pr-2 pt-3 border-top border-secondary">
     
-            <h3>Welcome to <span id="logo">Where-Is-My-Money</span></h3>
+            <h3>Welcome to <span class="app-name">Where-Is-My-Money</span></h3>
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 
-                <p>If you want to start better control your personal budget this App is for you!!!
-                <p>Please, <a class="link-std" href="login-page.jsp">login</a> 
+                <p>If you want to start control your personal budget better, this App is for you!!!
+                <p>Please, <a class="link-std" href="${pageContext.request.contextPath}/showMyLoginPage">login</a> 
                 or <a class="link-std" href="${pageContext.request.contextPath}/register/showRegistrationForm">register</a> to start.
                 <p>Thanks to <span id="logo">Where-Is-My-Money</span> you will be able to:  
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <ul>
-                        <li>Log your expenditures</li>
-                        <li>Plan your expenditures</li>
-                        <li>Analyze where lose your money </li>
+                        <li>Keep track of your expenses</li>
+                        <li>Organize your monthly budget</li>
+                        <li>Set money waste alert</li>
                         <li>Save more money</li>
                     </ul>
                 </div>
