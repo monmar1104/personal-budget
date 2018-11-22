@@ -19,11 +19,13 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/budget")
 @SessionAttributes("currentBudget")
 public class BudgetController {
+	
 
 	@Autowired
 	private BudgetService budgetService;
@@ -39,6 +41,8 @@ public class BudgetController {
 
 	@Autowired
 	HttpServletResponse response;
+	
+	private Logger logger = Logger.getLogger(getClass().getName());
 
 	@GetMapping("/list")
 	public String listBudgetItems(RedirectAttributes model, Model model1) {
