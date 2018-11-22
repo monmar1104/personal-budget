@@ -19,37 +19,51 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/budget")
 @SessionAttributes("currentBudget")
 public class BudgetController {
+	
 
 	@Autowired
 	private BudgetService budgetService;
 
 	@Autowired
 	CategoryService categoryService;
-	
+
 	@Autowired
-	HttpServletRequest request; 
-	
+	HttpSession session;
+
+	@Autowired
+	HttpServletRequest request;
+
 	@Autowired
 	HttpServletResponse response;
+	
+	private Logger logger = Logger.getLogger(getClass().getName());
 
 	@GetMapping("/list")
-	public String listBudgetItems( RedirectAttributes model, Model model1) {
-		
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		String name = auth.getName();
-		
-		HttpSession session = request.getSession();
+	public String listBudgetItems(RedirectAttributes model, Model model1) {
+		Budget currentBudget = null;
+		session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		
-		Budget lastBudget = budgetService.getLastBudget(user.getId());
-		model1.addAttribute("currentBudget", lastBudget);
 
-		int budgetId = lastBudget.getBudgetId();
+		int budgetId = 0;
+		try {
+			budgetId = (int) model1.asMap().get("budgetId");
+		} catch (Exception e) {
+			if (budgetId > 0) {
+				currentBudget = budgetService.getBudgetById(budgetId);
+
+			} else {
+				currentBudget = budgetService.getLastBudget(user.getId());
+				budgetId = currentBudget.getBudgetId();
+			}
+		}
+
+		model1.addAttribute("currentBudget", currentBudget);
 
 		List<Category> categoryList = categoryService.getCategoryList();
 		model1.addAttribute("categoryList", categoryList);
@@ -72,12 +86,12 @@ public class BudgetController {
 
 	@PostMapping("/listBudgetItemsById")
 	public String listBudgetItemsById(@RequestParam("budgetId") int budgetId, RedirectAttributes ra, Model model) {
-		
-		HttpSession session = request.getSession();
+
+		session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		
-//		Budget currentBudget = budgetService.getBudgetById(budgetId);
-		ra.addFlashAttribute("currentBudget", budgetId);
+
+		Budget currentBudget = budgetService.getBudgetById(budgetId);
+		model.addAttribute("currentBudget", currentBudget);
 
 		List<BudgetDetail> budgetDetailList = budgetService.getBudgetDetailListByBudgetId(budgetId);
 		model.addAttribute("budgetDetailList", budgetDetailList);
@@ -106,10 +120,10 @@ public class BudgetController {
 
 		return "list-budgets";
 	}
-	
+
 	@PostMapping("/addBudgetItem")
 	public String addBudgetItem(@RequestParam("category") String categoryId,
-			@ModelAttribute("budgetDetail") @Valid BudgetDetail budgetDetail, BindingResult result, Model model) {
+			@ModelAttribute("budgetDetail") @Valid BudgetDetail budgetDetail, BindingResult result, Model model, RedirectAttributes rd) {
 
 		budgetDetail.setCategory(categoryService.findCategoryById(Integer.valueOf(categoryId)));
 		Budget currentBudget = (Budget) model.asMap().get("currentBudget");
@@ -117,13 +131,14 @@ public class BudgetController {
 		budgetDetail.setBudget(currentBudget);
 		budgetService.addBudgetItem(budgetDetail);
 
+		rd.addFlashAttribute("budgetId", currentBudget.getBudgetId());
+
 		return "redirect:/budget/list";
 	}
 
-//TODO list by budget
-	
 	@PostMapping("/search")
-	public String searchItemByCatName(@RequestParam("currentBudget") int budgetId, @RequestParam("categoryName") String name,RedirectAttributes ra, Model model) {
+	public String searchItemByCatName(@RequestParam("currentBudget") int budgetId,
+			@RequestParam("categoryName") String name, RedirectAttributes ra, Model model) {
 		List<BudgetDetail> budgetDetailList = budgetService.searchBudgetItemByCatName(name, budgetId);
 
 		model.addAttribute("budgetDetailList", budgetDetailList);
@@ -132,7 +147,7 @@ public class BudgetController {
 		List<Category> categoryList = categoryService.getCategoryList();
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("categoryName", name);
-		
+
 		ra.addFlashAttribute("currentBudget", budgetId);
 
 		return "list-budgets";
@@ -157,52 +172,48 @@ public class BudgetController {
 
 		return "redirect:/budget/list";
 	}
-	
+
 	@GetMapping("/showAddBudgetForm")
 	public String showAddBudgetForm(Model model) {
-		HttpSession session = request.getSession();
+		session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		model.addAttribute("user", user);
-		
+
 		List<Budget> budgetList = budgetService.getBudgetList(user.getId());
 		model.addAttribute("budgetList", budgetList);
 		Budget newBudget = new Budget();
 		model.addAttribute("newBudget", newBudget);
-		
-		
-		
+
 		return "add-budget-form";
-	} 
-	
+	}
+
 	@PostMapping("/addNewBudget")
-	public String addNewBudget(@ModelAttribute(value="newBudget") Budget newBudget) {
-		HttpSession session = request.getSession();
+	public String addNewBudget(@ModelAttribute(value = "newBudget") Budget newBudget) {
+		session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		
+
 		String budgetIdStr = request.getParameter("oldBudgetId");
-		
-		if(budgetIdStr==null) {
+
+		if (budgetIdStr == null) {
 			budgetIdStr = "0";
 		}
-		
+
 		newBudget.setBudgetUser(user);
-		
+
 		budgetService.addBudget(newBudget, Integer.parseInt(budgetIdStr));
-		
+
 		return "redirect:/budget/list";
 	}
-	
 
 	/*
-	 * TODO adding new budget based on existing
-	 * TODO 
-	 * TODO 
+	 * TODO add error handling 
 	 * TODO percent calculating - budget list 
 	 * TODO redirect to list after login??? 
 	 * TODO change forms: addTransaction,addBudgetItem 
 	 * TODO change first image 
-	 * TODO add new budget 
-	 * TODO add aop login module 
+	 * TODO update page
+	 * TODO add delete and edit icons to list 
+	 * TODO  
 	 * TODO validation 
 	 * TODO check csrf token
 	 */

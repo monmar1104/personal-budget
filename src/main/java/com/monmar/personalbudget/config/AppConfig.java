@@ -40,63 +40,75 @@ import java.util.logging.Logger;
 @PropertySource("classpath:persistence-mysql.properties")
 public class AppConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private Environment env;
+	@Autowired
+	private Environment env;
 
-    private Logger logger = Logger.getLogger(getClass().getName());
-    
-    @Bean
-    public ViewResolver viewResolver() {
+	private Logger logger = Logger.getLogger(getClass().getName());
 
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+	@Bean
+	public ViewResolver viewResolver() {
 
-        viewResolver.setPrefix("/WEB-INF/view/");
-        viewResolver.setSuffix(".jsp");
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 
-        return viewResolver;
-    }
-    
-    
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		viewResolver.setPrefix("/WEB-INF/view/");
+		viewResolver.setSuffix(".jsp");
 
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+		return viewResolver;
+	}
 
-    }
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+
+	}
 
 //    @Bean
-//    public DataSource dataSource() {
+//	public DataSource dataSource() {
 //
-//        ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
+//		ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
 //
-//        try {
-//            securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
-//        } catch (PropertyVetoException exc) {
-//            throw new RuntimeException(exc);
-//        }
+//		try {
+//			securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
+//		} catch (PropertyVetoException exc) {
+//			throw new RuntimeException(exc);
+//		}
 //
-//        logger.info("jdbc.url=" + env.getProperty("jdbc.url"));
-//        logger.info("jdbc.user=" + env.getProperty("jdbc.user"));
+////Settings from persistence-mysql.properties
 //
-//        securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
-//        securityDataSource.setUser(env.getProperty("jdbc.user"));
-//        securityDataSource.setPassword(env.getProperty("jdbc.password"));
+////        logger.info("jdbc.url=" + env.getProperty("jdbc.url"));
+////        logger.info("jdbc.user=" + env.getProperty("jdbc.user"));
+////
+////        securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
+////        securityDataSource.setUser(env.getProperty("jdbc.user"));
+////        securityDataSource.setPassword(env.getProperty("jdbc.password"));
 //
-//        securityDataSource.setInitialPoolSize(
-//                getIntProperty("connection.pool.initialPoolSize"));
+//		String herokuDbUrl = System.getenv("HEROKU_DB");
+//		final String USER_NAME = herokuDbUrl.split(":")[0];
+//		final String PASSWORD = herokuDbUrl.split(":")[1];
+//		final String DB_URL = "jdbc:mysql://" + herokuDbUrl.split(":")[2];
 //
-//        securityDataSource.setMinPoolSize(
-//                getIntProperty("connection.pool.minPoolSize"));
+//		logger.info("==========>>>>>conecting with jdbc.url=" + DB_URL);
+//		logger.info("=============>>>>>>jdbc.user=" + USER_NAME);
 //
-//        securityDataSource.setMaxPoolSize(
-//                getIntProperty("connection.pool.maxPoolSize"));
+//		securityDataSource.setJdbcUrl(DB_URL);
+//		securityDataSource.setUser(USER_NAME);
+//		securityDataSource.setPassword(PASSWORD);
 //
-//        securityDataSource.setMaxIdleTime(
-//                getIntProperty("connection.pool.maxIdleTime"));
+//		securityDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize"));
 //
-//        return securityDataSource;
-//    }
-    
+//		securityDataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
+//
+//		securityDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
+//
+//		securityDataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
+//		securityDataSource.setPreferredTestQuery(env.getProperty("validationQuery"));
+//		securityDataSource.setTestConnectionOnCheckout(true);
+////		securityDataSource.setIdleConnectionTestPeriod(70);
+//
+//		return securityDataSource;
+//	}
+
 //    Heroku
     @Bean
     public BasicDataSource dataSource() throws URISyntaxException {
@@ -113,43 +125,46 @@ public class AppConfig implements WebMvcConfigurer {
         basicDataSource.setInitialSize(getIntProperty("connection.pool.initialPoolSize"));
         basicDataSource.setMaxIdle(getIntProperty("connection.pool.maxIdleTime"));
         basicDataSource.setMaxActive(getIntProperty("connection.pool.maxPoolSize"));
+        basicDataSource.setValidationQuery(env.getProperty("validationQuery"));
+        basicDataSource.setTestWhileIdle(true);
 
         return basicDataSource;
     }
-    
-    private int getIntProperty(String propName) {
 
-        String propVal = env.getProperty(propName);
+	private int getIntProperty(String propName) {
 
-        int intPropVal = Integer.parseInt(propVal);
+		String propVal = env.getProperty(propName);
 
-        return intPropVal;
-    }
+		int intPropVal = Integer.parseInt(propVal);
 
-    private Properties getHibernateProperties() {
+		return intPropVal;
+	}
 
-        Properties props = new Properties();
+	private Properties getHibernateProperties() {
 
-        props.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
-        props.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-        props.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
-        props.setProperty("hibernate.connection.useUnicode", env.getProperty("hibernate.connection.useUnicode"));
-        props.setProperty("hibernate.connection.characterEncoding", env.getProperty("hibernate.connection.characterEncoding"));
-    return props;
-    }
-    
-//    @Bean
-//    public LocalSessionFactoryBean sessionFactory() {
+		Properties props = new Properties();
+
+		props.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+		props.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+		props.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+		props.setProperty("hibernate.connection.useUnicode", env.getProperty("hibernate.connection.useUnicode"));
+		props.setProperty("hibernate.connection.characterEncoding",
+				env.getProperty("hibernate.connection.characterEncoding"));
+		return props;
+	}
+
+//	@Bean
+//	public LocalSessionFactoryBean sessionFactory() {
 //
-//        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+//		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 //		sessionFactory.setDataSource(dataSource());
-//        sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
-//        sessionFactory.setHibernateProperties(getHibernateProperties());
+//		sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
+//		sessionFactory.setHibernateProperties(getHibernateProperties());
 //
-//        return sessionFactory;
-//    }
+//		return sessionFactory;
+//	}
 
-    //Heroku
+	// Heroku
     @Bean
     @Autowired
     public LocalSessionFactoryBean sessionFactory(BasicDataSource dataSource) {
@@ -162,30 +177,27 @@ public class AppConfig implements WebMvcConfigurer {
         return sessionFactory;
     }
 
-    @Bean
-    @Autowired
-    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
+	@Bean
+	@Autowired
+	public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
 
-        HibernateTransactionManager txManager = new HibernateTransactionManager();
-        txManager.setSessionFactory(sessionFactory);
+		HibernateTransactionManager txManager = new HibernateTransactionManager();
+		txManager.setSessionFactory(sessionFactory);
 
-        return txManager;
-    }
-    
-    @Bean
-    public SimpleMappingExceptionResolver simpleMappingExceptionResolver(){
+		return txManager;
+	}
 
-        SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
+	@Bean
+	public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
 
-        Properties mapping = new Properties();
-        mapping.put("com.monmar.exchangeratenbpapi.exception.ExchangeRateNotFoundException" , "error-404-code");
-        mapping.put("com.monmar.exchangeratenbpapi.exception.ExchangeRateBadRequestException" , "error-400-code");
-        resolver.setExceptionMappings(mapping);
+		SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
 
-        return resolver;
-    }
-    
-   
+		Properties mapping = new Properties();
+		mapping.put("com.monmar.exchangeratenbpapi.exception.ExchangeRateNotFoundException", "error-404-code");
+		mapping.put("com.monmar.exchangeratenbpapi.exception.ExchangeRateBadRequestException", "error-400-code");
+		resolver.setExceptionMappings(mapping);
 
-    
+		return resolver;
+	}
+
 }
