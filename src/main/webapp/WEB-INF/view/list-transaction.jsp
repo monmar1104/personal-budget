@@ -168,8 +168,8 @@
 									maxFractionDigits="2" pattern="###.## zł"
 									value="${transactionItem.transactionAmount}" /></td>
 							<td>${transactionItem.transactionDescription}</td>
-							<td><a class="updateLink" class="updateLink" href="${updateLink}">Update</a> | 
-							<a class="updateLink" class="updateLink" href="${deleteLink}"
+							<td><a class="updateLink" href="${updateLink}">Update</a> | 
+							<a class="updateLink" href="${deleteLink}"
 								onclick="if(!(confirm('Are you sure you want to delete this item?'))) return false">Delete</a>
 							</td>
 						</tr>

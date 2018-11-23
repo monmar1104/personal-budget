@@ -92,5 +92,13 @@ a:visited.updateLink {
 	color: #986337 !important;
 }
 
+.access-denied {
+	color: red;
+}
+
+.service-break {
+	color: #46ce67;
+}
+
 
 

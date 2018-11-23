@@ -1,14 +1,13 @@
 <html>
 
 <head>
-<title>Access Denied</title>
+<title>Service break</title>
 <%@include file="head.jsp"%>
 </head>
 
 <body>
-	<div class="access-denied">
-		<h2>Access Denied - You are not authorized to access this
-			resource.</h2>
+	<div class="service-break">
+		<h4>Service break, this page will be able soon.</h4>		
 
 		<hr>
 		<a href="${pageContext.request.contextPath}/">Back to Home Page</a>
