@@ -162,7 +162,7 @@ public class BudgetController {
 		List<Category> categoryList = categoryService.getCategoryList();
 		model.addAttribute("categoryList", categoryList);
 
-		return "add-budget-item";
+		return "update-budget-item";
 	}
 
 	@GetMapping("/delete")
@@ -213,7 +213,7 @@ public class BudgetController {
 	 * TODO change first image 
 	 * TODO update page
 	 * TODO add delete and edit icons to list 
-	 * TODO  
+	 * TODO alert
 	 * TODO validation 
 	 * TODO check csrf token
 	 */

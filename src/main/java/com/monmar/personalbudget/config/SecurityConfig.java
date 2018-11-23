@@ -22,8 +22,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 @Autowired
 	 private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
-	 
-	 
 	@Override
 	    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 	        auth.authenticationProvider(authenticationProvider());
@@ -38,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/budget/**").hasRole("SYSUSER")
 			.antMatchers("/transaction/**").hasRole("SYSUSER")
 			.antMatchers("/category/**").hasRole("SYSUSER")
+			.antMatchers("/service/**").hasRole("SYSUSER")
 			.and()
 			.formLogin()
 				.loginPage("/showMyLoginPage")

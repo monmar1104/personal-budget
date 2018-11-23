@@ -102,7 +102,8 @@
 			</div>
 			<div>
 				<form:form action="showAddBudgetForm" method="get">
-					<button class=" col btn btn-primary" type="submit">Add Budget</button>
+					<button class=" col btn btn-primary" type="submit">Add
+						Budget</button>
 				</form:form>
 			</div>
 		</div>
@@ -128,25 +129,25 @@
 		<p />
 		<p />
 		<div class="table-responsive">
-			<table id="table" class="table table-hover">
+			<table id="table" class="table table-hover table-fixed">
 				<thead class="thead-dark">
 					<tr>
-						<th scope="col" index=0>Category Name
+						<th class="col-xs-3" scope="col" index=0>Category Name
 							<div class="filter"></div>
 						</th>
-						<th scope="col" index=1>Amount
+						<th class="col-xs-1" scope="col" index=1>Amount
 							<div class="filter"></div>
 						</th>
-						<th scope="col" index=2>Spent Amount
+						<th class="col-xs-1" scope="col" index=2>Spent Amount
 							<div class="filter"></div>
 						</th>
-						<th scope="col" index=3>% of Usage
+						<th class="col-xs-1" scope="col" index=3>% of Usage
 							<div class="filter"></div>
 						</th>
-						<th scope="col" index=4>Description
+						<th class="col-xs-3" scope="col" index=4>Description
 							<div class="filter"></div>
 						</th>
-						<th scope="col">Action</th>
+						<th class="col-xs-3" scope="col">Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -161,31 +162,31 @@
 								value="${budgetItem.budgetDetailId}"></c:param>
 						</c:url>
 						<tr>
+							<td class="col-xs-3">${budgetItem.category.categoryName}</td>
 
-							<td>${budgetItem.category.categoryName}</td>
-
-							<td><fmt:formatNumber type="number" minFractionDigits="2" pattern="###.## zł"
-									maxFractionDigits="2" groupingUsed = "false" value="${budgetItem.budgetDetailAmount}" /></td>
+							<td class="col-xs-1"><fmt:formatNumber type="number" minFractionDigits="2"
+									pattern="###.## zł" maxFractionDigits="2" groupingUsed="false"
+									value="${budgetItem.budgetDetailAmount}" /></td>
 							<c:choose>
 								<c:when
 									test="${sumCategoryMap.get(budgetItem.category.categoryId)!=null}">
-									<td><fmt:formatNumber type="number" pattern="###.## zł"
-											groupingUsed = "false"
-											minFractionDigits="2" maxFractionDigits="2"
+									<td class="col-xs-1"><fmt:formatNumber type="number" pattern="###.## zł"
+											groupingUsed="false" minFractionDigits="2"
+											maxFractionDigits="2"
 											value="${sumCategoryMap.get(budgetItem.category.categoryId)}" /></td>
 								</c:when>
 								<c:otherwise>
-									<td><fmt:formatNumber type="number" pattern="###.## zł"
+									<td class="col-xs-1"><fmt:formatNumber type="number" pattern="###.## zł"
 											minFractionDigits="2" maxFractionDigits="2" value="0" /></td>
 								</c:otherwise>
 							</c:choose>
 
-							<td><fmt:formatNumber type="number" minFractionDigits="1" pattern="###.## %"
-									maxFractionDigits="1"
+							<td class="col-xs-1"><fmt:formatNumber type="number" minFractionDigits="1"
+									pattern="###.## %" maxFractionDigits="1"
 									value="${sumCategoryMap.get(budgetItem.category.categoryId) / budgetItem.budgetDetailAmount}" /></td>
-							<td>${budgetItem.budgetDetailDescription}</td>
-							<td><a href="${updateLink}">Update</a> | <a
-								href="${deleteLink}"
+							<td class="col-xs-3">${budgetItem.budgetDetailDescription}</td>
+							<td class="col-xs-3"><a class="updateLink" href="${updateLink}">Update</a> | 
+							<a class="updateLink" href="${deleteLink}"
 								onclick="if(!(confirm('Are you sure you want to delete this item?'))) return false">Delete</a>
 							</td>
 						</tr>
@@ -209,11 +210,11 @@
 
 			for (var i = 1; i < table.rows.length; i++) {
 				plan = plan
-						+ parseFloat(table.rows[i].cells[1].innerHTML.replace(/\s/g, '').replace(
-								',', '.'));
+						+ parseFloat(table.rows[i].cells[1].innerHTML.replace(
+								/\s/g, '').replace(',', '.'));
 				expend = expend
-						+ parseFloat(table1.rows[i].cells[2].innerHTML.replace(/\s/g, '').replace(
-								',', '.'));
+						+ parseFloat(table1.rows[i].cells[2].innerHTML.replace(
+								/\s/g, '').replace(',', '.'));
 			}
 			console.log(plan);
 			console.log(expend);

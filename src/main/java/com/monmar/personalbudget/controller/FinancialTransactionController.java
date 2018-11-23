@@ -77,7 +77,7 @@ public class FinancialTransactionController {
         List<Category> categoryList = categoryService.getCategoryList();
         model.addAttribute("categoryList", categoryList);
 
-        return "add-transaction-form";
+        return "update-transaction-form";
     }
 
     @GetMapping("/delete")
