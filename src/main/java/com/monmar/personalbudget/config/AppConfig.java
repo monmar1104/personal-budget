@@ -45,24 +45,24 @@ public class AppConfig implements WebMvcConfigurer {
 
 	private Logger logger = Logger.getLogger(getClass().getName());
 
-//	@Bean
-//	public ViewResolver viewResolver() {
-//
-//		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-//
-//		viewResolver.setPrefix("/WEB-INF/view/");
-//		viewResolver.setSuffix(".jsp");
-//
-//		return viewResolver;
-//	}
-//
-//	@Override
-//	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//
-//		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-//
-//	}
-//
+	@Bean
+	public ViewResolver viewResolver() {
+
+		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+
+		viewResolver.setPrefix("/WEB-INF/view/");
+		viewResolver.setSuffix(".jsp");
+
+		return viewResolver;
+	}
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+
+	}
+
 //    @Bean
 //	public DataSource dataSource() {
 //
