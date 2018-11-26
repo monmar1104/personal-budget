@@ -27,11 +27,35 @@
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 					<a class="dropdown-item" href="${pageContext.request.contextPath}/category/list">Categories</a>  
 					<a class="dropdown-item" href="${pageContext.request.contextPath}/service/break">Settings</a>
-				</div></li>
+				</div>
+			</li>
+			<li class="nav-item dropdown"><a
+				class="nav-link dropdown-toggle" href="#"
+				id="adminNavbarDropdown" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="false"> <i class="fas fa-user"></i> </a>
+				<div class="dropdown-menu  justify-content-end" aria-labelledby="navbarDropdownMenuLink">
+					<a class="dropdown-item" href="${pageContext.request.contextPath}/category/list">User profile</a> 
+					<a class="dropdown-item" href="${pageContext.request.contextPath}/service/break">Admin panel</a> 
+					<a class="dropdown-item" href="${pageContext.request.contextPath}/service/break">
+						<c:if test="${sessionScope.user!=null}">
+							<form action="/logout" method="post">
+								<input class="btn btn-info btn-sm" type="submit" value="Log out: ${sessionScope.user.userName}"/>
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+							</form>
+						</c:if>
+						<c:if test="${sessionScope.user==null}">
+							<form action="${pageContext.request.contextPath}/showMyLoginPage">
+								<input class="btn btn-info btn-sm" type="submit" value="Log in"/>
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+							</form>
+						</c:if>
+					</a>
+				</div>
+			</li>
 		</ul>
 	</div>
 	
-	<div class="collapse navbar-collapse justify-content-end" id="adminNavbarDropdown">
+	<%-- <div class="collapse navbar-collapse justify-content-end" id="adminNavbarDropdown">
 		<ul class="navbar-nav">
 			<li class="nav-item dropdown"><a
 				class="nav-link dropdown-toggle" href="#"
@@ -58,7 +82,7 @@
 			</li>
 		</ul>
 	</div>
-
+ --%>
 	
 	<%-- <c:if test="${sessionScope.user!=null}">
 	<form action="/logout" method="post">
