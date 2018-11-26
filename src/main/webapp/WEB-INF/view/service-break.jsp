@@ -10,7 +10,7 @@
 		<h4>Service break, this page will be able soon.</h4>		
 
 		<hr>
-		<a href="${pageContext.request.contextPath}/">Back to Home Page</a>
+		<a class="updateLink"href="${pageContext.request.contextPath}/">Back to Home Page</a>
 	</div>
 </body>
 

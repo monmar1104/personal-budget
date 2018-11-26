@@ -104,7 +104,6 @@ public class AppConfig implements WebMvcConfigurer {
 //		securityDataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
 //		securityDataSource.setPreferredTestQuery(env.getProperty("validationQuery"));
 //		securityDataSource.setTestConnectionOnCheckout(true);
-////		securityDataSource.setIdleConnectionTestPeriod(70);
 //
 //		return securityDataSource;
 //	}

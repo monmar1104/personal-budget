@@ -164,26 +164,25 @@
 						<tr>
 							<td class="col-xs-3">${budgetItem.category.categoryName}</td>
 
-							<td class="col-xs-1"><fmt:formatNumber type="number" minFractionDigits="2"
+							<td id="budgetAmount" class="col-xs-1"><fmt:formatNumber type="number" minFractionDigits="2"
 									pattern="###.## zł" maxFractionDigits="2" groupingUsed="false"
 									value="${budgetItem.budgetDetailAmount}" /></td>
 							<c:choose>
 								<c:when
 									test="${sumCategoryMap.get(budgetItem.category.categoryId)!=null}">
-									<td class="col-xs-1"><fmt:formatNumber type="number" pattern="###.## zł"
+									<td id="expenseAmount" class="col-xs-1"><fmt:formatNumber type="number" pattern="###.## zł"
 											groupingUsed="false" minFractionDigits="2"
 											maxFractionDigits="2"
 											value="${sumCategoryMap.get(budgetItem.category.categoryId)}" /></td>
 								</c:when>
 								<c:otherwise>
-									<td class="col-xs-1"><fmt:formatNumber type="number" pattern="###.## zł"
+									<td id="expenseAmount" class="col-xs-1"><fmt:formatNumber type="number" pattern="###.## zł"
 											minFractionDigits="2" maxFractionDigits="2" value="0" /></td>
 								</c:otherwise>
 							</c:choose>
-
-							<td class="col-xs-1"><fmt:formatNumber type="number" minFractionDigits="1"
-									pattern="###.## %" maxFractionDigits="1"
-									value="${sumCategoryMap.get(budgetItem.category.categoryId) / budgetItem.budgetDetailAmount}" /></td>
+							
+							<td id="percent" class="col-xs-1"></td>
+									
 							<td class="col-xs-3">${budgetItem.budgetDetailDescription}</td>
 							<td class="col-xs-3"><a class="updateLink" href="${updateLink}">Update</a> | 
 							<a class="updateLink" href="${deleteLink}"
@@ -203,18 +202,22 @@
 				</tbody>
 			</table>
 		</div>
-
+		
+		<!-- calculating sum of amounts -->
 		<script type="text/javascript">
 			var table = document.getElementById("table"), plan = 0.00;
 			var table1 = document.getElementById("table"), expend = 0.00;
+			var currentBudgetAmount = 0.00;
+			var currentExpenseAmount = 0.00;
 
 			for (var i = 1; i < table.rows.length; i++) {
-				plan = plan
-						+ parseFloat(table.rows[i].cells[1].innerHTML.replace(
-								/\s/g, '').replace(',', '.'));
-				expend = expend
-						+ parseFloat(table1.rows[i].cells[2].innerHTML.replace(
-								/\s/g, '').replace(',', '.'));
+				currentBudgetAmount = parseFloat(table.rows[i].cells[1].innerHTML.replace(/\s/g, '').replace(',', '.'));
+				
+				currentExpenseAmount = parseFloat(table1.rows[i].cells[2].innerHTML.replace(/\s/g, '').replace(',', '.'));
+				
+				plan = plan	+ currentBudgetAmount;
+				expend = expend	+ currentExpenseAmount;
+				
 			}
 			console.log(plan);
 			console.log(expend);
@@ -222,6 +225,39 @@
 					'.', ',');
 			document.getElementById("sum1").innerHTML = expend.toFixed(2)
 					.replace('.', ',');
+		</script>
+		
+		<!-- percent calculating and alert -->
+		<script type="text/javascript">
+			var currentBudgetAmount = 0.00;
+			var currentExpenseAmount = 0.00;
+			var percent = 0.00;
+
+			for (var i = 1; i < table.rows.length; i++) {
+				currentBudgetAmount = parseFloat(table.rows[i].cells[1].innerHTML.replace(/\s/g, '').replace(',', '.'));
+				
+				currentExpenseAmount = parseFloat(table1.rows[i].cells[2].innerHTML.replace(/\s/g, '').replace(',', '.'));
+				
+				
+				percent = currentExpenseAmount / currentBudgetAmount*100;
+				if(percent > 100){
+					table.rows[i].cells[3].className = "overrun";
+				} else if (percent == 100) {
+					table.rows[i].cells[3].className = "plan";
+				}
+				
+				table.rows[i].cells[3].innerHTML = percent.toFixed(1).replace('.', ',')+" %";
+			
+				
+				console.log(currentBudgetAmount.toFixed(1).replace(
+						'.', ','));
+				console.log(currentExpenseAmount.toFixed(1).replace(
+						'.', ','));
+				console.log(percent.toFixed(1).replace(
+						'.', ','));
+				
+			}
+			
 		</script>
 	</div>
 </body>
