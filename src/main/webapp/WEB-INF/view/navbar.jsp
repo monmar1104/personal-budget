@@ -31,7 +31,7 @@
 		</ul>
 	</div>
 	
-	<div class="collapse navbar-collapse" id="adminNavbarDropdown">
+	<div class="collapse navbar-collapse justify-content-end" id="adminNavbarDropdown">
 		<ul class="navbar-nav">
 			<li class="nav-item dropdown"><a
 				class="nav-link dropdown-toggle" href="#"
