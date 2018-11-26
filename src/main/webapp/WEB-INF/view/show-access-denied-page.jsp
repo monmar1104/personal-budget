@@ -11,7 +11,7 @@
 			resource.</h2>
 
 		<hr>
-		<a href="${pageContext.request.contextPath}/">Back to Home Page</a>
+		<a class="updateLink" href="${pageContext.request.contextPath}/">Back to Home Page</a>
 	</div>
 </body>
 

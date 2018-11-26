@@ -100,5 +100,13 @@ a:visited.updateLink {
 	color: #46ce67;
 }
 
+.overrun {
+	color: red;
+}
+
+.plan {
+	color: #01e314;
+}
+
 
 

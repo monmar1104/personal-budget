@@ -74,6 +74,7 @@ public class BudgetController {
 		Map<Integer, Double> getSumOfTransactionByCategoryMap = budgetService
 				.getSumOfTransactionByCategoryMap(budgetId);
 		model1.addAttribute("sumCategoryMap", getSumOfTransactionByCategoryMap);
+		
 
 		List<Budget> budgetList = budgetService.getBudgetList(user.getId());
 		model1.addAttribute("budgetList", budgetList);
@@ -206,14 +207,15 @@ public class BudgetController {
 	}
 
 	/*
+	 * TODO User Module
 	 * TODO add error handling 
-	 * TODO percent calculating - budget list 
+	 * TODO  
 	 * TODO redirect to list after login??? 
 	 * TODO change forms: addTransaction,addBudgetItem 
 	 * TODO change first image 
 	 * TODO update page
 	 * TODO add delete and edit icons to list 
-	 * TODO alert
+	 * TODO 
 	 * TODO validation 
 	 * TODO check csrf token
 	 */
