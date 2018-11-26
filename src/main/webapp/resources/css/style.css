@@ -108,5 +108,19 @@ a:visited.updateLink {
 	color: #01e314;
 }
 
+.navbar-nav > li > .dropdown-menu {
+	background-color: rgba(0,0,0,0.8); 
+}
+
+
+
+.navbar-nav > li > .dropdown-menu a{
+	color: white;  
+}
+
+.dropdown-item:hover {
+	background-color: rgba(40,40,40,0.8);
+}
+
 
 
