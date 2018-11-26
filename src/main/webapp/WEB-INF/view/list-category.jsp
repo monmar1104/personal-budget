@@ -10,6 +10,16 @@
 <title>List Categories</title>
 
 <%@include file="head.jsp" %>
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+	crossorigin="anonymous">
 </head>
 <body>
 
@@ -120,9 +130,9 @@
 						<tr>
 							<td>${category.categoryName}</td>
 							<td>${category.categoryOperationType}</td>
-							<td><a class="updateLink" href="${updateLink}">Update</a> | 
-							<a class="updateLink" href="${deleteLink}"
-								onclick="if(!(confirm('Are you sure you want to delete this item?'))) return false">Delete</a>
+							<td><a class="updateLink" title="Edit" href="${updateLink}"><i class="fas fa-edit"></i></a> | 
+							<a class="updateLink" href="${deleteLink}" title="Delete"
+								onclick="if(!(confirm('Are you sure you want to delete this item?'))) return false"><i class="fas fa-trash-alt"></i></a>
 							</td>
 						</tr>
 
