@@ -19,8 +19,8 @@
 		<div class="d-flex justify-content-center h-100">
 			<div id="register-card" class="card">
 				<form:form
-					action="${pageContext.request.contextPath}/register/processRegistrationForm"
-					modelAttribute="crmUser" class="form-horizontal">
+					action="${pageContext.request.contextPath}/user/updateUser"
+					modelAttribute="user" class="form-horizontal">
 					<div class="card-header">
 						<h2 id="logo">Where-Is-My-Money</h2>
 						<h2>Sign up</h2>
@@ -70,13 +70,14 @@
 					</div>
 				</form:form>
 
-				<form:form>
+				<form:form action="${pageContext.request.contextPath}/user/changePassword"
+					modelAttribute="crmPassword" class="form-horizontal">
 					<div class="card-body">
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<form:password path="password"
+							<form:password path="oldPassword"
 								placeholder="Enter old password (*)" class="form-control" />
 						</div>
 						<div class="input-group form-group">
@@ -84,7 +85,7 @@
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
 
-							<form:password path="matchingPassword"
+							<form:password path="newPassword"
 								placeholder="Enter new password (*)" class="form-control" />
 						</div>
 						<div class="input-group form-group">
@@ -92,7 +93,7 @@
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
 
-							<form:password path="matchingPassword"
+							<form:password path="matchingNewPassword"
 								placeholder="Confirm new password (*)" class="form-control" />
 						</div>
 						<div class="form-group">

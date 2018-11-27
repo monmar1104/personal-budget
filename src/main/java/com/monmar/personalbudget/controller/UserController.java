@@ -1,7 +1,9 @@
 package com.monmar.personalbudget.controller;
 
-import java.io.PushbackReader;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +18,21 @@ import com.monmar.personalbudget.user.CrmPassword;
 @RequestMapping("/user")
 public class UserController {
 	
+	@Autowired
+	HttpSession session;
+
+	@Autowired
+	HttpServletRequest request;
+	
 	@GetMapping("/showUserEditForm")
-	public String showUserEditForm() {
+	public String showUserEditForm(Model model) {
+		
+		session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		model.addAttribute("user", user);
+		model.addAttribute("crmPassword", new CrmPassword());
+		
 		return "edit-user-form";
 	}
 	
