@@ -3,6 +3,7 @@ package com.monmar.personalbudget.user;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.monmar.personalbudget.validation.CheckPassword;
 import com.monmar.personalbudget.validation.FieldMatch;
 
 import lombok.AllArgsConstructor;
@@ -19,9 +20,7 @@ import lombok.Setter;
 @Setter
 public class CrmPassword {
 	
-	
-	@NotNull(message = "Password is required")
-	@Size(min = 1, message = "Password is too short")
+	@CheckPassword(message="Invalid old password")
 	private String oldPassword;
 	
 	@NotNull(message = "Password is required")

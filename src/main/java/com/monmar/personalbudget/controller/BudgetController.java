@@ -31,16 +31,16 @@ public class BudgetController {
 	private BudgetService budgetService;
 
 	@Autowired
-	CategoryService categoryService;
+	private CategoryService categoryService;
 
 	@Autowired
-	HttpSession session;
+	private HttpSession session;
 
 	@Autowired
-	HttpServletRequest request;
+	private HttpServletRequest request;
 
 	@Autowired
-	HttpServletResponse response;
+	private HttpServletResponse response;
 	
 	private Logger logger = Logger.getLogger(getClass().getName());
 
