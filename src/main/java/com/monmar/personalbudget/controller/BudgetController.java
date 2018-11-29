@@ -207,13 +207,13 @@ public class BudgetController {
 	}
 
 	/*
-	 * TODO User Module
+	 * TODO Admin Module
 	 * TODO add error handling 
-	 * TODO  
+	 * TODO get list only from current month 
 	 * TODO redirect to list after login??? 
 	 * TODO change forms: addTransaction,addBudgetItem 
 	 * TODO change first image 
-	 * TODO update page 
+	 * TODO 
 	 * TODO validation 
 	 * TODO check csrf token
 	 */
