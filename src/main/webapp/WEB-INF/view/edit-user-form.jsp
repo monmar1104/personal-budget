@@ -25,12 +25,16 @@
 					modelAttribute="user" class="form-horizontal" method="post">
 					<div class="card-header">
 						<h2 id="logo">Where-Is-My-Money</h2>
-						<h2>Sign up</h2>
-						<c:if test="${registrationError != null}">
+						<h2>User profile</h2>
+						<c:if test="${updateUserError != null}">
 							<div class="alert alert-danger col-xs-offset-1 col-xs-10">
-								${registrationError}
+								${updateUserError}
 								<form:errors path="*" />
 							</div>
+						</c:if>
+						<c:if test="${updateUserSuccess != null}">
+							<div class="alert alert-success col-xs-offset-1 col-xs-10">
+								${updateUserSuccess}</div>
 						</c:if>
 						<c:if test="${changePasswordSuccess != null}">
 							<div class="alert alert-success col-xs-offset-1 col-xs-10">
@@ -45,6 +49,8 @@
 
 					</div>
 					<div class="card-body">
+					<form:input path="id" type="hidden"/>
+					<form:input path="password" type="hidden"/>
 						<div class="input-group form-group">
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -77,8 +83,7 @@
 						<div class="form-group">
 							<input type="submit" class="btn float-right login_btn"
 								value="Save" />
-							<button onclick="${pageContext.request.contextPath}/" type="button"
-								class="btn float-left back_btn">Back</button>
+							<button type="button" class="btn float-left back_btn" onClick="javascript:window.location='${pageContext.request.contextPath}/';" >Back</button>
 						</div>
 					</div>
 				</form:form>

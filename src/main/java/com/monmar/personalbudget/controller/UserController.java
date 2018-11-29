@@ -46,7 +46,25 @@ public class UserController {
 	}
 	
 	@PostMapping("/updateUser")
-	public String updateUser(@ModelAttribute("user") User user, Model model) {
+	public String updateUser(@Valid @ModelAttribute("updatedUser") User user, BindingResult bindingResult, Model model) {
+		
+		model.addAttribute("user", user);
+		model.addAttribute("password", new CrmPassword());
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("updateUserError", bindingResult.getAllErrors().get(0).getDefaultMessage());
+			return "edit-user-form";
+		}
+		
+		session = request.getSession();
+		User loggedUser = (User) session.getAttribute("user");
+		loggedUser.setUserName(user.getUserName());
+		loggedUser.setFirstName(user.getFirstName());
+		loggedUser.setLastName(user.getLastName());
+		loggedUser.setEmail(user.getEmail());
+		
+		userService.updateUser(loggedUser);
+		model.addAttribute("updateUserSuccess", "User updated successfully!");
 		
 		return "edit-user-form";
 	}
