@@ -119,6 +119,10 @@
 								value="Filter">
 						</div>
 					</form:form>
+					<c:if test="${error != null}">
+						<div class="alert alert-danger col-xs-offset-1 col-xs-10">
+							${error}</div>
+					</c:if>
 				</div>
 			</div>
 			<div class="col-2 align-bottom">
@@ -165,14 +169,15 @@
 						<tr>
 							<td>${transactionItem.transactionDate}</td>
 							<td>${transactionItem.category.categoryName}</td>
-							<td><fmt:formatNumber type="currency" currencySymbol="zł" minFractionDigits="2"
-									maxFractionDigits="2" pattern="###.## zł"
+							<td><fmt:formatNumber type="currency" currencySymbol="zł"
+									minFractionDigits="2" maxFractionDigits="2" pattern="###.## zł"
 									value="${transactionItem.transactionAmount}" /></td>
 							<td>${transactionItem.transactionDescription}</td>
-							<td><a class="updateLink" href="${updateLink}" title="Edit"><i class="fas fa-edit"></i></a> | 
-							<a class="updateLink" href="${deleteLink}" title="Delete"
-								onclick="if(!(confirm('Are you sure you want to delete this item?'))) return false"><i class="fas fa-trash-alt"></i></a>
-							</td>
+							<td><a class="updateLink" href="${updateLink}" title="Edit"><i
+									class="fas fa-edit"></i></a> | <a class="updateLink"
+								href="${deleteLink}" title="Delete"
+								onclick="if(!(confirm('Are you sure you want to delete this item?'))) return false"><i
+									class="fas fa-trash-alt"></i></a></td>
 						</tr>
 
 					</c:forEach>

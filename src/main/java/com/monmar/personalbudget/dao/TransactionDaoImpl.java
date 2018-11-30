@@ -1,6 +1,9 @@
 package com.monmar.personalbudget.dao;
 
 import com.monmar.personalbudget.entity.FinancialTransaction;
+
+import exception.EmptyArgumentException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -59,6 +62,7 @@ public class TransactionDaoImpl implements TransactionDao {
     public List<FinancialTransaction> searchTransactionByDateByUserId(String dateFrom, String dateTo, int userId) {
         Session session = sessionFactory.getCurrentSession();
         Query<FinancialTransaction> query = null;
+        List<FinancialTransaction> financialTransactionList = null;
 
         if(dateFrom != "" && dateTo != "") {
 
@@ -68,13 +72,16 @@ public class TransactionDaoImpl implements TransactionDao {
             String hql = "from FinancialTransaction f where f.transactionDate between :dateFrom and :dateTo and f.transactionUser.id=:userId order by f.transactionDate desc";
             query = session.createQuery(hql, FinancialTransaction.class);
             query.setParameter("dateFrom", localDateFrom).setParameter("dateTo", localDateTo).setParameter("userId", userId);
+            financialTransactionList = query .setParameter("userId", userId).getResultList();
         }
         else {
             query = session.createQuery("from FinancialTransaction where f.transactionUser.id=:userId order by f.transactionDate desc", FinancialTransaction.class);
+            
+            financialTransactionList = query .setParameter("userId", userId).getResultList();
         }
 
 
-        List<FinancialTransaction> financialTransactionList = query .setParameter("userId", userId).getResultList();
+        
 
         return financialTransactionList;
     }
