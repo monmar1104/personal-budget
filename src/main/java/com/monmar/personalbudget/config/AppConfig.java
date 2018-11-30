@@ -63,72 +63,72 @@ public class AppConfig implements WebMvcConfigurer {
 
 	}
 
-    @Bean
-	public DataSource dataSource() {
-
-		ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
-
-		try {
-			securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
-		} catch (PropertyVetoException exc) {
-			throw new RuntimeException(exc);
-		}
-
-//Settings from persistence-mysql.properties
-
-//        logger.info("jdbc.url=" + env.getProperty("jdbc.url"));
-//        logger.info("jdbc.user=" + env.getProperty("jdbc.user"));
-//
-//        securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
-//        securityDataSource.setUser(env.getProperty("jdbc.user"));
-//        securityDataSource.setPassword(env.getProperty("jdbc.password"));
-
-		String herokuDbUrl = System.getenv("HEROKU_DB");
-		final String USER_NAME = herokuDbUrl.split(":")[0];
-		final String PASSWORD = herokuDbUrl.split(":")[1];
-		final String DB_URL = "jdbc:mysql://" + herokuDbUrl.split(":")[2];
-
-		logger.info("==========>>>>>conecting with jdbc.url=" + DB_URL);
-		logger.info("=============>>>>>>jdbc.user=" + USER_NAME);
-
-		securityDataSource.setJdbcUrl(DB_URL);
-		securityDataSource.setUser(USER_NAME);
-		securityDataSource.setPassword(PASSWORD);
-
-		securityDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize"));
-
-		securityDataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
-
-		securityDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
-
-		securityDataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
-		securityDataSource.setPreferredTestQuery(env.getProperty("validationQuery"));
-		securityDataSource.setTestConnectionOnCheckout(true);
-
-		return securityDataSource;
-	}
-
-////    Heroku
 //    @Bean
-//    public BasicDataSource dataSource() throws URISyntaxException {
-//        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
-//        
-//        String username = dbUri.getUserInfo().split(":")[0];
-//        String password = dbUri.getUserInfo().split(":")[1];
-//        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+//	public DataSource dataSource() {
 //
-//        BasicDataSource basicDataSource = new BasicDataSource();
-//        basicDataSource.setUrl(dbUrl);
-//        basicDataSource.setUsername(username);
-//        basicDataSource.setPassword(password);
-//        basicDataSource.setInitialSize(getIntProperty("connection.pool.initialPoolSize"));
-//        basicDataSource.setMaxIdle(getIntProperty("connection.pool.maxIdleTime"));
-//        basicDataSource.setMaxActive(getIntProperty("connection.pool.maxPoolSize"));
-//        basicDataSource.setValidationQuery(env.getProperty("validationQuery"));
-//        basicDataSource.setTestWhileIdle(true);
+//		ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
 //
-//        return basicDataSource;
-//    }
+//		try {
+//			securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
+//		} catch (PropertyVetoException exc) {
+//			throw new RuntimeException(exc);
+//		}
+//
+////Settings from persistence-mysql.properties
+//
+////        logger.info("jdbc.url=" + env.getProperty("jdbc.url"));
+////        logger.info("jdbc.user=" + env.getProperty("jdbc.user"));
+////
+////        securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
+////        securityDataSource.setUser(env.getProperty("jdbc.user"));
+////        securityDataSource.setPassword(env.getProperty("jdbc.password"));
+//
+//		String herokuDbUrl = System.getenv("HEROKU_DB");
+//		final String USER_NAME = herokuDbUrl.split(":")[0];
+//		final String PASSWORD = herokuDbUrl.split(":")[1];
+//		final String DB_URL = "jdbc:mysql://" + herokuDbUrl.split(":")[2];
+//
+//		logger.info("==========>>>>>conecting with jdbc.url=" + DB_URL);
+//		logger.info("=============>>>>>>jdbc.user=" + USER_NAME);
+//
+//		securityDataSource.setJdbcUrl(DB_URL);
+//		securityDataSource.setUser(USER_NAME);
+//		securityDataSource.setPassword(PASSWORD);
+//
+//		securityDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize"));
+//
+//		securityDataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
+//
+//		securityDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
+//
+//		securityDataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
+//		securityDataSource.setPreferredTestQuery(env.getProperty("validationQuery"));
+//		securityDataSource.setTestConnectionOnCheckout(true);
+//
+//		return securityDataSource;
+//	}
+
+//    Heroku
+    @Bean
+    public BasicDataSource dataSource() throws URISyntaxException {
+        URI dbUri = new URI(System.getenv("CLEARDB_DATABASE_URL"));
+        
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:mysql://" + dbUri.getHost() + dbUri.getPath();
+
+        BasicDataSource basicDataSource = new BasicDataSource();
+        basicDataSource.setUrl(dbUrl);
+        basicDataSource.setUsername(username);
+        basicDataSource.setPassword(password);
+        basicDataSource.setInitialSize(getIntProperty("connection.pool.initialPoolSize"));
+        basicDataSource.setMaxIdle(getIntProperty("connection.pool.maxIdleTime"));
+        basicDataSource.setMaxActive(getIntProperty("connection.pool.maxPoolSize"));
+        basicDataSource.setValidationQuery(env.getProperty("validationQuery"));
+        basicDataSource.setTestWhileIdle(true);
+
+        return basicDataSource;
+    }
 
 	private int getIntProperty(String propName) {
 
@@ -152,29 +152,29 @@ public class AppConfig implements WebMvcConfigurer {
 		return props;
 	}
 
-	@Bean
-	public LocalSessionFactoryBean sessionFactory() {
-
-		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-		sessionFactory.setDataSource(dataSource());
-		sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
-		sessionFactory.setHibernateProperties(getHibernateProperties());
-
-		return sessionFactory;
-	}
-
-//	// Heroku
-//    @Bean
-//    @Autowired
-//    public LocalSessionFactoryBean sessionFactory(BasicDataSource dataSource) {
+//	@Bean
+//	public LocalSessionFactoryBean sessionFactory() {
 //
-//        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-//		sessionFactory.setDataSource(dataSource);
-//        sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
-//        sessionFactory.setHibernateProperties(getHibernateProperties());
+//		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+//		sessionFactory.setDataSource(dataSource());
+//		sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
+//		sessionFactory.setHibernateProperties(getHibernateProperties());
 //
-//        return sessionFactory;
-//    }
+//		return sessionFactory;
+//	}
+
+	// Heroku
+    @Bean
+    @Autowired
+    public LocalSessionFactoryBean sessionFactory(BasicDataSource dataSource) {
+
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+		sessionFactory.setDataSource(dataSource);
+        sessionFactory.setPackagesToScan(env.getProperty("hiberante.packagesToScan"));
+        sessionFactory.setHibernateProperties(getHibernateProperties());
+
+        return sessionFactory;
+    }
 
 	@Bean
 	@Autowired
