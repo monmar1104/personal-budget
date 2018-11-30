@@ -3,6 +3,9 @@ package com.monmar.personalbudget.service;
 import com.monmar.personalbudget.dao.BudgetDao;
 import com.monmar.personalbudget.entity.Budget;
 import com.monmar.personalbudget.entity.BudgetDetail;
+
+import exception.EmptyArgumentException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +26,9 @@ public class BudgetServiceImpl implements BudgetService {
     @Override
     @Transactional
     public void addBudgetItem(BudgetDetail budgetDetail) {
+    	if(budgetDetail.getBudget()==null) {
+    		throw new EmptyArgumentException("You must create budget, before adding budget item!");
+    	}
         budgetDao.addBudgetItem(budgetDetail);
     }
 
@@ -32,11 +38,11 @@ public class BudgetServiceImpl implements BudgetService {
         return budgetDao.getBudgetDetailList();
     }
 
-    @Override
-    @Transactional
-    public List<BudgetDetail> getBudgetDetailListByName(String name) {
-        return budgetDao.getBudgetDetailListByName(name);
-    }
+//    @Override
+//    @Transactional
+//    public List<BudgetDetail> getBudgetDetailListByName(String name) {
+//        return budgetDao.getBudgetDetailListByName(name);
+//    }
 
     @Override
     @Transactional

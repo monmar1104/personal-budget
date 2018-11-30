@@ -118,7 +118,7 @@ public class FinancialTransactionController {
 		try {
 			transactionList = transactionService.searchTransactionByDateByUserId(dateFrom, dateTo, user.getId());
 		} catch (EmptyArgumentException e) {
-			model.addAttribute("error", e.getMessage());
+			model.addAttribute("transError", e.getMessage());
 		}
 		model.addAttribute("transactionList", transactionList);
 		model.addAttribute("transaction", new FinancialTransaction());

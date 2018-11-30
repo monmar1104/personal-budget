@@ -4,6 +4,8 @@ import com.monmar.personalbudget.entity.*;
 import com.monmar.personalbudget.service.BudgetService;
 import com.monmar.personalbudget.service.CategoryService;
 
+import exception.EmptyArgumentException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +27,6 @@ import java.util.logging.Logger;
 @RequestMapping("/budget")
 @SessionAttributes("currentBudget")
 public class BudgetController {
-	
 
 	@Autowired
 	private BudgetService budgetService;
@@ -41,7 +42,7 @@ public class BudgetController {
 
 	@Autowired
 	private HttpServletResponse response;
-	
+
 	private Logger logger = Logger.getLogger(getClass().getName());
 
 	@GetMapping("/list")
@@ -74,7 +75,6 @@ public class BudgetController {
 		Map<Integer, Double> getSumOfTransactionByCategoryMap = budgetService
 				.getSumOfTransactionByCategoryMap(budgetId);
 		model1.addAttribute("sumCategoryMap", getSumOfTransactionByCategoryMap);
-		
 
 		List<Budget> budgetList = budgetService.getBudgetList(user.getId());
 		model1.addAttribute("budgetList", budgetList);
@@ -113,32 +113,45 @@ public class BudgetController {
 		return "list-budgets";
 	}
 
-	@GetMapping("/listByBudgetName")
-	public String listBudgetItemsByBudgetName(@RequestParam("budgetName") String name, Model model) {
-		List<BudgetDetail> budgetDetails = budgetService.getBudgetDetailListByName(name);
-
-		model.addAttribute("budgetDetailList", budgetDetails);
-
-		return "list-budgets";
-	}
+//	@GetMapping("/listByBudgetName")
+//	public String listBudgetItemsByBudgetName(@RequestParam("budgetName") String name, Model model) {
+//		List<BudgetDetail> budgetDetails = budgetService.getBudgetDetailListByName(name);
+//
+//		model.addAttribute("budgetDetailList", budgetDetails);
+//
+//		return "list-budgets";
+//	}
 
 	@PostMapping("/addBudgetItem")
 	public String addBudgetItem(@RequestParam("category") String categoryId,
-			@ModelAttribute("budgetDetail") @Valid BudgetDetail budgetDetail, BindingResult result, Model model, RedirectAttributes rd) {
-
+			@ModelAttribute("budgetDetail") @Valid BudgetDetail budgetDetail, BindingResult result, Model model,
+			RedirectAttributes rd) {
+		Budget currentBudget = null;
 		budgetDetail.setCategory(categoryService.findCategoryById(Integer.valueOf(categoryId)));
-		Budget currentBudget = (Budget) model.asMap().get("currentBudget");
-
+		try {
+			currentBudget = (Budget) model.asMap().get("currentBudget");
+		} catch (Exception e) {
+			rd.addFlashAttribute("budgetError", "You must create budget, before adding budget item!");
+			return "redirect:/budget/list";
+		}
 		budgetDetail.setBudget(currentBudget);
-		budgetService.addBudgetItem(budgetDetail);
 
+		try {
+			budgetService.addBudgetItem(budgetDetail);
+		} catch (EmptyArgumentException e) {
+			rd.addFlashAttribute("budgetError", e.getMessage());
+			return "redirect:/budget/list";
+		} catch (Exception e) {
+			rd.addFlashAttribute("budgetError", "You must create budget, before adding budget item!");
+			return "redirect:/budget/list";
+		}
 		rd.addFlashAttribute("budgetId", currentBudget.getBudgetId());
 
 		return "redirect:/budget/list";
 	}
 
 	@PostMapping("/search")
-	public String searchItemByCatName(@RequestParam("currentBudget") int budgetId,
+	public String searchItemByCatName(@RequestParam("budgetId") int budgetId,
 			@RequestParam("categoryName") String name, RedirectAttributes ra, Model model) {
 		List<BudgetDetail> budgetDetailList = budgetService.searchBudgetItemByCatName(name, budgetId);
 
@@ -149,7 +162,7 @@ public class BudgetController {
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("categoryName", name);
 
-		ra.addFlashAttribute("currentBudget", budgetId);
+		model.addAttribute("currentBudget", budgetService.getBudgetById(budgetId));
 
 		return "list-budgets";
 	}
@@ -207,17 +220,11 @@ public class BudgetController {
 	}
 
 	/*
-	 * TODO Admin Module
-	 * TODO add error handling 
-	 * TODO get list only from current month 
-	 * TODO redirect to list after login??? 
-	 * TODO change forms: addTransaction,addBudgetItem 
-	 * TODO change first image 
-	 * TODO add charts
-	 * TODO validation 
-	 * TODO check csrf token
-	 * TODO disable add budget item if not have any budget
-	 * TODO list by user
+	 * TODO Admin Module TODO add error handling TODO get list only from current
+	 * month TODO redirect to list after login??? TODO change forms:
+	 * addTransaction,addBudgetItem TODO change first image TODO add charts TODO
+	 * validation TODO check csrf token TODO disable add budget item if not have any
+	 * budget TODO list by user
 	 */
 
 }

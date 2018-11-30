@@ -119,9 +119,9 @@
 								value="Filter">
 						</div>
 					</form:form>
-					<c:if test="${error != null}">
+					<c:if test="${transError != null}">
 						<div class="alert alert-danger col-xs-offset-1 col-xs-10">
-							${error}</div>
+							${transError}</div>
 					</c:if>
 				</div>
 			</div>

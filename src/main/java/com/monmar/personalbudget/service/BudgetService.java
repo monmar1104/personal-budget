@@ -12,7 +12,7 @@ public interface BudgetService {
 
     List<BudgetDetail> getBudgetDetailList();
 
-    List<BudgetDetail> getBudgetDetailListByName(String name);
+//    List<BudgetDetail> getBudgetDetailListByName(String name);
 
     List<BudgetDetail> searchBudgetItemByCatName(String name, int budgetId);
 

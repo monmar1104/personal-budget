@@ -89,9 +89,13 @@
 			<div class="col">
 				<form:form action="listBudgetItemsById" method="post">
 					<div class="form-group">
-
 						<select name="budgetId">
-							<option value="${currentBudget.budgetId}">${currentBudget.budgetName}</option>
+							<c:if test="${currentBudget.budgetId!=0}">
+								<option value="${currentBudget.budgetId}">${currentBudget.budgetName}</option>
+							</c:if>
+							<c:if test="${currentBudget.budgetId==0}">
+								<option style="color:red;" value="0">No Budgets</option>
+							</c:if>
 							<c:forEach items="${budgetList}" var="budget">
 								<option value="${budget.budgetId}">${budget.budgetName}</option>
 							</c:forEach>
@@ -112,7 +116,7 @@
 				<div class="container form-group">
 					<form:form action="search" method="POST">
                     Search category: <input type="text"
-							name="categoryName" />
+							name="categoryName" required />
 						<input type="submit" value="Search" class="btn btn-primary" />
 					</form:form>
 				</div>
@@ -124,6 +128,10 @@
 					data-target="#saveBudgetItem" accesskey="7">Add budget
 					item</button>
 			</div>
+			<c:if test="${budgetError != null}">
+						<div class="alert alert-danger col-xs-offset-1 col-xs-10">
+							${budgetError}</div>
+					</c:if>
 		</div>
 
 		<p />

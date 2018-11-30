@@ -67,16 +67,16 @@ public class BudgetDaoImpl implements BudgetDao {
 		return budgetDetails;
 	}
 
-	@Override
-	public List<BudgetDetail> getBudgetDetailListByName(String name) {
-		Session session = sessionFactory.getCurrentSession();
-		int id = getBudgetIdByname(name);
-		Query<BudgetDetail> query = session
-				.createQuery("from BudgetDetail bd where bd.budget.budgetId=:budgetId order by bd.category.categoryName", BudgetDetail.class)
-				.setParameter("budgetId", id);
-
-		return query.getResultList();
-	}
+//	@Override
+//	public List<BudgetDetail> getBudgetDetailListByName(String name) {
+//		Session session = sessionFactory.getCurrentSession();
+//		int id = getBudgetIdByname(name);
+//		Query<BudgetDetail> query = session
+//				.createQuery("from BudgetDetail bd where bd.budget.budgetId=:budgetId order by bd.category.categoryName", BudgetDetail.class)
+//				.setParameter("budgetId", id);
+//
+//		return query.getResultList();
+//	}
 
 	private int getBudgetIdByname(String name) {
 		Session session = sessionFactory.getCurrentSession();
