@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -37,6 +38,8 @@ public class TransactionDaoImpl implements TransactionDao {
     public List<FinancialTransaction> searchTransactionByNameByUserId(String name, int userId) {
         Session session = sessionFactory.getCurrentSession();
         Query<FinancialTransaction> query = null;
+        List<FinancialTransaction> transactionList = null;
+        
           String hql = "from FinancialTransaction f where f.category.categoryName like :name and f.transactionUser.id=:userId order by f.transactionDate desc";
 
         if (name != null && name.trim().length() > 0) {
@@ -44,13 +47,11 @@ public class TransactionDaoImpl implements TransactionDao {
                     FinancialTransaction.class);
             query.setParameter("name", "%" + name.toLowerCase() + "%");
             query.setParameter("userId", userId);
+            transactionList = query.getResultList();
 
         } else {
-            query = session.createQuery("from FinancialTransaction", FinancialTransaction.class);
+            transactionList = new ArrayList<>();
         }
-
-        List<FinancialTransaction> transactionList = query.getResultList();
-
         return transactionList;
     }
 

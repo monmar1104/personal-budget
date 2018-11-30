@@ -213,9 +213,11 @@ public class BudgetController {
 	 * TODO redirect to list after login??? 
 	 * TODO change forms: addTransaction,addBudgetItem 
 	 * TODO change first image 
-	 * TODO 
+	 * TODO add charts
 	 * TODO validation 
 	 * TODO check csrf token
+	 * TODO disable add budget item if not have any budget
+	 * TODO list by user
 	 */
 
 }
