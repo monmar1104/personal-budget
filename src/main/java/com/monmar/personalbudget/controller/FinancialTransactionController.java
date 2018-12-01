@@ -64,6 +64,11 @@ public class FinancialTransactionController {
 
 		financialTransaction.setCategory(categoryService.findCategoryById(Integer.valueOf(categoryId)));
 		financialTransaction.setTransactionUser(user);
+		
+		if (result.hasErrors()) {
+			model.addAttribute("addTransactionError", result.getAllErrors().get(0).getDefaultMessage());
+			return "list-transaction";
+		}
 		transactionService.saveTransaction(financialTransaction);
 
 		return "redirect:/transaction/list";

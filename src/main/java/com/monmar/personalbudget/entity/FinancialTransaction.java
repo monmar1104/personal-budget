@@ -38,6 +38,7 @@ public class FinancialTransaction {
     @ManyToOne(
     			cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "fin_transaction_cat_id")
+    @NotNull(message = "Category is required")
     private Category category;
     
     @ManyToOne(fetch = FetchType.LAZY,

@@ -86,8 +86,6 @@ public class UserController {
 		userService.updateUser(user);
 		model.addAttribute("changePasswordSuccess", "Password changed successfully!");
 		
-		System.out.println(crmPassword.getNewPassword());
-		
 		
 		return "edit-user-form";
 	}

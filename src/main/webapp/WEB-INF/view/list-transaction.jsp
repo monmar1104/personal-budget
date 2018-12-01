@@ -46,12 +46,12 @@
 							<div class="form-group">
 								<label>Transaction date</label>
 								<form:input type="date" path="transactionDate"
-									class="form-control" />
+									class="form-control" required="required" />
 							</div>
 							<div class="form-group">
 								<label>Category</label>
 								<form:select name="category" path="category"
-									class="form-control">
+									class="form-control" required="required">
 									<form:option value="0" label="Chose category" />
 									<c:forEach var="list" items="${categoryList}">
 										<option value="${list.categoryId}">${list.categoryName}</option>
@@ -64,7 +64,8 @@
 								<div class="input-group">
 									<form:input type="number" min="0" step="0.01"
 										data-number-to-fixed="2" data-number-stepfactor="100"
-										class="form-control currency" path="transactionAmount" />
+										class="form-control currency" path="transactionAmount"
+										required="required" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -96,7 +97,7 @@
 					<form:form action="search" method="POST">
                     Search transaction: <input type="text"
 							value="${categoryName}" name="transactionName" />
-						<input type="submit" value="Search" class="add-button" />
+						<input type="submit" value="Search" class="add-button" required />
 					</form:form>
 				</div>
 
@@ -109,13 +110,13 @@
 							</div>
 							<input type="date" name="transactionDateFrom" value="${dateFrom}"
 								placeholder="Date from" aria-label="DateFrom"
-								aria-describedby="basic-addon1">
+								aria-describedby="basic-addon1" required />
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="basic-addon2">To</span>
 							</div>
 							<input type="date" name="transactionDateTo" value="${dateTo}"
 								placeholder="Date to" aria-label="DateTo"
-								aria-describedby="basic-addon2"> <input type="submit"
+								aria-describedby="basic-addon2" required /> <input type="submit"
 								value="Filter">
 						</div>
 					</form:form>
@@ -133,6 +134,12 @@
 		</div>
 
 
+		<c:if test="${addTransactionError != null}">
+			<div class="alert alert-danger col-xs-offset-1 col-xs-10">
+				You must fill out required filed (Date, Category, Amount)
+				<form:errors path="*" />
+			</div>
+		</c:if>
 		<p />
 		<p />
 		<div class="table-responsive">
