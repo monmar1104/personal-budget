@@ -4,6 +4,8 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 
@@ -23,9 +25,11 @@ public class FinancialTransaction {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "fin_transaction_date")
+    @NotNull(message = "Date is required")
     private LocalDate transactionDate;
 
     @Column(name = "fin_transaction_amount")
+    @NotNull(message = "Amount is required")
     private double transactionAmount;
 
     @Column(name = "fin_transaction_description")

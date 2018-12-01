@@ -22,12 +22,12 @@ public class Category {
     private int categoryId;
 
     @Column(name = "cat_name")
-    @NotNull
+    @NotNull(message = "Category name is required")
     private String categoryName;
 
     @Enumerated
     @Column(name = "cat_operation_type")
-    @NotNull
+    @NotNull(message = "Operation type is required")
     private OperationType categoryOperationType;
 
 

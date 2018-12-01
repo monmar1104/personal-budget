@@ -3,6 +3,7 @@ package com.monmar.personalbudget.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -25,6 +26,7 @@ public class Budget {
     private int budgetId;
 
     @Column(name = "budget_name")
+    @NotNull(message = "Name is required")
     private String budgetName;
     
     @Column(name = "budget_description")
@@ -32,10 +34,12 @@ public class Budget {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "budget_date_from")
+    @NotNull(message = "Date is required")
     private LocalDate budgetDateFrom;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "budget_date_to")
+    @NotNull(message = "Date is required")
     private LocalDate budgetDateTo;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
