@@ -220,11 +220,17 @@ public class BudgetController {
 	}
 
 	/*
-	 * TODO Admin Module TODO add error handling TODO get list only from current
-	 * month TODO redirect to list after login??? TODO change forms:
-	 * addTransaction,addBudgetItem TODO change first image TODO add charts TODO
-	 * validation TODO check csrf token TODO disable add budget item if not have any
-	 * budget TODO list by user
+	 * TODO Admin Module 
+	 * TODO add error handling 
+	 * TODO get list only from current month
+	 * TODO add link in budget item to transactions  
+	 * TODO redirect to list after login??? TODO change forms:addTransaction,addBudgetItem 
+	 * TODO change first image 
+	 * TODO add charts 
+	 * TODO validation 
+	 * TODO check csrf token 
+	 * TODO disable add budget item if not have any budget 
+	 * TODO list by user
 	 */
 
 }
