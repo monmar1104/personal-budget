@@ -114,11 +114,7 @@
 		<div class="justify-content-center row">
 			<div class="col-6">
 				<div class="container form-group">
-				<c:url value="search" var="vsearch">
-							<c:param name="budgetId"
-								value="${currentBudget.budgetId}"></c:param>
-					</c:url>
-					<form:form action="vsearch" method="POST">
+					<form:form action="search?budgetId=${currentBudget.budgetId}" method="POST">
 					
                     Search category: <input type="text"
 							name="categoryName" required />
