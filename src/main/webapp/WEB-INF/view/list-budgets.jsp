@@ -117,7 +117,7 @@
 					<form:form action="search?budgetId=${currentBudget.budgetId}" method="POST">
 					
                     Search category: <input type="text"
-							name="categoryName" required />
+							name="categoryName"/>
 						<input type="submit" value="Search" class="btn btn-primary" />
 					</form:form>
 				</div>

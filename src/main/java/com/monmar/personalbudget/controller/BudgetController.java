@@ -153,6 +153,15 @@ public class BudgetController {
 	@PostMapping("/search")
 	public String searchItemByCatName(@RequestParam("budgetId") int budgetId,
 			@RequestParam("categoryName") String name, RedirectAttributes ra, Model model) {
+		
+		session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		Budget currentBudget = null;
+		
+		if (budgetId == 0) {
+			currentBudget = budgetService.getLastBudget(user.getId());
+			budgetId = currentBudget.getBudgetId();
+		}
 		List<BudgetDetail> budgetDetailList = budgetService.searchBudgetItemByCatName(name, budgetId);
 
 		model.addAttribute("budgetDetailList", budgetDetailList);
@@ -161,6 +170,10 @@ public class BudgetController {
 		List<Category> categoryList = categoryService.getCategoryList();
 		model.addAttribute("categoryList", categoryList);
 		model.addAttribute("categoryName", name);
+		
+		Map<Integer, Double> getSumOfTransactionByCategoryMap = budgetService
+				.getSumOfTransactionByCategoryMap(budgetId);
+		model.addAttribute("sumCategoryMap", getSumOfTransactionByCategoryMap);
 
 		model.addAttribute("currentBudget", budgetService.getBudgetById(budgetId));
 
@@ -224,7 +237,8 @@ public class BudgetController {
 	 * TODO add error handling 
 	 * TODO get list only from current month
 	 * TODO add link in budget item to transactions  
-	 * TODO redirect to list after login??? TODO change forms:addTransaction,addBudgetItem 
+	 * TODO redirect to list after login??? 
+	 * TODO change forms:addTransaction,addBudgetItem 
 	 * TODO change first image 
 	 * TODO add charts 
 	 * TODO validation 

@@ -99,11 +99,12 @@ public class BudgetDaoImpl implements BudgetDao {
 		if (name != null && name.trim().length() > 0) {
 			query = session.createQuery(hql, BudgetDetail.class);
 			query.setParameter("name", "%" + name.toLowerCase() + "%");
-			query.setParameter("budgetId", budgetId);
+			
 
 		} else {
-			query = session.createQuery("from BudgetDetail", BudgetDetail.class);
+			query = session.createQuery("from BudgetDetail bd where bd.budget.budgetId=:budgetId order by bd.category.categoryName", BudgetDetail.class);
 		}
+		query.setParameter("budgetId", budgetId);
 
 		List<BudgetDetail> budgetDetailList = query.getResultList();
 
