@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,19 +57,21 @@ public class FinancialTransactionController {
 	}
 
 	@PostMapping("/addTransaction")
-	public String addTransaction(@RequestParam("category") String categoryId,
+	public String addTransaction(@RequestParam("categoryId") String categoryId,
 			@Valid @ModelAttribute("transaction") FinancialTransaction financialTransaction, BindingResult result,
-			Model model) {
+			Model model, RedirectAttributes ra) {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
+		
+		if (result.hasErrors() || categoryId.equals("0")) {
+			ra.addFlashAttribute("addTransactionError", "error");
+			return "redirect:/transaction/list";
+		}
 
 		financialTransaction.setCategory(categoryService.findCategoryById(Integer.valueOf(categoryId)));
+		
 		financialTransaction.setTransactionUser(user);
 		
-		if (result.hasErrors()) {
-			model.addAttribute("addTransactionError", result.getAllErrors().get(0).getDefaultMessage());
-			return "list-transaction";
-		}
 		transactionService.saveTransaction(financialTransaction);
 
 		return "redirect:/transaction/list";

@@ -48,15 +48,16 @@
 								<form:input type="date" path="transactionDate"
 									class="form-control" required="required" />
 							</div>
+							
 							<div class="form-group">
 								<label>Category</label>
-								<form:select name="category" path="category"
+								<select name="categoryId"
 									class="form-control" required="required">
-									<form:option value="0" label="Chose category" />
+									<option value="0" label="Chose category" />
 									<c:forEach var="list" items="${categoryList}">
 										<option value="${list.categoryId}">${list.categoryName}</option>
 									</c:forEach>
-								</form:select>
+								</select>
 							</div>
 
 							<div class="form-group">
