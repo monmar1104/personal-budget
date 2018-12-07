@@ -61,12 +61,13 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fab fa-contao"></i></span>
 							</div>
-							<form:select name="category" path="category" class="form-control">
+							<%-- <form:hidden path="category" value="${transaction.category}"/> --%>
+							<select name="categoryId" class="form-control">
 								<option value="${transaction.category.categoryId}">${transaction.category.categoryName}</option>
 								<c:forEach var="list" items="${categoryList}">
 									<option value="${list.categoryId}">${list.categoryName}</option>
 								</c:forEach>
-							</form:select>
+							</select>
 						</div>
 
 
