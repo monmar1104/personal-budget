@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -62,6 +63,13 @@ public class TransactionServiceImpl implements TransactionService {
 			throw new EmptyArgumentException("You must give a date");
 		}
 		return transactionDao.searchTransactionByDateByUserId(dateFrom, dateTo, userId);
+	}
+
+	@Override
+	@Transactional
+	public List<FinancialTransaction> searchTransactionByNameByUserIdByDate(String name,
+			LocalDate budgetDateFrom, LocalDate budgetDateTo, int userId) {
+		return transactionDao.searchTransactionByNameByUserIdByDate(name, budgetDateFrom, budgetDateTo, userId);
 	}
 
 }

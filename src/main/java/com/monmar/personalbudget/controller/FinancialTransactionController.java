@@ -1,8 +1,10 @@
 package com.monmar.personalbudget.controller;
 
+import com.monmar.personalbudget.entity.Budget;
 import com.monmar.personalbudget.entity.Category;
 import com.monmar.personalbudget.entity.FinancialTransaction;
 import com.monmar.personalbudget.entity.User;
+import com.monmar.personalbudget.service.BudgetService;
 import com.monmar.personalbudget.service.CategoryService;
 import com.monmar.personalbudget.service.TransactionService;
 
@@ -37,6 +39,9 @@ public class FinancialTransactionController {
 
 	@Autowired
 	HttpServletResponse response;
+
+	@Autowired
+	BudgetService budgetService;
 
 	@GetMapping("/list")
 	public String showTransactionList(Model model) {
@@ -114,6 +119,29 @@ public class FinancialTransactionController {
 
 		return "list-transaction";
 	}
+	
+	@GetMapping("/searchCategory")
+	public String searchTransactionByCategoryName(@RequestParam("transactionName") String name,
+			@RequestParam("budgetId") String budgetId, Model model) {
+		
+		Budget budget = budgetService.getBudgetById(Integer.parseInt(budgetId));
+		
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		List<FinancialTransaction> transactionList = transactionService.searchTransactionByNameByUserIdByDate(name,
+			 budget.getBudgetDateFrom(), budget.getBudgetDateTo(), user.getId() );
+
+		model.addAttribute("transactionList", transactionList);
+		model.addAttribute("transaction", new FinancialTransaction());
+
+		List<Category> categoryList = categoryService.getCategoryList();
+		model.addAttribute("categoryList", categoryList);
+		model.addAttribute("categoryName", name);
+
+		return "list-transaction";
+	}
+	
+	
 
 	@PostMapping("/filterByDate")
 	public String searchTransactionByName(@RequestParam("transactionDateFrom") String dateFrom,

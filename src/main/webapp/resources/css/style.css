@@ -122,5 +122,15 @@ a:visited.updateLink {
 	background-color: rgba(40,40,40,0.8) !important;
 }
 
+.catName {
+	text-decoration:none
+}
+a:link.catName {
+	color: #ffffff!important;
+}
+a:visited.catName {
+	color: #ffffff !important;
+}
+
 
 

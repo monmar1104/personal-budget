@@ -2,6 +2,7 @@ package com.monmar.personalbudget.service;
 
 import com.monmar.personalbudget.entity.FinancialTransaction;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface TransactionService {
@@ -16,4 +17,7 @@ public interface TransactionService {
     void deleteTransactionById(int id);
 
     List<FinancialTransaction> searchTransactionByDateByUserId(String dateFrom, String dateTo, int userId);
+
+	List<FinancialTransaction> searchTransactionByNameByUserIdByDate(String name, LocalDate budgetDateFrom,
+			LocalDate budgetDateTo, int userId);
 }
