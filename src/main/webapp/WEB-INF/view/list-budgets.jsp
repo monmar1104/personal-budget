@@ -94,7 +94,7 @@
 								<option value="${currentBudget.budgetId}">${currentBudget.budgetName}</option>
 							</c:if>
 							<c:if test="${currentBudget.budgetId==0}">
-								<option style="color:red;" value="0">No Budgets</option>
+								<option style="color: red;" value="0">No Budgets</option>
 							</c:if>
 							<c:forEach items="${budgetList}" var="budget">
 								<option value="${budget.budgetId}">${budget.budgetName}</option>
@@ -114,10 +114,11 @@
 		<div class="justify-content-center row">
 			<div class="col-6">
 				<div class="container form-group">
-					<form:form action="search?budgetId=${currentBudget.budgetId}" method="POST">
+					<form:form action="search?budgetId=${currentBudget.budgetId}"
+						method="POST">
 					
                     Search category: <input type="text"
-							name="categoryName"/>
+							name="categoryName" />
 						<input type="submit" value="Search" class="btn btn-primary" />
 					</form:form>
 				</div>
@@ -130,9 +131,9 @@
 					item</button>
 			</div>
 			<c:if test="${budgetError != null}">
-						<div class="alert alert-danger col-xs-offset-1 col-xs-10">
-							${budgetError}</div>
-					</c:if>
+				<div class="alert alert-danger col-xs-offset-1 col-xs-10">
+					${budgetError}</div>
+			</c:if>
 		</div>
 
 		<p />
@@ -170,36 +171,48 @@
 							<c:param name="budgetDetailId"
 								value="${budgetItem.budgetDetailId}"></c:param>
 						</c:url>
+						<c:url var="expenseLink"
+							value="/transaction/searchCategory">
+							<c:param name="transactionName"
+								value="${budgetItem.category.categoryName}"></c:param>
+								<c:param name="budgetId"
+								value="${budgetItem.budget.budgetId}"></c:param>
+						</c:url>
 						<tr>
-							<td class="col-xs-3">${budgetItem.category.categoryName}</td>
+							<td class="col-xs-3"><a class="catName" href="${expenseLink}">${budgetItem.category.categoryName}</a></td>
 
-							<td id="budgetAmount" class="col-xs-1"><fmt:formatNumber type="number" minFractionDigits="2"
-									pattern="###.## zł" maxFractionDigits="2" groupingUsed="false"
+							<td id="budgetAmount" class="col-xs-1"><fmt:formatNumber
+									type="number" minFractionDigits="2" pattern="###.## zł"
+									maxFractionDigits="2" groupingUsed="false"
 									value="${budgetItem.budgetDetailAmount}" /></td>
 							<c:choose>
 								<c:when
 									test="${sumCategoryMap.get(budgetItem.category.categoryId)!=null}">
-									<td id="expenseAmount" class="col-xs-1"><fmt:formatNumber type="number" pattern="###.## zł"
-											groupingUsed="false" minFractionDigits="2"
-											maxFractionDigits="2"
-											value="${sumCategoryMap.get(budgetItem.category.categoryId)}" /></td>
+									<td id="expenseAmount" class="col-xs-1">
+									 <fmt:formatNumber
+												type="number" pattern="###.## zł" groupingUsed="false"
+												minFractionDigits="2" maxFractionDigits="2"
+												value="${sumCategoryMap.get(budgetItem.category.categoryId)}" />
+									</td>
 								</c:when>
 								<c:otherwise>
-									<td id="expenseAmount" class="col-xs-1"><fmt:formatNumber type="number" pattern="###.## zł"
-											minFractionDigits="2" maxFractionDigits="2" value="0" /></td>
+									<td id="expenseAmount" class="col-xs-1"><fmt:formatNumber
+											type="number" pattern="###.## zł" minFractionDigits="2"
+											maxFractionDigits="2" value="0" /></td>
 								</c:otherwise>
 							</c:choose>
-							
+
 							<td id="percent" class="col-xs-1"></td>
-									
+
 							<td class="col-xs-4">${budgetItem.budgetDetailDescription}</td>
-							<td class="col-xs-2">
-							
-							<a class="updateLink" href="${updateLink}" title="Edit"><i class="fas fa-edit"></i></a> | 
-							<a class="updateLink" href="${deleteLink}" title="Delete" onclick="if(!(confirm('Are you sure you want to delete this item?'))) return false">
-							<i class="fas fa-trash-alt"></i></a></td>
-							
-							
+							<td class="col-xs-2"><a class="updateLink"
+								href="${updateLink}" title="Edit"><i class="fas fa-edit"></i></a>
+								| <a class="updateLink" href="${deleteLink}" title="Delete"
+								onclick="if(!(confirm('Are you sure you want to delete this item?'))) return false">
+									<i class="fas fa-trash-alt"></i>
+							</a></td>
+
+
 						</tr>
 
 					</c:forEach>
@@ -214,7 +227,7 @@
 				</tbody>
 			</table>
 		</div>
-		
+
 		<!-- calculating sum of amounts -->
 		<script type="text/javascript">
 			var table = document.getElementById("table"), plan = 0.00;
@@ -223,13 +236,15 @@
 			var currentExpenseAmount = 0.00;
 
 			for (var i = 1; i < table.rows.length; i++) {
-				currentBudgetAmount = parseFloat(table.rows[i].cells[1].innerHTML.replace(/\s/g, '').replace(',', '.'));
-				
-				currentExpenseAmount = parseFloat(table1.rows[i].cells[2].innerHTML.replace(/\s/g, '').replace(',', '.'));
-				
-				plan = plan	+ currentBudgetAmount;
-				expend = expend	+ currentExpenseAmount;
-				
+				currentBudgetAmount = parseFloat(table.rows[i].cells[1].innerHTML
+						.replace(/\s/g, '').replace(',', '.'));
+
+				currentExpenseAmount = parseFloat(table1.rows[i].cells[2].innerHTML
+						.replace(/\s/g, '').replace(',', '.'));
+
+				plan = plan + currentBudgetAmount;
+				expend = expend + currentExpenseAmount;
+
 			}
 			console.log(plan);
 			console.log(expend);
@@ -238,7 +253,7 @@
 			document.getElementById("sum1").innerHTML = expend.toFixed(2)
 					.replace('.', ',');
 		</script>
-		
+
 		<!-- percent calculating and alert -->
 		<script type="text/javascript">
 			var currentBudgetAmount = 0.00;
@@ -246,30 +261,30 @@
 			var percent = 0.00;
 
 			for (var i = 1; i < table.rows.length; i++) {
-				currentBudgetAmount = parseFloat(table.rows[i].cells[1].innerHTML.replace(/\s/g, '').replace(',', '.'));
-				
-				currentExpenseAmount = parseFloat(table1.rows[i].cells[2].innerHTML.replace(/\s/g, '').replace(',', '.'));
-				
-				
-				percent = currentExpenseAmount / currentBudgetAmount*100;
-				if(percent > 100){
+				currentBudgetAmount = parseFloat(table.rows[i].cells[1].innerHTML
+						.replace(/\s/g, '').replace(',', '.'));
+					
+				currentExpenseAmount = parseFloat(table1.rows[i].cells[2].innerHTML
+						.replace(/\s/g, '').replace(',', '.'));
+						
+				console.log("from loop: "+currentExpenseAmount.toFixed(1).replace('.', ','));
+
+				percent = currentExpenseAmount / currentBudgetAmount * 100;
+				if (percent > 100) {
 					table.rows[i].cells[3].className = "overrun";
 				} else if (percent == 100) {
 					table.rows[i].cells[3].className = "plan";
 				}
-				
-				table.rows[i].cells[3].innerHTML = percent.toFixed(1).replace('.', ',')+" %";
-			
-				
-				console.log(currentBudgetAmount.toFixed(1).replace(
-						'.', ','));
-				console.log(currentExpenseAmount.toFixed(1).replace(
-						'.', ','));
-				console.log(percent.toFixed(1).replace(
-						'.', ','));
-				
+
+				table.rows[i].cells[3].innerHTML = percent.toFixed(1).replace(
+						'.', ',')
+						+ " %";
+
+				console.log(currentBudgetAmount.toFixed(1).replace('.', ','));
+				console.log(currentExpenseAmount.toFixed(1).replace('.', ','));
+				console.log(percent.toFixed(1).replace('.', ','));
+
 			}
-			
 		</script>
 	</div>
 </body>
