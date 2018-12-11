@@ -236,7 +236,6 @@ public class BudgetController {
 	 * TODO Admin Module 
 	 * TODO add error handling 
 	 * TODO get list only from current month
-	 * TODO add link in budget item to transactions  
 	 * TODO redirect to list after login??? 
 	 * TODO change forms:addTransaction,addBudgetItem 
 	 * TODO change first image 
