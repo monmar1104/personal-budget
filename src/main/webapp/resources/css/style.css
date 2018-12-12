@@ -123,10 +123,10 @@ a:visited.updateLink {
 }
 
 .catName {
-	text-decoration:none
+	text-decoration: none;
 }
 a:link.catName {
-	color: #ffffff!important;
+	color: #ffffff !important;
 }
 a:visited.catName {
 	color: #ffffff !important;
