@@ -23,7 +23,7 @@
 				href="${pageContext.request.contextPath}/budget/list">Budgets<span
 					class="sr-only">(current)</span></a></li>
 			<li class="nav-item"><a class="nav-link"
-				href="${pageContext.request.contextPath}/service/break">Statistics</a>
+				href="${pageContext.request.contextPath}/stats/">Statistics</a>
 			</li>
 			<li class="nav-item dropdown"><a
 				class="nav-link dropdown-toggle" href="#"

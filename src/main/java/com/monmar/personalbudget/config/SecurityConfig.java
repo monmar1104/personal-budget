@@ -38,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/category/**").hasRole("SYSUSER")
 			.antMatchers("/service/**").hasRole("SYSUSER")
 			.antMatchers("/user/**").hasRole("SYSUSER")
+			.antMatchers("/stats/**").hasRole("SYSUSER")
 			.and()
 			.formLogin()
 				.loginPage("/showMyLoginPage")

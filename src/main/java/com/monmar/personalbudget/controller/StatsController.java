@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monmar.personalbudget.entity.Budget;
+import com.monmar.personalbudget.entity.Category;
 import com.monmar.personalbudget.entity.Stat;
 import com.monmar.personalbudget.entity.User;
 import com.monmar.personalbudget.service.BudgetService;
@@ -54,15 +55,20 @@ public class StatsController {
 		session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		
+		List<Category> categories = catService.getCategoryList();
+		
 		Budget budget = budgetService.getLastBudget(5);
-		
-		
 		Map<Integer, Double> getSumOfTransactionByCategoryMap = budgetService
 				.getSumOfTransactionByCategoryMap(19);
 	
 		List<Stat> stats = new ArrayList<Stat>();
 		
-		getSumOfTransactionByCategoryMap.forEach((k,v) -> stats.add(new Stat(catService.findCategoryById(k).getCategoryName(),v)));
+		getSumOfTransactionByCategoryMap.forEach((k,v) -> 
+										stats.add(new Stat(categories.stream()
+																	.filter(id -> id.getCategoryId()==k)
+																	.map(n -> n.getCategoryName())
+																	.findFirst()
+																	.get(),v)));
 		
 		
 		return stats;
