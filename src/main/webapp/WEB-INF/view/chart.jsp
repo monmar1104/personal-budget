@@ -30,7 +30,7 @@
            data.addColumn('number', 'Amount');
       		var dataArray = [];
       		$.each(result, function(i, obj){
-      			dataArray.push([obj.cateory, obj.amount]);
+      			dataArray.push([obj.category, obj.amount]);
       		})
       		data.addRows(dataArray);
         
