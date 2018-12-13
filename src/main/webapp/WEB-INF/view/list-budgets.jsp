@@ -151,10 +151,13 @@
 						<th class="col-xs-1" scope="col" index=2>Spent Amount
 							<div class="filter"></div>
 						</th>
-						<th class="col-xs-1" scope="col" index=3>% of Usage
+						<th class="col-xs-1" scope="col" index=3>Remaining Amount
 							<div class="filter"></div>
 						</th>
-						<th class="col-xs-4" scope="col" index=4>Description
+						<th class="col-xs-1" scope="col" index=4>% of Usage
+							<div class="filter"></div>
+						</th>
+						<th class="col-xs-3" scope="col" index=5>Description
 							<div class="filter"></div>
 						</th>
 						<th class="col-xs-2" scope="col">Action</th>
@@ -173,7 +176,9 @@
 						</c:url>
 						<c:url var="expenseLink"
 							value="/transaction/searchCategory">
-							<c:param name="transactionName"
+							<c:param name="categoryId"
+								value="${budgetItem.category.categoryId}"></c:param>
+								<c:param name="categoryName"
 								value="${budgetItem.category.categoryName}"></c:param>
 								<c:param name="budgetId"
 								value="${budgetItem.budget.budgetId}"></c:param>
@@ -201,6 +206,8 @@
 											maxFractionDigits="2" value="0" /></td>
 								</c:otherwise>
 							</c:choose>
+							
+							<td id="remainingAmount" class="col-xs-1"></td>
 
 							<td id="percent" class="col-xs-1"></td>
 
@@ -220,6 +227,7 @@
 						<td>Sum</td>
 						<td id="sum">0</td>
 						<td id="sum1">0</td>
+						<td id="remAmount">0</td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -249,17 +257,19 @@
 			console.log(plan);
 			console.log(expend);
 			document.getElementById("sum").innerHTML = plan.toFixed(2).replace(
-					'.', ',');
+					'.', ',') + " zł";
 			document.getElementById("sum1").innerHTML = expend.toFixed(2)
-					.replace('.', ',');
+					.replace('.', ',') + " zł";
+			document.getElementById("remAmount").innerHTML = (plan - expend).toFixed(2)
+			.replace('.', ',') + " zł";
 		</script>
 
-		<!-- percent calculating and alert -->
+		<!-- percent and remaining amount calculating + alert -->
 		<script type="text/javascript">
 			var currentBudgetAmount = 0.00;
 			var currentExpenseAmount = 0.00;
 			var percent = 0.00;
-
+			var remainingAmount = 0.00;
 			for (var i = 1; i < table.rows.length; i++) {
 				currentBudgetAmount = parseFloat(table.rows[i].cells[1].innerHTML
 						.replace(/\s/g, '').replace(',', '.'));
@@ -268,15 +278,28 @@
 						.replace(/\s/g, '').replace(',', '.'));
 						
 				console.log("from loop: "+currentExpenseAmount.toFixed(1).replace('.', ','));
-
+				
+				remainingAmount = currentBudgetAmount - currentExpenseAmount;
+				
 				percent = currentExpenseAmount / currentBudgetAmount * 100;
-				if (percent > 100) {
+				
+				if (remainingAmount < 0) {
 					table.rows[i].cells[3].className = "overrun";
-				} else if (percent == 100) {
+				} else if (remainingAmount == 0) {
 					table.rows[i].cells[3].className = "plan";
 				}
+				
+				if (percent > 100) {
+					table.rows[i].cells[4].className = "overrun";
+				} else if (percent == 100) {
+					table.rows[i].cells[4].className = "plan";
+				}
 
-				table.rows[i].cells[3].innerHTML = percent.toFixed(1).replace(
+				table.rows[i].cells[3].innerHTML = remainingAmount.toFixed(2).replace(
+						'.', ',')
+						+ " zł";
+				
+				table.rows[i].cells[4].innerHTML = percent.toFixed(1).replace(
 						'.', ',')
 						+ " %";
 

@@ -121,14 +121,14 @@ public class FinancialTransactionController {
 	}
 	
 	@GetMapping("/searchCategory")
-	public String searchTransactionByCategoryName(@RequestParam("transactionName") String name,
+	public String searchTransactionByCategoryName(@RequestParam("categoryId") int categoryId, @RequestParam("categoryName") String name,
 			@RequestParam("budgetId") String budgetId, Model model) {
 		
 		Budget budget = budgetService.getBudgetById(Integer.parseInt(budgetId));
 		
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		List<FinancialTransaction> transactionList = transactionService.searchTransactionByNameByUserIdByDate(name,
+		List<FinancialTransaction> transactionList = transactionService.searchTransactionByIdByUserIdByDate(categoryId,
 			 budget.getBudgetDateFrom(), budget.getBudgetDateTo(), user.getId() );
 
 		model.addAttribute("transactionList", transactionList);

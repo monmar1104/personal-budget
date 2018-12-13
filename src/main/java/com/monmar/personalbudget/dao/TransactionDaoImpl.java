@@ -103,16 +103,16 @@ public class TransactionDaoImpl implements TransactionDao {
 	}
 
 	@Override
-	public List<FinancialTransaction> searchTransactionByNameByUserIdByDate(String name,
+	public List<FinancialTransaction> searchTransactionByIdByUserIdByDate(int categoryId,
 			LocalDate budgetDateFrom, LocalDate budgetDateTo, int userId) {
 
 		Session session = sessionFactory.getCurrentSession();
 		Query<FinancialTransaction> query = null;
 		List<FinancialTransaction> financialTransactionList = null;
 
-		String hql = "from FinancialTransaction f  where f.category.categoryName=:categoryName and f.transactionDate between :dateFrom and :dateTo and f.transactionUser.id=:userId order by f.transactionDate desc";
+		String hql = "from FinancialTransaction f  where f.category.categoryId=:categoryId and f.transactionDate between :dateFrom and :dateTo and f.transactionUser.id=:userId order by f.transactionDate desc";
 		query = session.createQuery(hql, FinancialTransaction.class);
-		query.setParameter("categoryName", name).setParameter("dateFrom", budgetDateFrom).setParameter("dateTo", budgetDateTo).setParameter("userId",
+		query.setParameter("categoryId", categoryId).setParameter("dateFrom", budgetDateFrom).setParameter("dateTo", budgetDateTo).setParameter("userId",
 				userId);
 		financialTransactionList = query.setParameter("userId", userId).getResultList();
 

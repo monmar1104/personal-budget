@@ -18,6 +18,6 @@ public interface TransactionDao {
 
     List<FinancialTransaction> searchTransactionByDateByUserId(String dateFrom, String dateTo, int userId);
 
-	List<FinancialTransaction> searchTransactionByNameByUserIdByDate(String name, LocalDate budgetDateFrom,
+	List<FinancialTransaction> searchTransactionByIdByUserIdByDate(int categoryId, LocalDate budgetDateFrom,
 			LocalDate budgetDateTo, int userId);
 }

@@ -57,9 +57,9 @@ public class StatsController {
 		
 		List<Category> categories = catService.getCategoryList();
 		
-		Budget budget = budgetService.getLastBudget(5);
+		Budget budget = budgetService.getLastBudget(user.getId());
 		Map<Integer, Double> getSumOfTransactionByCategoryMap = budgetService
-				.getSumOfTransactionByCategoryMap(19);
+				.getSumOfTransactionByCategoryMap(budget.getBudgetId());
 	
 		List<Stat> stats = new ArrayList<Stat>();
 		

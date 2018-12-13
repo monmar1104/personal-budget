@@ -113,14 +113,6 @@ public class BudgetController {
 		return "list-budgets";
 	}
 
-//	@GetMapping("/listByBudgetName")
-//	public String listBudgetItemsByBudgetName(@RequestParam("budgetName") String name, Model model) {
-//		List<BudgetDetail> budgetDetails = budgetService.getBudgetDetailListByName(name);
-//
-//		model.addAttribute("budgetDetailList", budgetDetails);
-//
-//		return "list-budgets";
-//	}
 
 	@PostMapping("/addBudgetItem")
 	public String addBudgetItem(@RequestParam("category") String categoryId,
@@ -149,6 +141,7 @@ public class BudgetController {
 
 		return "redirect:/budget/list";
 	}
+	
 
 	@PostMapping("/search")
 	public String searchItemByCatName(@RequestParam("budgetId") int budgetId,
@@ -179,6 +172,7 @@ public class BudgetController {
 
 		return "list-budgets";
 	}
+	
 
 	@GetMapping("/showAddBudgetItemFormUpdate")
 	public String showTransactionFormForUpdate(@RequestParam("budgetDetailId") int id, Model model) {
@@ -244,6 +238,7 @@ public class BudgetController {
 	 * TODO check csrf token 
 	 * TODO disable add budget item if not have any budget 
 	 * TODO list by user
+	 * TODO Add budget management panel
 	 */
 
 }
