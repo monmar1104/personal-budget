@@ -1,12 +1,13 @@
 <html>
 
 <head>
-<title>Access Denied</title>
+<title>Statistics</title>
 <%@include file="head.jsp"%>
 </head>
 
 <body>
 	<div class="container">
+	<%@include file="navbar.jsp"%>
 		<div>
 			<h2 style="{color: white;}">Stats - main page</h2>
 

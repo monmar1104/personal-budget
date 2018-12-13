@@ -1,5 +1,7 @@
 <html>
 <head>
+
+<title>Expenses chart</title>
 <!--Load the AJAX API-->
 <%@include file="head.jsp"%>
 <script type="text/javascript"
@@ -55,6 +57,8 @@
 		<div class="justify-content-center bg-dark">
 			<div id="chart_div"></div>
 		</div>
+		<hr>
+		<a class="updateLink"href="${pageContext.request.contextPath}/stats/">Back to Stats Page</a>
 	</div>
 </body>
 </html>

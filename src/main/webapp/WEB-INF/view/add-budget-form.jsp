@@ -87,11 +87,8 @@
 						<div class="form-group">
 							<input type="submit" class="btn float-right login_btn"
 								value="Save" />
-							<%-- <form>
-								<button
-									onclick="goBack()"
-									type="button" class="btn float-left back_btn">Back</button>
-							</form> --%>
+								<button onclick="goBack()" type="button"
+								class="btn float-left back_btn">Back</button>
 						</div>
 					</div>
 				</form:form>

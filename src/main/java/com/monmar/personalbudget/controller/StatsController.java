@@ -63,14 +63,14 @@ public class StatsController {
 	
 		List<Stat> stats = new ArrayList<Stat>();
 		
-		getSumOfTransactionByCategoryMap.forEach((k,v) -> 
-										stats.add(new Stat(categories.stream()
-																	.filter(id -> id.getCategoryId()==k)
-																	.map(n -> n.getCategoryName())
-																	.findFirst()
-																	.get(),v)));
-		
-		
+		getSumOfTransactionByCategoryMap.forEach(
+				(k,v) -> stats.add(
+						new Stat(
+								categories.stream()
+											.filter(id -> id.getCategoryId()==k)
+											.map(n -> n.getCategoryName())
+											.findFirst()
+											.get(),v)));
 		return stats;
 		
 	}
