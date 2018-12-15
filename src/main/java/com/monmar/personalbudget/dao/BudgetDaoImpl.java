@@ -36,7 +36,8 @@ public class BudgetDaoImpl implements BudgetDao {
 
 		Session session = sessionFactory.getCurrentSession();
 
-		Query<BudgetDetail> query = session.createQuery("from BudgetDetail bd order by bd.category.categoryName", BudgetDetail.class);
+		Query<BudgetDetail> query = session.createQuery("from BudgetDetail bd order by bd.category.categoryName",
+				BudgetDetail.class);
 
 		return query.getResultList();
 	}
@@ -51,32 +52,22 @@ public class BudgetDaoImpl implements BudgetDao {
 		Session session = sessionFactory.getCurrentSession();
 
 		Query<BudgetDetail> query = session
-				.createQuery("from BudgetDetail bd where bd.budget.budgetId=:id order by bd.category.categoryName", BudgetDetail.class)
+				.createQuery("from BudgetDetail bd where bd.budget.budgetId=:id order by bd.category.categoryName",
+						BudgetDetail.class)
 				.setParameter("id", budgetId);
 
 		if (budgetId > 0) {
 			budgetDetails = query.getResultList();
-			logger.info("================>>>>>End of method getBudgetDetailListByBudgetId(int budgetId) - size of list: "
-					+ budgetDetails.size());
-		}
-		else {
+			logger.info(
+					"================>>>>>End of method getBudgetDetailListByBudgetId(int budgetId) - size of list: "
+							+ budgetDetails.size());
+		} else {
 			budgetDetails = new ArrayList<>();
 			logger.info("================>>>>>End of method getBudgetDetailListByBudgetId(int budgetId) - no Data ");
 		}
 
 		return budgetDetails;
 	}
-
-//	@Override
-//	public List<BudgetDetail> getBudgetDetailListByName(String name) {
-//		Session session = sessionFactory.getCurrentSession();
-//		int id = getBudgetIdByname(name);
-//		Query<BudgetDetail> query = session
-//				.createQuery("from BudgetDetail bd where bd.budget.budgetId=:budgetId order by bd.category.categoryName", BudgetDetail.class)
-//				.setParameter("budgetId", id);
-//
-//		return query.getResultList();
-//	}
 
 	private int getBudgetIdByname(String name) {
 		Session session = sessionFactory.getCurrentSession();
@@ -99,10 +90,11 @@ public class BudgetDaoImpl implements BudgetDao {
 		if (name != null && name.trim().length() > 0) {
 			query = session.createQuery(hql, BudgetDetail.class);
 			query.setParameter("name", "%" + name.toLowerCase() + "%");
-			
 
 		} else {
-			query = session.createQuery("from BudgetDetail bd where bd.budget.budgetId=:budgetId order by bd.category.categoryName", BudgetDetail.class);
+			query = session.createQuery(
+					"from BudgetDetail bd where bd.budget.budgetId=:budgetId order by bd.category.categoryName",
+					BudgetDetail.class);
 		}
 		query.setParameter("budgetId", budgetId);
 
@@ -127,18 +119,23 @@ public class BudgetDaoImpl implements BudgetDao {
 
 	@Override
 	public Map<Integer, Double> getSumOfTransactionByCategoryMap(int budgetId) {
-		
-		if(budgetId == 0) {
-			return new HashMap<Integer, Double>(){{put(0,0.0);}};
+
+		if (budgetId == 0) {
+			return new HashMap<Integer, Double>() {
+				{
+					put(0, 0.0);
+				}
+			};
 		}
-		
+
 		Session session = sessionFactory.getCurrentSession();
 
 		String hql = "select t.category.categoryId, sum(t.transactionAmount) " + "from FinancialTransaction t "
-				+ "where t.transactionDate between :dateFrom and :dateTo " + " and t.transactionUser.id=:userId " + "group by t.category.categoryId";
+				+ "where t.transactionDate between :dateFrom and :dateTo " + " and t.transactionUser.id=:userId "
+				+ "group by t.category.categoryId";
 
 		Budget budget = getBudgetById(budgetId);
-		
+
 		int userId = budget.getBudgetUser().getId();
 
 		LocalDate dateFrom = budget.getBudgetDateFrom();
@@ -171,21 +168,39 @@ public class BudgetDaoImpl implements BudgetDao {
 		Query<Budget> budgetQuery = session.createQuery(
 				"from Budget b where budgetUser.id=:userId and b.budgetCreationDate = (select max(budget.budgetCreationDate) as maxDate from Budget budget where budgetUser.id=:userId)",
 				Budget.class).setParameter("userId", userId);
-		
-		if (budgetQuery.list().size()>0) {
+
+		if (budgetQuery.list().size() > 0) {
 			budget = budgetQuery.list().get(0);
-//			budget.getBudgetDetailList().size();
 		} else {
 			budget = new Budget();
 			logger.info("==========>>>>>> getLastBudget() No data");
 		}
-		
+
 		return budget;
 	}
-	
+
 	@Override
 	public void addBudget(Budget budget) {
 		Session session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(budget);
+	}
+
+	@Override
+	public Budget getCurrentBudget(int userId) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		Budget budget = null;
+		Query<Budget> budgetQuery = session.createQuery(
+				"from Budget b where budgetUser.id=:userId and month(b.budgetDateFrom) = month(curdate())",
+				Budget.class).setParameter("userId", userId);
+				
+
+		if (budgetQuery.list().size() > 0) {
+			budget = budgetQuery.list().get(0);
+		} else {
+			budget = new Budget();
+			logger.info("==========>>>>>> getLastBudget() No data");
+		}
+		return budget;
 	}
 }

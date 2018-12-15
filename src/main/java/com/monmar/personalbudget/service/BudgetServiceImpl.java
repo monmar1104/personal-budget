@@ -38,12 +38,6 @@ public class BudgetServiceImpl implements BudgetService {
         return budgetDao.getBudgetDetailList();
     }
 
-//    @Override
-//    @Transactional
-//    public List<BudgetDetail> getBudgetDetailListByName(String name) {
-//        return budgetDao.getBudgetDetailListByName(name);
-//    }
-
     @Override
     @Transactional
     public List<BudgetDetail> searchBudgetItemByCatName(String name, int budgetId) {
@@ -106,4 +100,9 @@ public class BudgetServiceImpl implements BudgetService {
     	}
     	
     }
+
+	@Override
+	public Budget getCurrentBudget(int userId) {
+		return budgetDao.getCurrentBudget(userId);
+	}
 }

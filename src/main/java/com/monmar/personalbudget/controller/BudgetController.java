@@ -59,7 +59,7 @@ public class BudgetController {
 				currentBudget = budgetService.getBudgetById(budgetId);
 
 			} else {
-				currentBudget = budgetService.getLastBudget(user.getId());
+				currentBudget = budgetService.getCurrentBudget(user.getId());
 				budgetId = currentBudget.getBudgetId();
 			}
 		}
@@ -152,7 +152,7 @@ public class BudgetController {
 		Budget currentBudget = null;
 		
 		if (budgetId == 0) {
-			currentBudget = budgetService.getLastBudget(user.getId());
+			currentBudget = budgetService.getCurrentBudget(user.getId());
 			budgetId = currentBudget.getBudgetId();
 		}
 		List<BudgetDetail> budgetDetailList = budgetService.searchBudgetItemByCatName(name, budgetId);

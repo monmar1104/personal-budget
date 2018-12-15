@@ -12,8 +12,6 @@ public interface BudgetService {
 
     List<BudgetDetail> getBudgetDetailList();
 
-//    List<BudgetDetail> getBudgetDetailListByName(String name);
-
     List<BudgetDetail> searchBudgetItemByCatName(String name, int budgetId);
 
     BudgetDetail getBudgetDetailById(int id);
@@ -31,4 +29,6 @@ public interface BudgetService {
     Budget getBudgetById(int budgetId);
     
     void addBudget(Budget budget, int budgetId);
+    
+    Budget getCurrentBudget(int userId);
 }

@@ -31,4 +31,6 @@ public interface BudgetDao {
     Budget getBudgetById(int budgetId);
     
     void addBudget(Budget budget);
+    
+    Budget getCurrentBudget(int userId);
 }
