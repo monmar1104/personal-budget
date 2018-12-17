@@ -2,6 +2,7 @@ package com.monmar.personalbudget.service;
 
 import com.monmar.personalbudget.dao.TransactionDao;
 import com.monmar.personalbudget.entity.FinancialTransaction;
+import com.monmar.personalbudget.entity.Stat;
 
 import exception.EmptyArgumentException;
 
@@ -71,5 +72,13 @@ public class TransactionServiceImpl implements TransactionService {
 			LocalDate budgetDateFrom, LocalDate budgetDateTo, int userId) {
 		return transactionDao.searchTransactionByIdByUserIdByDate(categoryId, budgetDateFrom, budgetDateTo, userId);
 	}
+
+	@Override
+	public List<Stat> getSumOfTransactionsByCategoryByDate(int userId, int categoryId, String dateFrom,
+			String dateTo) {
+		return transactionDao.getSumOfTransactionsByCategoryByDate(userId, categoryId, dateFrom, dateTo);
+	}
+
+	
 
 }

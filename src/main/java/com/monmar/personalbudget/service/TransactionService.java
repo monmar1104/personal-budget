@@ -1,6 +1,7 @@
 package com.monmar.personalbudget.service;
 
 import com.monmar.personalbudget.entity.FinancialTransaction;
+import com.monmar.personalbudget.entity.Stat;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,4 +21,7 @@ public interface TransactionService {
 
 	List<FinancialTransaction> searchTransactionByIdByUserIdByDate(int categoryId, LocalDate budgetDateFrom,
 			LocalDate budgetDateTo, int userId);
+
+	List<Stat> getSumOfTransactionsByCategoryByDate(int id, int categoryId, String dateFrom,
+			String dateTo);
 }

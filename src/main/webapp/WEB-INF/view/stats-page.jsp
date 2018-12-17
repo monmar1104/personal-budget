@@ -13,7 +13,7 @@
 
 			<hr>
 			<a class="updateLink"
-				href="${pageContext.request.contextPath}/stats/showSumOfExpensesChart">Show
+				href="${pageContext.request.contextPath}/stats/chartPanel">Show
 				chart</a>
 		</div>
 	</div>

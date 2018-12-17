@@ -1,6 +1,7 @@
 package com.monmar.personalbudget.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.monmar.personalbudget.entity.Stat;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;

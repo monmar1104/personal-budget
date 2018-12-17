@@ -102,7 +102,7 @@
 					</form:form>
 				</div>
 
-				<div class="container from-group">
+				<div class="container form-group">
 					<form:form action="filterByDate" method="POST">
 						<div class="input-group">
 							Filter by date:

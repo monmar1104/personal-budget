@@ -16,6 +16,27 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "financial_transaction")
+@NamedNativeQuery(
+	    name = "Stat",
+	    query =
+	    		"select f.category.categoryName as category, DATE_FORMAT(f.transactionDate,'%M,%Y') as month, SUM(f.transactionAmount) as amount "
+	    				+ "from FinancialTransaction f  "
+	    				+ "where f.category.categoryId=:categoryId and f.transactionDate between :dateFrom and :dateTo and f.transactionUser.id=:userId "
+	    				+ "group by category, month",
+	    resultSetMapping = "Stat"
+	)
+@SqlResultSetMapping(
+	    name = "Stat",
+	    classes = @ConstructorResult(
+	        targetClass = Stat.class,
+	        columns = {
+	            @ColumnResult(name = "category"),
+	            @ColumnResult(name = "month"),
+	            @ColumnResult(name = "amount")
+	        }
+	    )
+	)
+
 public class FinancialTransaction {
 
     @Id

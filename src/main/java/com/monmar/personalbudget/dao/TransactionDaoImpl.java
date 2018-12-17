@@ -1,18 +1,24 @@
 package com.monmar.personalbudget.dao;
 
 import com.monmar.personalbudget.entity.FinancialTransaction;
+import com.monmar.personalbudget.entity.Stat;
 
 import exception.EmptyArgumentException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.Tuple;
 
 @Repository
 public class TransactionDaoImpl implements TransactionDao {
@@ -117,6 +123,32 @@ public class TransactionDaoImpl implements TransactionDao {
 		financialTransactionList = query.setParameter("userId", userId).getResultList();
 
 		return financialTransactionList;
+	}
+
+	@Override
+	public List<Stat> getSumOfTransactionsByCategoryByDate(int userId, int categoryId, String dateFrom,
+			String dateTo) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		String[] dateFromA = dateFrom.split("-");
+		String[] dateToA = dateTo.split("-");
+		
+		String hql = "select new com.monmar.personalbudget.entity.Stat(f.category.categoryName, DATE_FORMAT(f.transactionDate,'%M,%Y'), sum(f.transactionAmount)) "
+				+ "from FinancialTransaction f  "
+				+ "where f.category.categoryId=:categoryId and f.transactionDate between :dateFrom and :dateTo and f.transactionUser.id=:userId "
+				+ "group by f.category.categoryName, DATE_FORMAT(f.transactionDate,'%M,%Y')";
+
+		
+		List<Stat> stats = session.createQuery(hql)
+				.setParameter("categoryId", categoryId)
+				.setParameter("dateFrom", LocalDate.of(Integer.valueOf(dateFromA[0]), Integer.valueOf(dateFromA[1]), Integer.valueOf(dateFromA[2])))
+				.setParameter("dateTo", LocalDate.of(Integer.valueOf(dateToA[0]), Integer.valueOf(dateToA[1]), Integer.valueOf(dateToA[2])))
+				.setParameter("userId", userId).setParameter("userId", userId)
+				.getResultList();
+		
+
+		return stats;
+
 	}
 
 }
