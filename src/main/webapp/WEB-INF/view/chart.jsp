@@ -1,8 +1,8 @@
 <html>
 <head>
 
-<title>Expenses chart</title>
-<!--Load the AJAX API-->
+<title>Expenses stats</title>
+
 <%@include file="head.jsp"%>
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
@@ -37,7 +37,7 @@
 							data.addColumn('string', 'Category');
 							data.addColumn('number', 'Amount');
 							var dataArray = [];
-							$.each(result, function(i, obj) {
+							$.each(result, function(j, obj) {
 								dataArray.push([ obj.category, obj.amount ]);
 							})
 							data.addRows(dataArray);
@@ -58,17 +58,20 @@
 </script>
 	
 <script type="text/javascript">
+
+
 	$(document)
 			.ready(
 					function() {
-						$
-								.ajax({
+							$.ajax({
 									type : 'GET',
 									headers : {
 										Accept : "application/json; charset=utf-8",
 										"Content-Type" : "application/json; charset=utf-8"
 									},
-									url : '${pageContext.request.contextPath}/stats/filterByDateByCategory?categoryId=75&transactionDateFrom=2018-11-01&transactionDateTo=2018-12-31',
+									/* url : '${pageContext.request.contextPath}/stats/chartPanelPost?categoryId=69&transactionDateFrom=2018-11-01&transactionDateTo=2018-12-31', */
+									url : '${pageContext.request.contextPath}/stats/chartPanelPost?categoryId=${categoryId}&transactionDateFrom=${transactionDateFrom}&transactionDateTo=${transactionDateTo}',
+									/* data: 'categoryId='+catId +'&transactionDateFrom='+dateFrom +'&transactionDateTo='+dateTo, */
 									success : function(result) {
 										google.charts.load('current', {
 											'packages' : [ 'corechart' ]
@@ -115,12 +118,11 @@
 
 
 
-		<form action="filterByDateByCategory" method="POST">
+		<form action="chartPanelPost" method="GET">
 			<div class="form-row justify-content-center">
 				<div class="col-sm-5">
-					<label>Category</label> <select name="categoryId"
-						class="form-control" required="required">
-						<option value="0" label="Chose category" />
+					<label>Category</label> <select id="catId" name="categoryId"
+						class="form-control">
 						<c:forEach var="list" items="${categoryList}">
 							<option value="${list.categoryId}">${list.categoryName}</option>
 						</c:forEach>
@@ -131,13 +133,13 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="basic-addon1">From</span>
 					</div>
-					<input type="date" name="transactionDateFrom" value="${transactionDateFrom}"
+					<input id="dateFrom" type="date" name="transactionDateFrom" value="${transactionDateFrom}"
 						placeholder="Date from" aria-label="DateFrom"
 						aria-describedby="basic-addon1" required />
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="basic-addon2">To</span>
 					</div>
-					<input type="date" name="transactionDateTo" value="${transactionDateTo}"
+					<input id="dateTo" type="date" name="transactionDateTo" value="${transactionDateTo}"
 						placeholder="Date to" aria-label="DateTo"
 						aria-describedby="basic-addon2" required /> <input type="submit"
 						value="Filter">

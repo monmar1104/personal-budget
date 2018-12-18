@@ -133,10 +133,11 @@ public class TransactionDaoImpl implements TransactionDao {
 		String[] dateFromA = dateFrom.split("-");
 		String[] dateToA = dateTo.split("-");
 		
-		String hql = "select new com.monmar.personalbudget.entity.Stat(f.category.categoryName, DATE_FORMAT(f.transactionDate,'%M,%Y'), sum(f.transactionAmount)) "
+		String hql = "select new com.monmar.personalbudget.entity.Stat(f.category.categoryName, DATE_FORMAT(f.transactionDate,'%Y%m'), sum(f.transactionAmount)) "
 				+ "from FinancialTransaction f  "
 				+ "where f.category.categoryId=:categoryId and f.transactionDate between :dateFrom and :dateTo and f.transactionUser.id=:userId "
-				+ "group by f.category.categoryName, DATE_FORMAT(f.transactionDate,'%M,%Y')";
+				+ "group by f.category.categoryName, DATE_FORMAT(f.transactionDate,'%Y%m') "
+				+ "order by DATE_FORMAT(f.transactionDate,'%Y%m')";
 
 		
 		List<Stat> stats = session.createQuery(hql)

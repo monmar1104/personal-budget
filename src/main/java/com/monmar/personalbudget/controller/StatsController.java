@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -58,22 +59,43 @@ public class StatsController {
 	public String showChartPanel(Model model) {
 		categories = catService.getCategoryList();
 		model.addAttribute("categoryList", categories);
+		
 		request.setAttribute("categoryId", categories.get(0).getCategoryId());
 		request.setAttribute("transactionDateFrom", LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1));
 		request.setAttribute("transactionDateTo", LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getMonth().length(true)));
 		return "chart";
 	}
 	
-
+	@RequestMapping(value = "/chartPanelPost", method = RequestMethod.GET)
+	public String showChartPanelPost(@RequestParam("categoryId") int categoryId, 
+			@RequestParam("transactionDateFrom") String dateFrom, 
+			@RequestParam("transactionDateTo") String dateTo, Model model) {
+		
+		categories = catService.getCategoryList();
+		
+		model.addAttribute("categoryId", categoryId);
+		model.addAttribute("transactionDateFrom", dateFrom);
+		model.addAttribute("transactionDateTo", dateTo);
+		model.addAttribute("categoryList", categories);
+		
+		return "chart";
+	}
+	
+	
 	@GetMapping("/getExpensesFromCurrentBudget")
 	@ResponseBody
 	public List<Stat> getExpensesFromCurrentBudget(Model model) {
 		session = request.getSession();
 		User user = (User) session.getAttribute("user");
+		
+		//temp
+		categories = catService.getCategoryList();
+
 
 		Budget budget = budgetService.getCurrentBudget(user.getId());
 		Map<Integer, Double> getSumOfTransactionByCategoryMap = budgetService
 				.getSumOfTransactionByCategoryMap(budget.getBudgetId());
+
 
 		List<Stat> stats = new ArrayList<Stat>();
 
@@ -90,15 +112,11 @@ public class StatsController {
 			@RequestParam("transactionDateFrom") String dateFrom, 
 			@RequestParam("transactionDateTo") String dateTo
 											)	{
-//		int categoryId = (int)request.getAttribute("categoryId"); 
-//		String dateFrom = (String) request.getAttribute("transactionDateFrom"); 
-//		String dateTo = (String)request.getAttribute("transactionDateTo");
-		
 		session = request.getSession();
 		User user = (User) session.getAttribute("user");
 			
 		List<Stat> stats = transactionService.getSumOfTransactionsByCategoryByDate(user.getId(), categoryId, dateFrom, dateTo);
-//		List<Stat> stats = transactionService.getSumOfTransactionsByCategoryByDate(5, 75, "2018-11-01", "2018-12-31");
+//		List<Stat> stats = transactionService.getSumOfTransactionsByCategoryByDate(5, 77, "2018-11-01", "2018-12-31");
 
 		return stats;
 	}
