@@ -59,14 +59,18 @@ public class StatsController {
 	public String showChartPanel(Model model) {
 		categories = catService.getCategoryList();
 		model.addAttribute("categoryList", categories);
+		LocalDate currentDateMinusThreeMonths = LocalDate.now().minusMonths(3);
+		int categoryId = categories.get(0).getCategoryId();
 		
-		request.setAttribute("categoryId", categories.get(0).getCategoryId());
-		request.setAttribute("transactionDateFrom", LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), 1));
+		request.setAttribute("categoryName", categories.stream().filter(c -> c.getCategoryId() == categoryId).map(Category::getCategoryName).findFirst().get());		
+		request.setAttribute("categoryId", categoryId);
+		request.setAttribute("transactionDateFrom", LocalDate.of(currentDateMinusThreeMonths.getYear(), currentDateMinusThreeMonths.getMonth(), 1));
 		request.setAttribute("transactionDateTo", LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getMonth().length(true)));
+		
 		return "chart";
 	}
 	
-	@RequestMapping(value = "/chartPanelPost", method = RequestMethod.GET)
+	@GetMapping("/chartPanelPost")
 	public String showChartPanelPost(@RequestParam("categoryId") int categoryId, 
 			@RequestParam("transactionDateFrom") String dateFrom, 
 			@RequestParam("transactionDateTo") String dateTo, Model model) {
@@ -74,6 +78,7 @@ public class StatsController {
 		categories = catService.getCategoryList();
 		
 		model.addAttribute("categoryId", categoryId);
+		model.addAttribute("categoryName", categories.stream().filter(c -> c.getCategoryId() == categoryId).map(Category::getCategoryName).findFirst().get());
 		model.addAttribute("transactionDateFrom", dateFrom);
 		model.addAttribute("transactionDateTo", dateTo);
 		model.addAttribute("categoryList", categories);
@@ -116,7 +121,6 @@ public class StatsController {
 		User user = (User) session.getAttribute("user");
 			
 		List<Stat> stats = transactionService.getSumOfTransactionsByCategoryByDate(user.getId(), categoryId, dateFrom, dateTo);
-//		List<Stat> stats = transactionService.getSumOfTransactionsByCategoryByDate(5, 77, "2018-11-01", "2018-12-31");
 
 		return stats;
 	}

@@ -69,8 +69,7 @@
 										Accept : "application/json; charset=utf-8",
 										"Content-Type" : "application/json; charset=utf-8"
 									},
-									/* url : '${pageContext.request.contextPath}/stats/chartPanelPost?categoryId=69&transactionDateFrom=2018-11-01&transactionDateTo=2018-12-31', */
-									url : '${pageContext.request.contextPath}/stats/chartPanelPost?categoryId=${categoryId}&transactionDateFrom=${transactionDateFrom}&transactionDateTo=${transactionDateTo}',
+									url : '${pageContext.request.contextPath}/stats/filterByDateByCategory?categoryId=${categoryId}&transactionDateFrom=${transactionDateFrom}&transactionDateTo=${transactionDateTo}',
 									/* data: 'categoryId='+catId +'&transactionDateFrom='+dateFrom +'&transactionDateTo='+dateTo, */
 									success : function(result) {
 										google.charts.load('current', {
@@ -95,7 +94,7 @@
 							data.addRows(dataArray);
 
 							var options = {
-								'title' : 'Exspenses from selected category',
+								'title' : 'Exspenses from category: ${categoryName}',
 								'width' : 1120,
 								'height' : 600
 							};
@@ -123,6 +122,7 @@
 				<div class="col-sm-5">
 					<label>Category</label> <select id="catId" name="categoryId"
 						class="form-control">
+						<option value="${categoryId}">${categoryName}</option>
 						<c:forEach var="list" items="${categoryList}">
 							<option value="${list.categoryId}">${list.categoryName}</option>
 						</c:forEach>
