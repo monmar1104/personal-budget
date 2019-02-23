@@ -2,6 +2,7 @@ package com.monmar.personalbudget.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +58,7 @@ public class StatsController {
 	
 	@GetMapping("/chartPanel")
 	public String showChartPanel(Model model) {
+		GregorianCalendar cal = new GregorianCalendar();
 		categories = catService.getCategoryList();
 		model.addAttribute("categoryList", categories);
 		LocalDate currentDateMinusThreeMonths = LocalDate.now().minusMonths(3);
@@ -65,7 +67,7 @@ public class StatsController {
 		request.setAttribute("categoryName", categories.stream().filter(c -> c.getCategoryId() == categoryId).map(Category::getCategoryName).findFirst().get());		
 		request.setAttribute("categoryId", categoryId);
 		request.setAttribute("transactionDateFrom", LocalDate.of(currentDateMinusThreeMonths.getYear(), currentDateMinusThreeMonths.getMonth(), 1));
-		request.setAttribute("transactionDateTo", LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getMonth().length(true)));
+		request.setAttribute("transactionDateTo", LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), LocalDate.now().getMonth().length(cal.isLeapYear(LocalDate.now().getYear()))));
 		
 		return "chart";
 	}
