@@ -48,7 +48,7 @@
 								<form:select name="category" path="category"
 									class="form-control">
 									<form:option value="0" label="Select category" />
-									<c:forEach var="category" items="${categoryList}">
+									<c:forEach var="category" items="${categoryListForAddingToBudget}">
 										<form:option value="${category.categoryId}">${category.categoryName}</form:option>
 									</c:forEach>
 								</form:select>

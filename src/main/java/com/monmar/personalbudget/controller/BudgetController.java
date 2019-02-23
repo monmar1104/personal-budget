@@ -20,10 +20,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/budget")
@@ -70,16 +73,23 @@ public class BudgetController {
 
 		List<Category> categoryList = categoryService.getCategoryList();
 		model1.addAttribute("categoryList", categoryList);
-
+	
 		List<BudgetDetail> budgetDetailList = budgetService.getBudgetDetailListByBudgetId(budgetId);
 		model1.addAttribute("budgetDetailList", budgetDetailList);
-
+		
 		Map<Integer, Double> getSumOfTransactionByCategoryMap = budgetService
 				.getSumOfTransactionByCategoryMap(budgetId);
 		model1.addAttribute("sumCategoryMap", getSumOfTransactionByCategoryMap);
 
 		List<Budget> budgetList = budgetService.getBudgetList(user.getId());
 		model1.addAttribute("budgetList", budgetList);
+		
+		List<Category> categoryInBudgetDetails = budgetDetailList.stream().map(c -> c.getCategory()).collect(Collectors.toList());
+		
+		List<Category> categoryListForAdding = categoryService.getCategoryList();
+		categoryListForAdding.removeAll(categoryInBudgetDetails);
+		
+		model1.addAttribute("categoryListForAddingToBudget", categoryListForAdding);
 
 		BudgetDetail budgetDetail = new BudgetDetail();
 		model1.addAttribute("budgetDetail", budgetDetail);
@@ -105,6 +115,13 @@ public class BudgetController {
 		Map<Integer, Double> getSumOfTransactionByCategoryMap = budgetService
 				.getSumOfTransactionByCategoryMap(budgetId);
 		model.addAttribute("sumCategoryMap", getSumOfTransactionByCategoryMap);
+		
+		List<Category> categoryInBudgetDetails = budgetDetailList.stream().map(c -> c.getCategory()).collect(Collectors.toList());
+		
+		List<Category> categoryListForAdding = categoryService.getCategoryList();
+		categoryListForAdding.removeAll(categoryInBudgetDetails);
+		
+		model.addAttribute("categoryListForAddingToBudget", categoryListForAdding);
 
 		List<Budget> budgetList = budgetService.getBudgetList(user.getId());
 		model.addAttribute("budgetList", budgetList);
@@ -171,6 +188,13 @@ public class BudgetController {
 		model.addAttribute("sumCategoryMap", getSumOfTransactionByCategoryMap);
 
 		model.addAttribute("currentBudget", budgetService.getBudgetById(budgetId));
+		
+		List<Category> categoryInBudgetDetails = budgetDetailList.stream().map(c -> c.getCategory()).collect(Collectors.toList());
+		
+		List<Category> categoryListForAdding = categoryService.getCategoryList();
+		categoryListForAdding.removeAll(categoryInBudgetDetails);
+		
+		model.addAttribute("categoryListForAddingToBudget", categoryListForAdding);
 
 		return "list-budgets";
 	}
