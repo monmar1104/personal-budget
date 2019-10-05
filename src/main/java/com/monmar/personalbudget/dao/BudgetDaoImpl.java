@@ -191,7 +191,7 @@ public class BudgetDaoImpl implements BudgetDao {
 		Session session = sessionFactory.getCurrentSession();
 		Budget budget = null;
 		Query<Budget> budgetQuery = session.createQuery(
-				"from Budget b where budgetUser.id=:userId and month(b.budgetDateFrom) = month(curdate())",
+				"from Budget b where budgetUser.id=:userId and month(b.budgetDateFrom) = month(curdate()) and year(b.budgetDateFrom) = year(curdate())",
 				Budget.class).setParameter("userId", userId);
 				
 
